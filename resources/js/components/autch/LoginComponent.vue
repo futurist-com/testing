@@ -1,5 +1,5 @@
 <template>
-   <v-app id="inspire">
+  <v-app id="inspire">
     <v-content>
       <v-container fluid fill-height>
         <v-layout align-center justify-center>
@@ -9,13 +9,7 @@
                 <v-toolbar-title>Форма входа</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-tooltip bottom>
-                  <v-btn
-                    icon
-                    large
-                    :href="source"
-                    target="_blank"
-                    slot="activator"
-                  >
+                  <v-btn icon large :href="source" target="_blank" slot="activator">
                     <v-icon large>code</v-icon>
                   </v-btn>
                   <span>Source</span>
@@ -23,13 +17,26 @@
               </v-toolbar>
               <v-card-text>
                 <v-form>
-                  <v-text-field prepend-icon="person" name="email" label="email" type="text"></v-text-field>
-                  <v-text-field prepend-icon="lock" name="password" label="Пароль" id="password" type="password"></v-text-field>
+                  <v-text-field
+                    prepend-icon="person"
+                    name="email"
+                    label="email"
+                    type="text"
+                    v-model="email"
+                  ></v-text-field>
+                  <v-text-field
+                    prepend-icon="lock"
+                    name="password"
+                    label="Пароль"
+                    id="password"
+                    type="password"
+                    v-model="password"
+                  ></v-text-field>
                 </v-form>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary">Войти</v-btn>
+                <v-btn v-on:click="login" color="primary">Войти</v-btn>
               </v-card-actions>
             </v-card>
           </v-flex>
@@ -40,9 +47,27 @@
 </template>
 
 <script>
-    export default {
-        mounted() {
-            console.log('Component mounted.')
-        }
+import { METHODS } from "http";
+export default {
+  mounted() {},
+  data:function(){
+    return {
+      password,
+      email,
     }
+  },
+  methods: {
+    login: function() {
+      axios
+      .get("/api/login", {params:{email:email,password:password}})
+      .then((resp)=> {
+        //this.bill= resp.data;
+        alert(resp.data.etoken);
+      })
+      .catch((resp)=>{
+      alert("ошибка");
+    });
+    }
+  }
+};
 </script>
