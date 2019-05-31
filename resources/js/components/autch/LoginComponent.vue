@@ -9,7 +9,6 @@
                 <v-toolbar-title>Форма входа</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-tooltip bottom>
-                  <v-btn icon large :href="source" target="_blank" slot="activator">
                     <v-icon large>code</v-icon>
                   </v-btn>
                   <span>Source</span>
@@ -31,7 +30,7 @@
                     id="password"
                     type="password"
                     v-model="password"
-                  ></v-text-field>
+                    ></v-text-field>
                 </v-form>
               </v-card-text>
               <v-card-actions>
@@ -49,23 +48,24 @@
 <script>
 import { METHODS } from "http";
 export default {
-  mounted() {},
   data:function(){
     return {
-      password,
-      email,
+      email:[],
+      password:[],
     }
   },
   methods: {
     login: function() {
       axios
-      .get("/api/login", {params:{email:email,password:password}})
+      .get("/api/login"+'?email='+this.email+"&password="+this.password)
       .then((resp)=> {
-        //this.bill= resp.data;
-        alert(resp.data.etoken);
+        this.$router.push('/workspase');
+        console.log(resp);
+        //alert(resp.data.token);
       })
       .catch((resp)=>{
-      alert("ошибка");
+        
+      alert(resp.password);
     });
     }
   }

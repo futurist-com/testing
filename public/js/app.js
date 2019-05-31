@@ -1845,28 +1845,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {},
   data: function data() {
     return {
-      password: password,
-      email: email
+      email: [],
+      password: []
     };
   },
   methods: {
     login: function login() {
-      axios.get("/api/login", {
-        params: {
-          email: email,
-          password: password
-        }
-      }).then(function (resp) {
-        //this.bill= resp.data;
-        alert(resp.data.etoken);
+      var _this = this;
+
+      axios.get("/api/login" + '?email=' + this.email + "&password=" + this.password).then(function (resp) {
+        _this.$router.push('/workspase');
+
+        console.log(resp); //alert(resp.data.token);
       })["catch"](function (resp) {
-        alert("ошибка");
+        alert(resp.password);
       });
     }
   }
@@ -45876,25 +45872,9 @@ var render = function() {
                                 "v-tooltip",
                                 { attrs: { bottom: "" } },
                                 [
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      attrs: {
-                                        slot: "activator",
-                                        icon: "",
-                                        large: "",
-                                        href: _vm.source,
-                                        target: "_blank"
-                                      },
-                                      slot: "activator"
-                                    },
-                                    [
-                                      _c("v-icon", { attrs: { large: "" } }, [
-                                        _vm._v("code")
-                                      ])
-                                    ],
-                                    1
-                                  ),
+                                  _c("v-icon", { attrs: { large: "" } }, [
+                                    _vm._v("code")
+                                  ]),
                                   _vm._v(" "),
                                   _c("span", [_vm._v("Source")])
                                 ],
@@ -87240,15 +87220,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!**********************************************************!*\
   !*** ./resources/js/components/autch/LoginComponent.vue ***!
   \**********************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _LoginComponent_vue_vue_type_template_id_bba72cae___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LoginComponent.vue?vue&type=template&id=bba72cae& */ "./resources/js/components/autch/LoginComponent.vue?vue&type=template&id=bba72cae&");
 /* harmony import */ var _LoginComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LoginComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/autch/LoginComponent.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _LoginComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _LoginComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -87278,7 +87257,7 @@ component.options.__file = "resources/js/components/autch/LoginComponent.vue"
 /*!***********************************************************************************!*\
   !*** ./resources/js/components/autch/LoginComponent.vue?vue&type=script&lang=js& ***!
   \***********************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
