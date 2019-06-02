@@ -15,13 +15,15 @@
                 </v-tooltip>
               </v-toolbar>
               <v-card-text>
-                <v-form>
+                <v-form v-model="valid" lazy-validation> 
                   <v-text-field
                     prepend-icon="person"
                     name="email"
                     label="email"
                     type="text"
                     v-model="email"
+                    :rules="emailRules"
+                    required
                   ></v-text-field>
                   <v-text-field
                     prepend-icon="lock"
@@ -30,6 +32,8 @@
                     id="password"
                     type="password"
                     v-model="password"
+                    :rules="passRules"
+                    required
                     ></v-text-field>
                 </v-form>
               </v-card-text>
@@ -37,6 +41,7 @@
                 <v-spacer></v-spacer>
                 <v-btn v-on:click="login" color="primary">Войти</v-btn>
               </v-card-actions>
+            <span>{{errorMes}}</span>
             </v-card>
           </v-flex>
         </v-layout>
@@ -50,21 +55,35 @@ import { METHODS } from "http";
 export default {
   data:function(){
     return {
-      email:[],
-      password:[],
+      valid:true,
+      email:null,
+      emailRules: [
+      v => !!v || 'Поле не может быть пустым',
+      v => /.+@.+/.test(v) || 'Не подходит под формат e-mail'
+    ],
+      password:null,
+      passRules: [
+      v => !!v || 'Поле не может быть пустым',
+    ],
+    errorMes:'',
     }
   },
   methods: {
     login: function() {
+    
       axios
       .get("/api/login"+'?email='+this.email+"&password="+this.password)
       .then((resp)=> {
         this.$router.push('/workspase');
-        console.log(resp);
+        //console.log(resp);
         //alert(resp.data.token);
       })
       .catch((resp)=>{
-        
+        console.log(resp)
+        //if (resp.data.error=='UnAuthorised'){
+          this.errorMes="Пара логин пароль не совпали";
+        //}
+      //@todo продумать обработку  не правильно введенных данных и валидацию   
       alert(resp.password);
     });
     }

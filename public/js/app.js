@@ -1845,12 +1845,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      email: [],
-      password: []
+      valid: true,
+      email: null,
+      emailRules: [function (v) {
+        return !!v || 'Поле не может быть пустым';
+      }, function (v) {
+        return /.+@.+/.test(v) || 'Не подходит под формат e-mail';
+      }],
+      password: null,
+      passRules: [function (v) {
+        return !!v || 'Поле не может быть пустым';
+      }],
+      errorMes: ''
     };
   },
   methods: {
@@ -1858,10 +1873,15 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get("/api/login" + '?email=' + this.email + "&password=" + this.password).then(function (resp) {
-        _this.$router.push('/workspase');
+        _this.$router.push('/workspase'); //console.log(resp);
+        //alert(resp.data.token);
 
-        console.log(resp); //alert(resp.data.token);
       })["catch"](function (resp) {
+        console.log(resp); //if (resp.data.error=='UnAuthorised'){
+
+        _this.errorMes = "Пара логин пароль не совпали"; //}
+        //@todo продумать обработку  не правильно введенных данных и валидацию   
+
         alert(resp.password);
       });
     }
@@ -45889,13 +45909,25 @@ var render = function() {
                             [
                               _c(
                                 "v-form",
+                                {
+                                  attrs: { "lazy-validation": "" },
+                                  model: {
+                                    value: _vm.valid,
+                                    callback: function($$v) {
+                                      _vm.valid = $$v
+                                    },
+                                    expression: "valid"
+                                  }
+                                },
                                 [
                                   _c("v-text-field", {
                                     attrs: {
                                       "prepend-icon": "person",
                                       name: "email",
                                       label: "email",
-                                      type: "text"
+                                      type: "text",
+                                      rules: _vm.emailRules,
+                                      required: ""
                                     },
                                     model: {
                                       value: _vm.email,
@@ -45912,7 +45944,9 @@ var render = function() {
                                       name: "password",
                                       label: "Пароль",
                                       id: "password",
-                                      type: "password"
+                                      type: "password",
+                                      rules: _vm.passRules,
+                                      required: ""
                                     },
                                     model: {
                                       value: _vm.password,
@@ -45944,7 +45978,9 @@ var render = function() {
                               )
                             ],
                             1
-                          )
+                          ),
+                          _vm._v(" "),
+                          _c("span", [_vm._v(_vm._s(_vm.errorMes))])
                         ],
                         1
                       )
@@ -87220,14 +87256,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!**********************************************************!*\
   !*** ./resources/js/components/autch/LoginComponent.vue ***!
   \**********************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _LoginComponent_vue_vue_type_template_id_bba72cae___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LoginComponent.vue?vue&type=template&id=bba72cae& */ "./resources/js/components/autch/LoginComponent.vue?vue&type=template&id=bba72cae&");
 /* harmony import */ var _LoginComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LoginComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/autch/LoginComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _LoginComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _LoginComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -87257,7 +87294,7 @@ component.options.__file = "resources/js/components/autch/LoginComponent.vue"
 /*!***********************************************************************************!*\
   !*** ./resources/js/components/autch/LoginComponent.vue?vue&type=script&lang=js& ***!
   \***********************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
