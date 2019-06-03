@@ -36,12 +36,12 @@
                     required
                     ></v-text-field>
                 </v-form>
+            <span>{{errorMes}}</span>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn v-on:click="login" color="primary">Войти</v-btn>
+                <v-btn v-on:click="login" color="primary" :disabled="!valid">Войти</v-btn>
               </v-card-actions>
-            <span>{{errorMes}}</span>
             </v-card>
           </v-flex>
         </v-layout>
@@ -52,6 +52,7 @@
 
 <script>
 import { METHODS } from "http";
+import { totalmem } from 'os';
 export default {
   data:function(){
     return {
@@ -70,8 +71,11 @@ export default {
   },
   methods: {
     login: function() {
-    
-      axios
+      console.log(this.$refs);
+      this.$refs.form.reset()
+        //this.snackbar = true
+        
+           axios
       .get("/api/login"+'?email='+this.email+"&password="+this.password)
       .then((resp)=> {
         this.$router.push('/workspase');
@@ -84,9 +88,10 @@ export default {
           this.errorMes="Пара логин пароль не совпали";
         //}
       //@todo продумать обработку  не правильно введенных данных и валидацию   
-      alert(resp.password);
+      //alert(resp.password);
     });
+      },
     }
-  }
+  
 };
 </script>
