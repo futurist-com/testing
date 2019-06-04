@@ -1875,20 +1875,18 @@ __webpack_require__.r(__webpack_exports__);
     login: function login() {
       var _this = this;
 
-      console.log(this.$refs);
-      this.$refs.form.reset(); //this.snackbar = true
+      if (this.$refs.form.validate()) {
+        this.snackbar = true;
+        axios.get("/api/login" + '?email=' + this.email + "&password=" + this.password).then(function (resp) {
+          _this.$router.push('/workspase');
+        })["catch"](function (resp) {
+          console.log(resp.response);
 
-      axios.get("/api/login" + '?email=' + this.email + "&password=" + this.password).then(function (resp) {
-        _this.$router.push('/workspase'); //console.log(resp);
-        //alert(resp.data.token);
-
-      })["catch"](function (resp) {
-        console.log(resp); //if (resp.data.error=='UnAuthorised'){
-
-        _this.errorMes = "Пара логин пароль не совпали"; //}
-        //@todo продумать обработку  не правильно введенных данных и валидацию   
-        //alert(resp.password);
-      });
+          if (resp.response.status == 401) {
+            _this.errorMes = "Пара email и пароль не совпали. Проверьте правильность введёного email и пароля!!!";
+          }
+        });
+      }
     }
   }
 });
@@ -45975,6 +45973,7 @@ var render = function() {
                               _c(
                                 "v-form",
                                 {
+                                  ref: "form",
                                   attrs: { "lazy-validation": "" },
                                   model: {
                                     value: _vm.valid,

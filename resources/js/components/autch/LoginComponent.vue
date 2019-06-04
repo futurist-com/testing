@@ -15,7 +15,7 @@
                 </v-tooltip>
               </v-toolbar>
               <v-card-text>
-                <v-form v-model="valid" lazy-validation> 
+                <v-form v-model="valid" ref="form" lazy-validation> 
                   <v-text-field
                     prepend-icon="person"
                     name="email"
@@ -71,25 +71,20 @@ export default {
   },
   methods: {
     login: function() {
-      console.log(this.$refs);
-      this.$refs.form.reset()
-        //this.snackbar = true
-        
+      if (this.$refs.form.validate()){
+        this.snackbar = true;
            axios
-      .get("/api/login"+'?email='+this.email+"&password="+this.password)
-      .then((resp)=> {
-        this.$router.push('/workspase');
-        //console.log(resp);
-        //alert(resp.data.token);
-      })
-      .catch((resp)=>{
-        console.log(resp)
-        //if (resp.data.error=='UnAuthorised'){
-          this.errorMes="Пара логин пароль не совпали";
-        //}
-      //@todo продумать обработку  не правильно введенных данных и валидацию   
-      //alert(resp.password);
-    });
+          .get("/api/login"+'?email='+this.email+"&password="+this.password)
+          .then((resp)=> {
+            this.$router.push('/workspase');
+          })
+          .catch((resp)=>{
+            console.log(resp.response);
+            if (resp.response.status==401){
+              this.errorMes="Пара email и пароль не совпали. Проверьте правильность введёного email и пароля!!!";
+            }
+        });
+      }
       },
     }
   
