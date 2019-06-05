@@ -36,7 +36,7 @@
                     required
                     ></v-text-field>
                 </v-form>
-            <span>{{errorMes}}</span>
+            <div class="error-messages"><span>{{errorMes}}</span></div>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
@@ -49,7 +49,11 @@
     </v-content>
   </v-app>
 </template>
-
+<style>
+.error-mesage{
+  color: red;
+}
+</style>
 <script>
 import { METHODS } from "http";
 import { totalmem } from 'os';
