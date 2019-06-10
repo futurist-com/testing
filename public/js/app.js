@@ -1800,9 +1800,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var http__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(http__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var os__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! os */ "./node_modules/os-browserify/browser.js");
 /* harmony import */ var os__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(os__WEBPACK_IMPORTED_MODULE_1__);
-//
-//
-//
+/* harmony import */ var timers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! timers */ "./node_modules/timers-browserify/main.js");
+/* harmony import */ var timers__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(timers__WEBPACK_IMPORTED_MODULE_2__);
 //
 //
 //
@@ -1857,27 +1856,45 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
+ //import { access } from 'fs';
+//import { truncateSync } from 'fs';
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       valid: true,
+      errorShow: false,
       email: null,
       emailRules: [function (v) {
         return !!v || 'Поле не может быть пустым';
       }, function (v) {
-        return /.+@.+/.test(v) || 'Не подходит под формат e-mail';
+        return /.+@.+/.test(v) || 'Не подходит под формат e-mail.';
       }],
       password: null,
       passRules: [function (v) {
         return !!v || 'Поле не может быть пустым';
+      }, function (v) {
+        return v && v.length >= 3 || 'Пароль не меньше 3 символов.';
       }],
       errorMes: ''
     };
   },
+  mounted: function mounted() {
+    console.log(document.cookie);
+    var access_token = Vue.cookie.get('XSRF-TOKEN');
+    console.log(access_token);
+
+    if (access_token != null) {
+      this.$router.push('/workspase');
+    }
+  },
   methods: {
     login: function login() {
       var _this = this;
+
+      //this.errorMes="";
+      this.errorShow = false;
 
       if (this.$refs.form.validate()) {
         this.snackbar = true;
@@ -1888,6 +1905,7 @@ __webpack_require__.r(__webpack_exports__);
 
           if (resp.response.status == 401) {
             _this.errorMes = "Пара email и пароль не совпали. Проверьте правильность введёного email и пароля!!!";
+            _this.errorShow = true;
           }
         });
       }
@@ -1902,58 +1920,9 @@ __webpack_require__.r(__webpack_exports__);
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/autch/RegistrationComponent.vue?vue&type=script&lang=js& ***!
   \**************************************************************************************************************************************************************************************/
 /*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    console.log('Component mounted.');
-  }
-});
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: /var/www/test.lr/resources/js/components/autch/RegistrationComponent.vue: Unexpected token (47:0)\n\n\u001b[0m \u001b[90m 45 | \u001b[39m\u001b[36mexport\u001b[39m \u001b[36mdefault\u001b[39m {\u001b[0m\n\u001b[0m \u001b[90m 46 | \u001b[39m    data\u001b[33m:\u001b[39m\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 47 | \u001b[39m}\u001b[0m\n\u001b[0m \u001b[90m    | \u001b[39m\u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 48 | \u001b[39m\u001b[0m\n    at Parser.raise (/var/www/test.lr/node_modules/@babel/parser/lib/index.js:6344:17)\n    at Parser.unexpected (/var/www/test.lr/node_modules/@babel/parser/lib/index.js:7659:16)\n    at Parser.parseExprAtom (/var/www/test.lr/node_modules/@babel/parser/lib/index.js:8828:20)\n    at Parser.parseExprSubscripts (/var/www/test.lr/node_modules/@babel/parser/lib/index.js:8413:23)\n    at Parser.parseMaybeUnary (/var/www/test.lr/node_modules/@babel/parser/lib/index.js:8393:21)\n    at Parser.parseExprOps (/var/www/test.lr/node_modules/@babel/parser/lib/index.js:8280:23)\n    at Parser.parseMaybeConditional (/var/www/test.lr/node_modules/@babel/parser/lib/index.js:8253:23)\n    at Parser.parseMaybeAssign (/var/www/test.lr/node_modules/@babel/parser/lib/index.js:8200:21)\n    at Parser.parseObjectProperty (/var/www/test.lr/node_modules/@babel/parser/lib/index.js:9265:101)\n    at Parser.parseObjPropValue (/var/www/test.lr/node_modules/@babel/parser/lib/index.js:9290:101)\n    at Parser.parseObjectMember (/var/www/test.lr/node_modules/@babel/parser/lib/index.js:9214:10)\n    at Parser.parseObj (/var/www/test.lr/node_modules/@babel/parser/lib/index.js:9138:25)\n    at Parser.parseExprAtom (/var/www/test.lr/node_modules/@babel/parser/lib/index.js:8774:21)\n    at Parser.parseExprSubscripts (/var/www/test.lr/node_modules/@babel/parser/lib/index.js:8413:23)\n    at Parser.parseMaybeUnary (/var/www/test.lr/node_modules/@babel/parser/lib/index.js:8393:21)\n    at Parser.parseExprOps (/var/www/test.lr/node_modules/@babel/parser/lib/index.js:8280:23)\n    at Parser.parseMaybeConditional (/var/www/test.lr/node_modules/@babel/parser/lib/index.js:8253:23)\n    at Parser.parseMaybeAssign (/var/www/test.lr/node_modules/@babel/parser/lib/index.js:8200:21)\n    at Parser.parseExportDefaultExpression (/var/www/test.lr/node_modules/@babel/parser/lib/index.js:10973:24)\n    at Parser.parseExport (/var/www/test.lr/node_modules/@babel/parser/lib/index.js:10868:31)\n    at Parser.parseStatementContent (/var/www/test.lr/node_modules/@babel/parser/lib/index.js:9892:27)\n    at Parser.parseStatement (/var/www/test.lr/node_modules/@babel/parser/lib/index.js:9788:17)\n    at Parser.parseBlockOrModuleBlockBody (/var/www/test.lr/node_modules/@babel/parser/lib/index.js:10364:25)\n    at Parser.parseBlockBody (/var/www/test.lr/node_modules/@babel/parser/lib/index.js:10351:10)\n    at Parser.parseTopLevel (/var/www/test.lr/node_modules/@babel/parser/lib/index.js:9717:10)\n    at Parser.parse (/var/www/test.lr/node_modules/@babel/parser/lib/index.js:11233:17)\n    at parse (/var/www/test.lr/node_modules/@babel/parser/lib/index.js:11269:38)\n    at parser (/var/www/test.lr/node_modules/@babel/core/lib/transformation/normalize-file.js:170:34)\n    at normalizeFile (/var/www/test.lr/node_modules/@babel/core/lib/transformation/normalize-file.js:138:11)\n    at runSync (/var/www/test.lr/node_modules/@babel/core/lib/transformation/index.js:44:43)\n    at runAsync (/var/www/test.lr/node_modules/@babel/core/lib/transformation/index.js:35:14)\n    at process.nextTick (/var/www/test.lr/node_modules/@babel/core/lib/transform.js:34:34)\n    at processTicksAndRejections (internal/process/next_tick.js:74:9)");
 
 /***/ }),
 
@@ -8592,7 +8561,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.error-mesage{\n  color: red;\n}\n", ""]);
+exports.push([module.i, "\n.error-mesage{\n  color: red;\n}\n.slide-fade-enter-active {\n  transition: all .3s ease;\n}\n.slide-fade-leave-active {\n  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);\n}\n.slide-fade-enter, .slide-fade-leave-to\n/* .slide-fade-leave-active до версии 2.1.8 */ {\n  -webkit-transform: translateX(10px);\n          transform: translateX(10px);\n  opacity: 0;\n}\n", ""]);
 
 // exports
 
@@ -45022,6 +44991,167 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/tiny-cookie/tiny-cookie.js":
+/*!*************************************************!*\
+  !*** ./node_modules/tiny-cookie/tiny-cookie.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+ * tiny-cookie - A tiny cookie manipulation plugin
+ * https://github.com/Alex1990/tiny-cookie
+ * Under the MIT license | (c) Alex Chao
+ */
+
+!(function(root, factory) {
+
+  // Uses CommonJS, AMD or browser global to create a jQuery plugin.
+  // See: https://github.com/umdjs/umd
+  if (true) {
+    // Expose this plugin as an AMD module. Register an anonymous module.
+    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
+				__WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else {}
+
+}(this, function() {
+
+  'use strict';
+
+  // The public function which can get/set/remove cookie.
+  function Cookie(key, value, opts) {
+    if (value === void 0) {
+      return Cookie.get(key);
+    } else if (value === null) {
+      Cookie.remove(key);
+    } else {
+      Cookie.set(key, value, opts);
+    }
+  }
+
+  // Check if the cookie is enabled.
+  Cookie.enabled = function() {
+    var key = '__test_key';
+    var enabled;
+
+    document.cookie = key + '=1';
+    enabled = !!document.cookie;
+
+    if (enabled) Cookie.remove(key);
+
+    return enabled;
+  };
+
+  // Get the cookie value by the key.
+  Cookie.get = function(key, raw) {
+    if (typeof key !== 'string' || !key) return null;
+
+    key = '(?:^|; )' + escapeRe(key) + '(?:=([^;]*?))?(?:;|$)';
+
+    var reKey = new RegExp(key);
+    var res = reKey.exec(document.cookie);
+
+    return res !== null ? (raw ? res[1] : decodeURIComponent(res[1])) : null;
+  };
+
+  // Get the cookie's value without decoding.
+  Cookie.getRaw = function(key) {
+    return Cookie.get(key, true);
+  };
+
+  // Set a cookie.
+  Cookie.set = function(key, value, raw, opts) {
+    if (raw !== true) {
+      opts = raw;
+      raw = false;
+    }
+    opts = opts ? convert(opts) : convert({});
+    var cookie = key + '=' + (raw ? value : encodeURIComponent(value)) + opts;
+    document.cookie = cookie;
+  };
+
+  // Set a cookie without encoding the value.
+  Cookie.setRaw = function(key, value, opts) {
+    Cookie.set(key, value, true, opts);
+  };
+
+  // Remove a cookie by the specified key.
+  Cookie.remove = function(key) {
+    Cookie.set(key, 'a', { expires: new Date() });
+  };
+
+  // Helper function
+  // ---------------
+
+  // Escape special characters.
+  function escapeRe(str) {
+    return str.replace(/[.*+?^$|[\](){}\\-]/g, '\\$&');
+  }
+
+  // Convert an object to a cookie option string.
+  function convert(opts) {
+    var res = '';
+
+    for (var p in opts) {
+      if (opts.hasOwnProperty(p)) {
+
+        if (p === 'expires') {
+          var expires = opts[p];
+          if (typeof expires !== 'object') {
+            expires += typeof expires === 'number' ? 'D' : '';
+            expires = computeExpires(expires);
+          }
+          opts[p] = expires.toUTCString();
+        }
+
+        if (p === 'secure') {
+          if (opts[p]) {
+            res += ';' + p;
+          }
+
+          continue;
+        }
+
+        res += ';' + p + '=' + opts[p];
+      }
+    }
+
+    if (!opts.hasOwnProperty('path')) {
+      res += ';path=/';
+    }
+
+    return res;
+  }
+
+  // Return a future date by the given string.
+  function computeExpires(str) {
+    var expires = new Date();
+    var lastCh = str.charAt(str.length - 1);
+    var value = parseInt(str, 10);
+
+    switch (lastCh) {
+      case 'Y': expires.setFullYear(expires.getFullYear() + value); break;
+      case 'M': expires.setMonth(expires.getMonth() + value); break;
+      case 'D': expires.setDate(expires.getDate() + value); break;
+      case 'h': expires.setHours(expires.getHours() + value); break;
+      case 'm': expires.setMinutes(expires.getMinutes() + value); break;
+      case 's': expires.setSeconds(expires.getSeconds() + value); break;
+      default: expires = new Date(str);
+    }
+
+    return expires;
+  }
+
+  return Cookie;
+
+}));
+
+
+/***/ }),
+
 /***/ "./node_modules/to-arraybuffer/index.js":
 /*!**********************************************!*\
   !*** ./node_modules/to-arraybuffer/index.js ***!
@@ -45911,6 +46041,57 @@ function config (name) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-cookie/src/vue-cookie.js":
+/*!***************************************************!*\
+  !*** ./node_modules/vue-cookie/src/vue-cookie.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+(function () {
+    Number.isInteger = Number.isInteger || function (value) {
+        return typeof value === 'number' &&
+            isFinite(value) &&
+            Math.floor(value) === value;
+    };
+    var Cookie = __webpack_require__(/*! tiny-cookie */ "./node_modules/tiny-cookie/tiny-cookie.js");
+
+    var VueCookie = {
+
+        install: function (Vue) {
+            Vue.prototype.$cookie = this;
+            Vue.cookie = this;
+        },
+        set: function (name, value, daysOrOptions) {
+            var opts = daysOrOptions;
+            if(Number.isInteger(daysOrOptions)) {
+                opts = {expires: daysOrOptions};
+            }
+            return Cookie.set(name, value, opts);
+        },
+
+        get: function (name) {
+            return Cookie.get(name);
+        },
+
+        delete: function (name, options) {
+            var opts = {expires: -1};
+            if(options !== undefined) {
+                opts = Object.assign(options, opts);
+            }
+            this.set(name, '', opts);
+        }
+    };
+
+    if (true) {
+        module.exports = VueCookie;
+    } else {}
+
+})();
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e&":
 /*!*******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e& ***!
@@ -46077,9 +46258,26 @@ var render = function() {
                                 1
                               ),
                               _vm._v(" "),
-                              _c("div", { staticClass: "error-messages" }, [
-                                _c("span", [_vm._v(_vm._s(_vm.errorMes))])
-                              ])
+                              _c(
+                                "transition",
+                                { attrs: { name: "slide-fade" } },
+                                [
+                                  _vm.errorShow
+                                    ? _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "error-messages red--text mx-4"
+                                        },
+                                        [
+                                          _c("span", [
+                                            _vm._v(_vm._s(_vm.errorMes))
+                                          ])
+                                        ]
+                                      )
+                                    : _vm._e()
+                                ]
+                              )
                             ],
                             1
                           ),
@@ -87182,6 +87380,11 @@ Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 Vue.use(vuetify__WEBPACK_IMPORTED_MODULE_1___default.a);
 
+
+var VueCookie = __webpack_require__(/*! vue-cookie */ "./node_modules/vue-cookie/src/vue-cookie.js"); // Tell Vue to use the plugin
+
+
+Vue.use(VueCookie);
 
 
 /**

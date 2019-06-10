@@ -15,6 +15,10 @@ import Vuetify from 'vuetify';
 Vue.use(Vuetify);
 import 'vuetify/dist/vuetify.min.css';
 
+var VueCookie = require('vue-cookie');
+// Tell Vue to use the plugin
+Vue.use(VueCookie);
+
 
 import login from './components/autch/LoginComponent.vue';
 import registration from './components/autch/RegistrationComponent.vue';

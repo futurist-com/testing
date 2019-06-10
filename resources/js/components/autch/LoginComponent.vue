@@ -36,7 +36,9 @@
                     required
                     ></v-text-field>
                 </v-form>
-            <div class="error-messages"><span>{{errorMes}}</span></div>
+            <transition name="slide-fade">
+            <div class="error-messages red--text mx-4" v-if="errorShow" ><span>{{errorMes}}</span></div>
+            </transition>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
@@ -49,32 +51,45 @@
     </v-content>
   </v-app>
 </template>
-<style>
-.error-mesage{
-  color: red;
-}
-</style>
 <script>
 import { METHODS } from "http";
 import { totalmem } from 'os';
+import { setTimeout } from 'timers';
+//import { access } from 'fs';
+//import { truncateSync } from 'fs';
 export default {
   data:function(){
     return {
       valid:true,
+      errorShow:false,
       email:null,
       emailRules: [
       v => !!v || 'Поле не может быть пустым',
-      v => /.+@.+/.test(v) || 'Не подходит под формат e-mail'
+      v => /.+@.+/.test(v) || 'Не подходит под формат e-mail.'
     ],
       password:null,
       passRules: [
       v => !!v || 'Поле не может быть пустым',
+      v => (v && v.length >= 3) || 'Пароль не меньше 3 символов.',
+
     ],
     errorMes:'',
     }
   },
+  mounted:function(){
+     console.log(document.cookie);
+    
+    let access_token = Vue.cookie.get('XSRF-TOKEN');
+     console.log(access_token);
+     if (access_token!=null)
+     {
+       this.$router.push('/workspase');
+     }
+  },
   methods: {
     login: function() {
+      //this.errorMes="";
+      this.errorShow=false;
       if (this.$refs.form.validate()){
         this.snackbar = true;
            axios
@@ -86,11 +101,29 @@ export default {
             console.log(resp.response);
             if (resp.response.status==401){
               this.errorMes="Пара email и пароль не совпали. Проверьте правильность введёного email и пароля!!!";
+              this.errorShow=true;
             }
         });
       }
       },
+      
     }
   
 };
 </script>
+<style>
+.error-mesage{
+  color: red;
+}
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active до версии 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
+}
+</style>
