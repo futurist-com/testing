@@ -21,8 +21,6 @@
 
 <body>
     <div id="app">
-        <router-link to="/login" class="btn btn-xs btn-default">Войти</router-link>
-        <router-link to="/registration" class="btn btn-xs btn-default">Регистрация</router-link>
         <router-view></router-view>
     </div>
     <!-- Scripts -->

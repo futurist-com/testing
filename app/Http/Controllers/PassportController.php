@@ -62,4 +62,7 @@ class PassportController extends Controller
     {
         return response()->json(['user' => auth()->user()], 200);
     }
+    public function logout(){
+        auth()->logout();
+    }
 }

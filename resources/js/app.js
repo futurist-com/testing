@@ -22,6 +22,8 @@ Vue.use(VueCookie);
 
 import login from './components/autch/LoginComponent.vue';
 import registration from './components/autch/RegistrationComponent.vue';
+//import user-panel from './components/autch/UserPanelComponent.vue';
+import index from './components/IndexComponent.vue';
 
 
 /**
@@ -36,12 +38,14 @@ import registration from './components/autch/RegistrationComponent.vue';
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('user-panel', require('./components/autch/UserPanelComponent.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 const routes = [
+    {path: '/', component: index, name: 'index'},
     {path: '/login', component: login, name: 'login'},
     {path: '/registration', component: registration, name: 'registration'},
    ];
