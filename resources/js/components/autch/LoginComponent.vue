@@ -77,14 +77,12 @@ export default {
     }
   },
   mounted:function(){
-     console.log(document.cookie);
-    
     let access_token = Vue.cookie.get('XSRF-TOKEN');
-     console.log(access_token);
-     if (access_token!=null)
+     //console.log(access_token);
+     /*if (access_token!=null)
      {
        this.$router.push('/workspase');
-     }
+     }*/
   },
   methods: {
     login: function() {

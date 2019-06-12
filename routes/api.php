@@ -16,12 +16,19 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-Route::get('login', 'PassportController@login');
-Route::post('register', 'PassportController@register');
- 
+//@todo dell
+//Route::get('login', 'PassportController@login');
+//Route::post('register', 'PassportController@register');
+/* 
 Route::middleware('auth:api')->group(function () {
     Route::get('user', 'PassportController@details');
  
 Route::resource('products', 'ProductController');
+});
+*/
+Route::post('/register', 'API\AuthController@register');
+Route::post('/login', 'API\AuthController@login');
+
+Route::middleware('auth:api')->group(function () {
+    Route::post('/logout', 'API\AuthController@logout');
 });
