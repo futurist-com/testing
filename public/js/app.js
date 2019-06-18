@@ -1802,7 +1802,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   /*mounted() {
       
@@ -1905,13 +1904,12 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    console.log(document.cookie);
-    var access_token = Vue.cookie.get('XSRF-TOKEN');
-    console.log(access_token);
+    var access_token = Vue.cookie.get('XSRF-TOKEN'); //console.log(access_token);
 
-    if (access_token != null) {
+    /*if (access_token!=null)
+    {
       this.$router.push('/workspase');
-    }
+    }*/
   },
   methods: {
     login: function login() {
@@ -1919,18 +1917,24 @@ __webpack_require__.r(__webpack_exports__);
 
       //this.errorMes="";
       this.errorShow = false;
+      var data = {
+        username: this.email,
+        password: this.password
+      };
 
       if (this.$refs.form.validate()) {
         this.snackbar = true;
-        axios.get("/api/login" + '?email=' + this.email + "&password=" + this.password).then(function (resp) {
+        axios.post("/api/login", data).then(function (resp) {
           _this.$router.push('/workspase');
-        })["catch"](function (resp) {
-          console.log(resp.response);
+        })["catch"](function (_ref) {
+          var response = _ref.response;
+          console.log(response); //if (resp.response.status==401){
+          //({response}) => {                    
+          // alert(response.data.message);
+          //this.errorMes="Пара email и пароль не совпали. Проверьте правильность введёного email и пароля!!!";
 
-          if (resp.response.status == 401) {
-            _this.errorMes = "Пара email и пароль не совпали. Проверьте правильность введёного email и пароля!!!";
-            _this.errorShow = true;
-          }
+          _this.errorMes = response.data.message;
+          _this.errorShow = true; //}
         });
       }
     }
@@ -46267,16 +46271,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "container" },
-    [
-      _c("div", { staticClass: "card-header" }, [_vm._v("Example Component")]),
-      _vm._v(" "),
-      _c("user-panel")
-    ],
-    1
-  )
+  return _c("div", { staticClass: "container" }, [_c("user-panel")], 1)
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -87565,9 +87560,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vuetify__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var vuetify_dist_vuetify_min_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuetify/dist/vuetify.min.css */ "./node_modules/vuetify/dist/vuetify.min.css");
 /* harmony import */ var vuetify_dist_vuetify_min_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vuetify_dist_vuetify_min_css__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _components_autch_LoginComponent_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/autch/LoginComponent.vue */ "./resources/js/components/autch/LoginComponent.vue");
-/* harmony import */ var _components_autch_RegistrationComponent_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/autch/RegistrationComponent.vue */ "./resources/js/components/autch/RegistrationComponent.vue");
-/* harmony import */ var _components_IndexComponent_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/IndexComponent.vue */ "./resources/js/components/IndexComponent.vue");
+/* harmony import */ var _route_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./route.js */ "./resources/js/route.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -87577,83 +87570,23 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 
-Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]);
+Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]); //include vuetify
+
 
 Vue.use(vuetify__WEBPACK_IMPORTED_MODULE_1___default.a);
+ //include vue-coockie 
+//@todo disable return
 
+var VueCookie = __webpack_require__(/*! vue-cookie */ "./node_modules/vue-cookie/src/vue-cookie.js");
 
-var VueCookie = __webpack_require__(/*! vue-cookie */ "./node_modules/vue-cookie/src/vue-cookie.js"); // Tell Vue to use the plugin
+Vue.use(VueCookie); //get route faile
 
-
-Vue.use(VueCookie);
-
- //import user-panel from './components/autch/UserPanelComponent.vue';
-
-
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
-// const files = require.context('./', true, /\.vue$/i);
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
+ //get component vue
 
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
 Vue.component('user-panel', __webpack_require__(/*! ./components/autch/UserPanelComponent.vue */ "./resources/js/components/autch/UserPanelComponent.vue")["default"]);
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-var routes = [{
-  path: '/',
-  component: _components_IndexComponent_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
-  name: 'index'
-}, {
-  path: '/login',
-  component: _components_autch_LoginComponent_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-  name: 'login'
-}, {
-  path: '/registration',
-  component: _components_autch_RegistrationComponent_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
-  name: 'registration'
-}]; //const router = new VueRouter({ routes });
-//const app = new Vue({ router }).$mount('#app');
-
-/*const app = new Vue({
- el: '#app',
-});*/
-
-var Foo = {
-  template: '<div>foo</div>'
-};
-var Bar = {
-  template: '<div>bar</div>' // 2. Определяем несколько маршрутов
-  // Каждый маршрут должен указывать на компонент.
-  // "Компонентом" может быть как конструктор компонента, созданный
-  // через `Vue.extend()`, так и просто объект с опциями компонента.
-  // Мы поговорим о вложенных маршрутах позднее.
-
-  /*const routes = [
-    { path: '/foo', component: Foo },
-    { path: '/bar', component: Bar }
-  ]*/
-  // 3. Создаём экземпляр маршрутизатора и передаём маршруты в опции `routes`
-  // Вы можете передавать и дополнительные опции, но пока не будем усложнять.
-
-};
-var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
-  routes: routes // сокращённая запись для `routes: routes`
-
-}); // 4. Создаём и монтируем корневой экземпляр приложения.
-// Убедитесь, что передали экземпляр маршрутизатора в опции
-// `router`, чтобы позволить приложению знать о его наличии.
-
 var app = new Vue({
-  router: router
+  router: _route_js__WEBPACK_IMPORTED_MODULE_3__["default"]
 }).$mount('#app');
 
 /***/ }),
@@ -88076,6 +88009,49 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UserPanelComponent_vue_vue_type_template_id_26620799___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/route.js":
+/*!*******************************!*\
+  !*** ./resources/js/route.js ***!
+  \*******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var _components_autch_LoginComponent_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/autch/LoginComponent.vue */ "./resources/js/components/autch/LoginComponent.vue");
+/* harmony import */ var _components_autch_RegistrationComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/autch/RegistrationComponent.vue */ "./resources/js/components/autch/RegistrationComponent.vue");
+/* harmony import */ var _components_IndexComponent_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/IndexComponent.vue */ "./resources/js/components/IndexComponent.vue");
+/**
+ * rootes app
+ */
+
+
+ //import user-panel from './components/autch/UserPanelComponent.vue';
+
+
+var routes = [{
+  path: '/',
+  component: _components_IndexComponent_vue__WEBPACK_IMPORTED_MODULE_3__["default"] //component:require('./components/IndexComponent.vue'),
+  //name: 'index',
+
+}, {
+  path: '/login',
+  component: _components_autch_LoginComponent_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+  //component:require('./components/autch/LoginComponent.vue')
+  name: 'login'
+}, {
+  path: '/registration',
+  component: _components_autch_RegistrationComponent_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+  //component:require('./components/autch/RegistrationComponent.vue')
+  name: 'registration'
+}];
+/* harmony default export */ __webpack_exports__["default"] = (new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
+  routes: routes
+}));
 
 /***/ }),
 

@@ -88,19 +88,26 @@ export default {
     login: function() {
       //this.errorMes="";
       this.errorShow=false;
+      let data={
+        username:this.email,
+        password:this.password
+      }
       if (this.$refs.form.validate()){
         this.snackbar = true;
            axios
-          .get("/api/login"+'?email='+this.email+"&password="+this.password)
+          .post("/api/login", data)
           .then((resp)=> {
             this.$router.push('/workspase');
           })
-          .catch((resp)=>{
-            console.log(resp.response);
-            if (resp.response.status==401){
-              this.errorMes="Пара email и пароль не совпали. Проверьте правильность введёного email и пароля!!!";
+          .catch(({response})=>{
+            console.log(response);
+            //if (resp.response.status==401){
+              //({response}) => {                    
+                   // alert(response.data.message);
+              //this.errorMes="Пара email и пароль не совпали. Проверьте правильность введёного email и пароля!!!";
+              this.errorMes=response.data.message;
               this.errorShow=true;
-            }
+            //}
         });
       }
       },

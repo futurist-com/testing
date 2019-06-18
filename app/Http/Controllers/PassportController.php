@@ -38,7 +38,7 @@ class PassportController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request)
+    /*public function login(Request $request)
     {
         $credentials = [
             'email' => $request->email,
@@ -52,7 +52,7 @@ class PassportController extends Controller
             return response()->json(['error' => 'UnAuthorised'], 401);
         }
     }
- 
+ */
     /**
      * Returns Authenticated User Details
      *

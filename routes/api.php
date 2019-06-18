@@ -28,6 +28,7 @@ Route::resource('products', 'ProductController');
 */
 Route::post('/register', 'API\AuthController@register');
 Route::post('/login', 'API\AuthController@login');
+//Route::post('/logout', 'API\AuthController@logout');
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', 'API\AuthController@logout');
