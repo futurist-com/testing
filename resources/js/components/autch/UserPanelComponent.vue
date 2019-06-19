@@ -1,25 +1,33 @@
 <template>
   <div>
-    <div v-if="islogin">
-    <router-link to="/login" class="btn btn-xs btn-default">Войти</router-link>
-    <router-link to="/registration" class="btn btn-xs btn-default">Регистрация</router-link>
+    <div v-if="authenticated && user">
+      <p>Hello, {{ user.name }}</p>
+      <v-btn v-on:click="logout">logout</v-btn>
+      <router-link to="/logout">Logout</router-link>
     </div>
-    <div v-if="islogin==false">
-        <v-btn>выйти</v-btn>
+    <div v-else>
+      <router-link to="/login">Login</router-link>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  data:function(){
-      return {
-          islogin:null,
-      }
+  data: function() {
+    return {
+      //islogin: null,
+      authenticated: auth.check(),
+      user: auth.user
+    };
   },
   mounted() {
-    console.log(" user panel componnent.");
-    let access_token = Vue.cookie.get('XSRF-TOKEN');
+    Event.$on("userLoggedIn", () => {
+      this.authenticated = true;
+      this.user = auth.user;
+      //console.log(this.user);
+    });
+    //console.log(auth.token);
+    /*let access_token = Vue.cookie.get('XSRF-TOKEN');
      console.log(access_token);
      if (access_token!=null)
      {
@@ -28,7 +36,14 @@ export default {
      }
      else{
          this.islogin=true;
-     }
+     }*/
+  },
+  methods: {
+    logout: function() {
+      console.log(this);
+      auth.logout();
+      this.$router.push("/");
+    }
   }
 };
 </script>

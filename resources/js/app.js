@@ -10,6 +10,8 @@ window.Vue = require('vue');
 
 import VueRouter from 'vue-router';
 Vue.use(VueRouter);
+//
+window.Event = new Vue;
 //include vuetify
 import Vuetify from 'vuetify';
 Vue.use(Vuetify);
@@ -18,6 +20,11 @@ import 'vuetify/dist/vuetify.min.css';
 //@todo disable return
 var VueCookie = require('vue-cookie');
 Vue.use(VueCookie);
+//get autch
+import Api from './api.js';
+window.api= new Api();
+import Auth from './auth.js';
+window.auth= new Auth();
 //get route faile
 import router from './route.js';
 //get component vue

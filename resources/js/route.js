@@ -7,13 +7,14 @@ import login from './components/autch/LoginComponent.vue';
 import registration from './components/autch/RegistrationComponent.vue';
 //import user-panel from './components/autch/UserPanelComponent.vue';
 import index from './components/IndexComponent.vue';
+import dashboard from './components/dashboardComponent.vue';
 
 let routes = [
     {
         path: '/',
         component: index,
         //component:require('./components/IndexComponent.vue'),
-        //name: 'index',
+        name: 'index',
     },
     {
         path: '/login',
@@ -26,9 +27,33 @@ let routes = [
         component: registration,
         //component:require('./components/autch/RegistrationComponent.vue')
         name: 'registration'
+    },
+    {
+        path: '/dashboard',
+        component: dashboard,
+        //component:require('./components/autch/RegistrationComponent.vue')
+        name: 'dashboard',
+        meta: { middlewareAuth: true }
     }
 ];
 
-export default new VueRouter({
+const router = new VueRouter({
     routes
 });
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.middlewareAuth)) {                
+        if (!auth.check()) {
+            next({
+                path: '/login',
+                query: { redirect: to.fullPath }
+            });
+
+            return;
+        }
+    }
+
+    next();
+})
+
+export default router;

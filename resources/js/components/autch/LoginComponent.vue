@@ -10,7 +10,6 @@
                 <v-spacer></v-spacer>
                 <v-tooltip bottom>
                     <v-icon large>code</v-icon>
-                  </v-btn>
                   <span>Source</span>
                 </v-tooltip>
               </v-toolbar>
@@ -97,7 +96,9 @@ export default {
            axios
           .post("/api/login", data)
           .then((resp)=> {
-            this.$router.push('/workspase');
+            //console.log(resp.data.token);
+            auth.login(resp.data.token, resp.data.user);
+            this.$router.push('/dashboard');
           })
           .catch(({response})=>{
             console.log(response);

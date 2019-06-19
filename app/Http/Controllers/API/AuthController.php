@@ -28,16 +28,16 @@ class AuthController extends Controller
 
         if (!$user) {
             return response()->json([
-                'message' => 'Wrong email or password',
+                'message' => 'Не верный email или пароль.',
                 'status' => 422
             ], 422);
         }
 
         // Если пользователь с таким email адресом найден - проверим совпадает
         // ли его пароль с указанным
-        if (!Hash::check(request('password'), $user->password)) {
+        if (!\Hash::check(request('password'), $user->password)) {
             return response()->json([
-                'message' => 'Wrong email or password',
+                'message' => 'Не верный email или пароль.',
                 'status' => 422
             ], 422);
         }
@@ -71,7 +71,7 @@ class AuthController extends Controller
         // Проверяем был ли внутренний запрос успешным
         if ($response->getStatusCode() != 200) {
             return response()->json([
-                'message' => 'Wrong email or password',
+                'message' => 'Не верный email или пароль.',
                 'status' => 422
             ], 422);
         }
@@ -100,5 +100,9 @@ class AuthController extends Controller
         $accessToken->revoke();
 
         return response()->json(['status' => 200]);
+    }
+    public function getUser()
+    {
+        return auth()->user();
     }
 }
