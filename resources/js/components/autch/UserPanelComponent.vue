@@ -1,14 +1,23 @@
 <template>
-  <div>
-    <div v-if="authenticated && user">
-      <p>Hello, {{ user.name }}</p>
-      <v-btn v-on:click="logout">logout</v-btn>
-      <router-link to="/logout">Logout</router-link>
-    </div>
-    <div v-else>
-      <router-link to="/login">Login</router-link>
-    </div>
-  </div>
+  <v-toolbar  app>
+    <v-toolbar-side-icon></v-toolbar-side-icon>
+    <v-toolbar-title>Test.lr</v-toolbar-title>
+    <v-spacer></v-spacer>
+    <v-toolbar-items class="hidden-sm-and-down">
+      <div class="m-auto" v-if="authenticated && user">
+        <span>{{ user.name }}</span>
+        <v-btn v-on:click="logout">Выход</v-btn>
+      </div>
+      <div v-else class="m-auto">
+        <v-btn>
+          <router-link to="/registration">Регистрация</router-link>
+        </v-btn>
+        <v-btn>
+          <router-link to="/login">Войти</router-link>
+        </v-btn>
+      </div>
+    </v-toolbar-items>
+  </v-toolbar>
 </template>
 
 <script>

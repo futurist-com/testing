@@ -105,4 +105,19 @@ class AuthController extends Controller
     {
         return auth()->user();
     }
+    public function getEmail()
+    {
+        //
+        $user = User::whereEmail(request('email'))->first();
+        if ($user) {
+            return response()->json([
+                'message' => 'Такой email уже зарегестрирован.',
+                'status' => 422
+            ], 422);
+        } else {
+            return response()->json([
+                'status' => 200
+            ]);
+        }
+    }
 }

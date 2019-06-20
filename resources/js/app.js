@@ -30,6 +30,8 @@ import router from './route.js';
 //get component vue
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('user-panel', require('./components/autch/UserPanelComponent.vue').default);
+Vue.component('footer-panel', require('./components/FooterComponent.vue').default);
+
 const app = new Vue({
   router
 }).$mount('#app')
