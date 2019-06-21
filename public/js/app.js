@@ -2069,7 +2069,8 @@ __webpack_require__.r(__webpack_exports__);
         email: null,
         password: null
       },
-      email: null,
+      isUniqueEmail: true,
+      //email: null,
       valid: true,
       repassword: null,
       nameRules: [function (v) {
@@ -2079,6 +2080,8 @@ __webpack_require__.r(__webpack_exports__);
         return !!v || "Поле не может быть пустым";
       }, function (v) {
         return /.+@.+/.test(v) || "Не подходит под формат e-mail.";
+      }, function (v) {
+        return _this.isUnique(v) || "e-mail уже зарегистрирован.";
       }],
       passRules: [function (v) {
         return !!v || "Поле не может быть пустым";
@@ -2094,24 +2097,23 @@ __webpack_require__.r(__webpack_exports__);
       }]
     };
   },
-  validations: {
-    email: {
-      isUnique: function isUnique(value) {
-        axios.get("/api/get-mail", {
-          email: value
-        }).then(function (resp) {
-          return true;
-        })["catch"](function (_ref) {
-          var response = _ref.response;
-          return false;
-        });
-      }
-    }
-  },
   methods: {
-    registr: function registr() {
-      //
-      alert(v);
+    registr: function registr() {//
+      //alert(v);
+    },
+    isUnique: function isUnique(value) {
+      var _this2 = this;
+
+      axios.get("/api/get-email?email=" + value).then(function (resp) {
+        _this2.isUniqueEmail = true;
+      })["catch"](function (_ref) {
+        var response = _ref.response;
+        console.log(_this2.isUniqueEmail);
+        return _this2.isUniqueEmail = false;
+        console.log(_this2.isUniqueEmail); //
+      });
+      console.log(this.isUniqueEmail);
+      return this.isUniqueEmail;
     }
   }
 });
@@ -46815,11 +46817,11 @@ var render = function() {
                                       rules: _vm.emailRules
                                     },
                                     model: {
-                                      value: _vm.email,
+                                      value: _vm.user.email,
                                       callback: function($$v) {
-                                        _vm.email = $$v
+                                        _vm.$set(_vm.user, "email", $$v)
                                       },
-                                      expression: "email"
+                                      expression: "user.email"
                                     }
                                   }),
                                   _vm._v(" "),

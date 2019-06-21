@@ -24,7 +24,7 @@
                     name="email"
                     label="email"
                     type="text"
-                    v-model="email"
+                    v-model="user.email"
                     :rules="emailRules"
                   ></v-text-field>
                   <v-text-field
@@ -70,13 +70,15 @@ export default {
         email: null,
         password: null
       },
-      email:null,
+      isUniqueEmail:true,
+      //email: null,
       valid: true,
       repassword: null,
       nameRules: [v => !!v || "Поле не может быть пустым"],
       emailRules: [
         v => !!v || "Поле не может быть пустым",
-        v => /.+@.+/.test(v) || "Не подходит под формат e-mail."
+        v => /.+@.+/.test(v) || "Не подходит под формат e-mail.",
+        v => this.isUnique(v) || "e-mail уже зарегистрирован."
       ],
       passRules: [
         v => !!v || "Поле не может быть пустым",
@@ -89,24 +91,25 @@ export default {
       ]
     };
   },
-  validations: {
-   email:{
-      isUnique(value){
-        axios
-          .get("/api/get-mail", {email:value})
-          .then((resp)=> {
-              return true;
-          })
-          .catch(({response})=>{
-              return false;
-          });
-      }
-    }
-  },
-  methods:{
-    registr(){
+  methods: {
+    registr() {
       //
-      alert(v);
+      //alert(v);
+    },
+    isUnique(value) {
+      axios
+        .get("/api/get-email?email=" + value)
+        .then(resp => {
+           this.isUniqueEmail = true;
+        })
+        .catch(({response}) => {
+           console.log(this.isUniqueEmail);
+           return this.isUniqueEmail = false;
+           console.log(this.isUniqueEmail);
+           //
+        });
+      console.log(this.isUniqueEmail);
+      return this.isUniqueEmail;
     }
   }
 };
