@@ -6,19 +6,26 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\UserStoreRequest;
 
 class AuthController extends Controller
 {
     //
-    public function register()
+    public function register(UserStoreRequest $request)
     {
-        
-        User::create([
+     
+        $validate=$request->validated();
+        //dd(request('email'));   
+        $user=User::create([
             'name' => request('name'),
             'email' => request('email'),
             'password' => bcrypt(request('password'))
         ]);
 
+        //loogin
+        
+ 
+            dd($login);
         return response()->json(['status' => 201]);
     }
     public function login()

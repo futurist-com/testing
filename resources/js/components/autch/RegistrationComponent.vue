@@ -99,7 +99,8 @@ export default {
           email: this.email,
           password: this.user.password
         }).then(resp=>{
-          this.$router.push("/dashboard");
+          console.log(resp);
+          //this.$router.push("/dashboard");
         }).catch(({response})=>{
 
         });

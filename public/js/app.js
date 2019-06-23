@@ -2100,15 +2100,13 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     registr: function registr() {
-      var _this2 = this;
-
       if (this.$refs.form.validate()) {
         axios.post("/api/register", {
           name: this.user.name,
           email: this.email,
           password: this.user.password
         }).then(function (resp) {
-          _this2.$router.push("/dashboard");
+          console.log(resp); //this.$router.push("/dashboard");
         })["catch"](function (_ref) {
           var response = _ref.response;
         });
@@ -2117,14 +2115,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     email: function email(val) {
-      var _this3 = this;
+      var _this2 = this;
 
       axios.get("/api/get-email?email=" + val).then(function (resp) {
         //this.errorsEmail = resp.status == 200 ? [] : [];
-        _this3.errorsEmail = [];
+        _this2.errorsEmail = [];
       })["catch"](function (_ref2) {
         var response = _ref2.response;
-        _this3.errorsEmail = response.status == 422 ? [response.data.message] : [];
+        _this2.errorsEmail = response.status == 422 ? [response.data.message] : [];
       });
     }
   }
