@@ -113,10 +113,12 @@ class AuthController extends Controller
         if ($user) {
             return response()->json([
                 'message' => 'Такой email уже зарегестрирован.',
+                'unique'=>0,
                 'status' => 422
             ], 422);
         } else {
             return response()->json([
+                'unique'=>1,
                 'status' => 200
             ]);
         }

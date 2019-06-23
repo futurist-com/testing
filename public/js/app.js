@@ -1919,6 +1919,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
  //import { access } from 'fs';
@@ -1931,26 +1933,26 @@ __webpack_require__.r(__webpack_exports__);
       errorShow: false,
       email: null,
       emailRules: [function (v) {
-        return !!v || 'Поле не может быть пустым';
+        return !!v || "Поле не может быть пустым";
       }, function (v) {
-        return /.+@.+/.test(v) || 'Не подходит под формат e-mail.';
+        return /.+@.+/.test(v) || "Не подходит под формат e-mail.";
       }],
       password: null,
       passRules: [function (v) {
-        return !!v || 'Поле не может быть пустым';
+        return !!v || "Поле не может быть пустым";
       }, function (v) {
-        return v && v.length >= 3 || 'Пароль не меньше 3 символов.';
+        return v && v.length >= 3 || "Пароль не меньше 3 символов.";
       }],
-      errorMes: ''
+      errorMes: ""
     };
   },
   mounted: function mounted() {
-    var access_token = Vue.cookie.get('XSRF-TOKEN'); //console.log(access_token);
+    var access_token = Vue.cookie.get("XSRF-TOKEN"); //console.log(access_token);
 
     /*if (access_token!=null)
-    {
-      this.$router.push('/workspase');
-    }*/
+     {
+       this.$router.push('/workspase');
+     }*/
   },
   methods: {
     login: function login() {
@@ -1969,11 +1971,11 @@ __webpack_require__.r(__webpack_exports__);
           //console.log(resp.data.token);
           auth.login(resp.data.token, resp.data.user);
 
-          _this.$router.push('/dashboard');
+          _this.$router.push("/dashboard");
         })["catch"](function (_ref) {
           var response = _ref.response;
           console.log(response); //if (resp.response.status==401){
-          //({response}) => {                    
+          //({response}) => {
           // alert(response.data.message);
           //this.errorMes="Пара email и пароль не совпали. Проверьте правильность введёного email и пароля!!!";
 
@@ -2069,8 +2071,8 @@ __webpack_require__.r(__webpack_exports__);
         email: null,
         password: null
       },
-      isUniqueEmail: true,
-      //email: null,
+      email: null,
+      errorsEmail: [],
       valid: true,
       repassword: null,
       nameRules: [function (v) {
@@ -2080,9 +2082,8 @@ __webpack_require__.r(__webpack_exports__);
         return !!v || "Поле не может быть пустым";
       }, function (v) {
         return /.+@.+/.test(v) || "Не подходит под формат e-mail.";
-      }, function (v) {
-        return _this.isUnique(v) || "e-mail уже зарегистрирован.";
-      }],
+      } //v => this.isUnique(v) || "e-mail уже зарегистрирован."
+      ],
       passRules: [function (v) {
         return !!v || "Поле не может быть пустым";
       }, function (v) {
@@ -2098,22 +2099,33 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    registr: function registr() {//
-      //alert(v);
-    },
-    isUnique: function isUnique(value) {
+    registr: function registr() {
       var _this2 = this;
 
-      axios.get("/api/get-email?email=" + value).then(function (resp) {
-        _this2.isUniqueEmail = true;
-      })["catch"](function (_ref) {
-        var response = _ref.response;
-        console.log(_this2.isUniqueEmail);
-        return _this2.isUniqueEmail = false;
-        console.log(_this2.isUniqueEmail); //
+      if (this.$refs.form.validate()) {
+        axios.post("/api/register", {
+          name: this.user.name,
+          email: this.email,
+          password: this.user.password
+        }).then(function (resp) {
+          _this2.$router.push("/dashboard");
+        })["catch"](function (_ref) {
+          var response = _ref.response;
+        });
+      }
+    }
+  },
+  watch: {
+    email: function email(val) {
+      var _this3 = this;
+
+      axios.get("/api/get-email?email=" + val).then(function (resp) {
+        //this.errorsEmail = resp.status == 200 ? [] : [];
+        _this3.errorsEmail = [];
+      })["catch"](function (_ref2) {
+        var response = _ref2.response;
+        _this3.errorsEmail = response.status == 422 ? [response.data.message] : [];
       });
-      console.log(this.isUniqueEmail);
-      return this.isUniqueEmail;
     }
   }
 });
@@ -8874,7 +8886,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.error-mesage{\n  color: red;\n}\n.slide-fade-enter-active {\n  transition: all .3s ease;\n}\n.slide-fade-leave-active {\n  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);\n}\n.slide-fade-enter, .slide-fade-leave-to\n/* .slide-fade-leave-active до версии 2.1.8 */ {\n  -webkit-transform: translateX(10px);\n          transform: translateX(10px);\n  opacity: 0;\n}\n", ""]);
+exports.push([module.i, "\n.error-mesage {\n  color: red;\n}\n.slide-fade-enter-active {\n  transition: all 0.3s ease;\n}\n.slide-fade-leave-active {\n  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);\n}\n.slide-fade-enter, .slide-fade-leave-to\n/* .slide-fade-leave-active до версии 2.1.8 */ {\n  -webkit-transform: translateX(10px);\n          transform: translateX(10px);\n  opacity: 0;\n}\n", ""]);
 
 // exports
 
@@ -46814,14 +46826,15 @@ var render = function() {
                                       name: "email",
                                       label: "email",
                                       type: "text",
-                                      rules: _vm.emailRules
+                                      rules: _vm.emailRules,
+                                      "error-messages": _vm.errorsEmail
                                     },
                                     model: {
-                                      value: _vm.user.email,
+                                      value: _vm.email,
                                       callback: function($$v) {
-                                        _vm.$set(_vm.user, "email", $$v)
+                                        _vm.email = $$v
                                       },
-                                      expression: "user.email"
+                                      expression: "email"
                                     }
                                   }),
                                   _vm._v(" "),
@@ -46842,11 +46855,7 @@ var render = function() {
                                       expression: "user.password"
                                     }
                                   }),
-                                  _vm._v(
-                                    "\n                " +
-                                      _vm._s(_vm.user.password) +
-                                      "\n                "
-                                  ),
+                                  _vm._v(" "),
                                   _c("v-text-field", {
                                     attrs: {
                                       "prepend-icon": "lock",

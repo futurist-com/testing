@@ -24,8 +24,9 @@
                     name="email"
                     label="email"
                     type="text"
-                    v-model="user.email"
+                    v-model="email"
                     :rules="emailRules"
+                    :error-messages="errorsEmail"
                   ></v-text-field>
                   <v-text-field
                     prepend-icon="lock"
@@ -36,7 +37,6 @@
                     v-model="user.password"
                     :rules="passRules"
                   ></v-text-field>
-                  {{user.password}}
                   <v-text-field
                     prepend-icon="lock"
                     name="repassword"
@@ -70,15 +70,15 @@ export default {
         email: null,
         password: null
       },
-      isUniqueEmail:true,
-      //email: null,
+      email: null,
+      errorsEmail: [],
       valid: true,
       repassword: null,
       nameRules: [v => !!v || "Поле не может быть пустым"],
       emailRules: [
         v => !!v || "Поле не может быть пустым",
-        v => /.+@.+/.test(v) || "Не подходит под формат e-mail.",
-        v => this.isUnique(v) || "e-mail уже зарегистрирован."
+        v => /.+@.+/.test(v) || "Не подходит под формат e-mail."
+        //v => this.isUnique(v) || "e-mail уже зарегистрирован."
       ],
       passRules: [
         v => !!v || "Поле не может быть пустым",
@@ -92,24 +92,32 @@ export default {
     };
   },
   methods: {
-    registr() {
-      //
-      //alert(v);
-    },
-    isUnique(value) {
-      axios
-        .get("/api/get-email?email=" + value)
-        .then(resp => {
-           this.isUniqueEmail = true;
-        })
-        .catch(({response}) => {
-           console.log(this.isUniqueEmail);
-           return this.isUniqueEmail = false;
-           console.log(this.isUniqueEmail);
-           //
+    registr: function() {
+      if (this.$refs.form.validate()) {
+        axios.post("/api/register", {
+          name: this.user.name,
+          email: this.email,
+          password: this.user.password
+        }).then(resp=>{
+          this.$router.push("/dashboard");
+        }).catch(({response})=>{
+
         });
-      console.log(this.isUniqueEmail);
-      return this.isUniqueEmail;
+      }
+    }
+  },
+  watch: {
+    email: function(val) {
+      axios
+        .get("/api/get-email?email=" + val)
+        .then(resp => {
+          //this.errorsEmail = resp.status == 200 ? [] : [];
+          this.errorsEmail=[];
+        })
+        .catch(({ response }) => {
+          this.errorsEmail =
+            response.status == 422 ? [response.data.message] : [];
+        });
     }
   }
 };
