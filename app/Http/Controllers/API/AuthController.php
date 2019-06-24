@@ -7,26 +7,36 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\UserStoreRequest;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
     //
     public function register(UserStoreRequest $request)
     {
-     
-        $validate=$request->validated();
+
+        $validate = $request->validated();
         //dd(request('email'));   
-        $user=User::create([
+        $user = User::create([
             'name' => request('name'),
             'email' => request('email'),
             'password' => bcrypt(request('password'))
         ]);
-
         //loogin
-        
- 
-            dd($login);
-        return response()->json(['status' => 201]);
+        if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
+            $user = Auth::user();
+            $success['token'] =  $user->createToken('MyApp')->accessToken;
+
+            return response()->json(
+                [
+                    'token' => $success['token'],
+                    'user' => $user,
+                    'status' => 200
+                ]
+            );
+        } else {
+            return response()->json(['error' => 'Unauthorised'], 401);
+        }
     }
     public function login()
     {
@@ -120,14 +130,22 @@ class AuthController extends Controller
         if ($user) {
             return response()->json([
                 'message' => 'Такой email уже зарегестрирован.',
-                'unique'=>0,
+                'unique' => 0,
                 'status' => 422
             ], 422);
         } else {
             return response()->json([
-                'unique'=>1,
+                'unique' => 1,
                 'status' => 200
             ]);
         }
+    }
+    public function confirmEmail(Request $request, $token)
+    {
+        User::whereToken($token)->firstOrFail()->confirmEmail();
+
+        //$request->session()->flash('message', 'Учетная запись подтверждена. Войдите под своим именем.');
+
+        //return redirect('login');
     }
 }

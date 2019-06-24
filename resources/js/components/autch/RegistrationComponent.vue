@@ -99,8 +99,9 @@ export default {
           email: this.email,
           password: this.user.password
         }).then(resp=>{
+          auth.login(resp.data.token, resp.data.user);
           console.log(resp);
-          //this.$router.push("/dashboard");
+          this.$router.push("/dashboard");
         }).catch(({response})=>{
 
         });
