@@ -8,20 +8,25 @@ use App\User;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\UserStoreRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\UserRegistred;
+
 
 class AuthController extends Controller
 {
     //
-    public function register(UserStoreRequest $request)
+    public function register(/*UserStoreRequest $request*/)
     {
 
-        $validate = $request->validated();
+        //$validate = $request->validated();
         //dd(request('email'));   
         $user = User::create([
             'name' => request('name'),
             'email' => request('email'),
             'password' => bcrypt(request('password'))
         ]);
+        //send email veryfi
+        Mail::to($user->email)->send(new UserRegistred($user));
         //loogin
         if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
             $user = Auth::user();
