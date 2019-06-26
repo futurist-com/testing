@@ -145,9 +145,22 @@ class AuthController extends Controller
             ]);
         }
     }
-    public function confirmEmail(Request $request, $token)
+    public function confirmEmail()
     {
-        User::whereToken($token)->firstOrFail()->confirmEmail();
+        //dd($request);
+        $user=User::whereToken(request('token'))->firstOrFail()->confirmEmail();
+
+        if ($user){
+            return response()->json([
+                'message' => "Адресс email подтвержден.",
+                'status' => 200
+            ]);
+        }else{
+            return response()->json([
+                'message' => "Учетной записи не найденно.",
+                'status' => 422
+            ]);
+        }
 
         //$request->session()->flash('message', 'Учетная запись подтверждена. Войдите под своим именем.');
 

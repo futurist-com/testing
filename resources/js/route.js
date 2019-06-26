@@ -5,6 +5,7 @@ import VueRouter from 'vue-router';
 
 import login from './components/autch/LoginComponent.vue';
 import registration from './components/autch/RegistrationComponent.vue';
+import confirmEmail from './components/autch/EmailConfirmComponent.vue';
 //import user-panel from './components/autch/UserPanelComponent.vue';
 import index from './components/IndexComponent.vue';
 import dashboard from './components/dashboardComponent.vue';
@@ -27,6 +28,11 @@ let routes = [
         component: registration,
         //component:require('./components/autch/RegistrationComponent.vue')
         name: 'registration'
+    },
+    {
+        path: '/register/confirm/:id',
+        component: confirmEmail,
+        name: 'confirmEmail'
     },
     {
         path: '/dashboard',

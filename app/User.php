@@ -46,7 +46,7 @@ class User extends Authenticatable
     }
     public function confirmEmail()
     {
-        $this->verified = true;
+        $this->email_verified_at = true;
         $this->token = null;
         $this->save();
     }
