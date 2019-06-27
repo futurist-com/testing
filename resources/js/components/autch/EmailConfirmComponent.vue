@@ -1,15 +1,17 @@
 <template>
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <div class="card">
-          <div class="card-header">Example Component</div>
-
-          <div class="card-body">I'm an component EmailConfirm.{{$route.params.id}}</div>
-          {{message}}
-        </div>
-      </div>
-    </div>
+  <div>
+    <v-container fluidalign-baseline="true" fill-height="true" align-center="true">
+      <v-layout column >
+        <v-flex xs12>
+          <div class="resultContainer">
+            <v-layout v-bind="layoutAttributes">
+              <div class="item elevation-5">{{message}}</div>
+              </v-layout>
+          </div>
+        </v-flex>
+      </v-layout>
+    </v-container>
+    <footer-panel></footer-panel>
   </div>
 </template>
 
@@ -17,7 +19,7 @@
 export default {
   data: function() {
     return {
-        message:null,
+      message: null
     };
   },
   mounted() {
@@ -26,7 +28,7 @@ export default {
     axios
       .put("/api/confirm-email", { token: this.$route.params.id })
       .then(resp => {
-        this.message=resp.data.message;
+        this.message = resp.data.message;
         //console.log(resp.data.token);
         //auth.login(resp.data.token, resp.data.user);
         //this.$router.push("/dashboard");

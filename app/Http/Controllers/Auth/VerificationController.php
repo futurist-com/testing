@@ -25,13 +25,17 @@ class VerificationController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    //protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
+    protected function getDateFormat()
+    {
+        return 'Y-m-d H:i:s';
+    }
     public function __construct()
     {
         $this->middleware('auth');

@@ -29,7 +29,7 @@ Route::resource('products', 'ProductController');
 Route::post('/register', 'API\AuthController@register');
 Route::post('/login', 'API\AuthController@login');
 Route::get('/get-email', 'API\AuthController@getEmail');
-Route::post('/confirm-email', 'API\AuthController@confirmEmail');
+Route::put('/confirm-email', 'API\AuthController@confirmEmail');
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', 'API\AuthController@logout');

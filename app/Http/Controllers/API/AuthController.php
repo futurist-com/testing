@@ -148,9 +148,10 @@ class AuthController extends Controller
     public function confirmEmail()
     {
         //dd($request);
-        $user=User::whereToken(request('token'))->firstOrFail()->confirmEmail();
+        $user=User::whereToken(request('token'))->first();
 
         if ($user){
+            $user->confirmEmail();
             return response()->json([
                 'message' => "Адресс email подтвержден.",
                 'status' => 200

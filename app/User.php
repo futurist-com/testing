@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Support\Carbon;
 
 class User extends Authenticatable
 {
@@ -29,6 +30,7 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+
     /**
      * The attributes that should be cast to native types.
      *
@@ -37,7 +39,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public static function boot()
+    
+     public static function boot()
     {
         parent::boot();
         static::creating(function ($user) {
@@ -46,7 +49,7 @@ class User extends Authenticatable
     }
     public function confirmEmail()
     {
-        $this->email_verified_at = true;
+        $this->email_verified_at = Carbon::today();
         $this->token = null;
         $this->save();
     }
