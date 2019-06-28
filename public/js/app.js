@@ -1878,10 +1878,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      message: null
+      message: null,
+      error: false
     };
   },
   mounted: function mounted() {
@@ -1892,18 +1908,13 @@ __webpack_require__.r(__webpack_exports__);
     axios.put("/api/confirm-email", {
       token: this.$route.params.id
     }).then(function (resp) {
-      _this.message = resp.data.message; //console.log(resp.data.token);
-      //auth.login(resp.data.token, resp.data.user);
-      //this.$router.push("/dashboard");
+      _this.message = resp.data.message;
+      _this.error = false;
     })["catch"](function (_ref) {
       var response = _ref.response;
-      console.log(response); //if (resp.response.status==401){
-      //({response}) => {
-      // alert(response.data.message);
-      //this.errorMes="Пара email и пароль не совпали. Проверьте правильность введёного email и пароля!!!";
-      //this.errorMes = response.data.message;
-      //this.errorShow = true;
-      //}
+      _this.error = true;
+      _this.message = response.data.message;
+      console.log(response);
     });
   }
 });
@@ -46629,37 +46640,94 @@ var render = function() {
     "div",
     [
       _c(
-        "v-container",
-        {
-          attrs: {
-            "fluidalign-baseline": "true",
-            "fill-height": "true",
-            "align-center": "true"
-          }
-        },
+        "v-app",
+        { attrs: { id: "inspire" } },
         [
           _c(
-            "v-layout",
-            { attrs: { column: "" } },
+            "v-content",
             [
-              _c("v-flex", { attrs: { xs12: "" } }, [
-                _c(
-                  "div",
-                  { staticClass: "resultContainer" },
-                  [
-                    _c(
-                      "v-layout",
-                      _vm._b({}, "v-layout", _vm.layoutAttributes, false),
-                      [
-                        _c("div", { staticClass: "item elevation-5" }, [
-                          _vm._v(_vm._s(_vm.message))
-                        ])
-                      ]
-                    )
-                  ],
-                  1
-                )
-              ])
+              _c(
+                "v-container",
+                { attrs: { fluid: "", "fill-height": "" } },
+                [
+                  _c(
+                    "v-layout",
+                    { attrs: { "align-center": "", "justify-center": "" } },
+                    [
+                      _c(
+                        "v-flex",
+                        { attrs: { xs12: "", sm8: "", md4: "" } },
+                        [
+                          _c(
+                            "v-card",
+                            { staticClass: "elevation-12" },
+                            [
+                              _c(
+                                "v-toolbar",
+                                { attrs: { dark: "", color: "primary" } },
+                                [
+                                  _c("v-toolbar-title", [
+                                    _vm._v("Подтверждения адреса email")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-spacer")
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _vm.error
+                                ? _c(
+                                    "div",
+                                    [
+                                      _c(
+                                        "v-card-text",
+                                        { staticClass: "title error" },
+                                        [_vm._v(_vm._s(_vm.message))]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                : _c(
+                                    "div",
+                                    [
+                                      _c(
+                                        "v-card-text",
+                                        { staticClass: "title" },
+                                        [_vm._v(_vm._s(_vm.message))]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("br"),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-card-text",
+                                        [
+                                          _c(
+                                            "router-link",
+                                            { attrs: { to: "/dashboard" } },
+                                            [
+                                              _vm._v(
+                                                "Перейти в рабочее пространство"
+                                              )
+                                            ]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
             ],
             1
           )

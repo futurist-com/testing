@@ -1,16 +1,31 @@
 <template>
   <div>
-    <v-container fluidalign-baseline="true" fill-height="true" align-center="true">
-      <v-layout column >
-        <v-flex xs12>
-          <div class="resultContainer">
-            <v-layout v-bind="layoutAttributes">
-              <div class="item elevation-5">{{message}}</div>
-              </v-layout>
-          </div>
-        </v-flex>
-      </v-layout>
-    </v-container>
+    <v-app id="inspire">
+      <v-content>
+        <v-container fluid fill-height>
+          <v-layout align-center justify-center>
+            <v-flex xs12 sm8 md4>
+              <v-card class="elevation-12">
+                <v-toolbar dark color="primary">
+                  <v-toolbar-title>Подтверждения адреса email</v-toolbar-title>
+                  <v-spacer></v-spacer>
+                </v-toolbar>
+                <div v-if="error">
+                  <v-card-text class="title error">{{message}}</v-card-text>
+                </div>
+                <div v-else>
+                  <v-card-text class="title">{{message}}</v-card-text>
+                  <br>
+                  <v-card-text>
+                    <router-link to="/dashboard">Перейти в рабочее пространство</router-link>
+                  </v-card-text>
+                </div>
+              </v-card>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-content>
+    </v-app>
     <footer-panel></footer-panel>
   </div>
 </template>
@@ -19,7 +34,8 @@
 export default {
   data: function() {
     return {
-      message: null
+      message: null,
+      error: false
     };
   },
   mounted() {
@@ -29,19 +45,12 @@ export default {
       .put("/api/confirm-email", { token: this.$route.params.id })
       .then(resp => {
         this.message = resp.data.message;
-        //console.log(resp.data.token);
-        //auth.login(resp.data.token, resp.data.user);
-        //this.$router.push("/dashboard");
+        this.error = false;
       })
       .catch(({ response }) => {
+        this.error = true;
+        this.message = response.data.message;
         console.log(response);
-        //if (resp.response.status==401){
-        //({response}) => {
-        // alert(response.data.message);
-        //this.errorMes="Пара email и пароль не совпали. Проверьте правильность введёного email и пароля!!!";
-        //this.errorMes = response.data.message;
-        //this.errorShow = true;
-        //}
       });
   }
 };

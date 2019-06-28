@@ -153,14 +153,14 @@ class AuthController extends Controller
         if ($user){
             $user->confirmEmail();
             return response()->json([
-                'message' => "Адресс email подтвержден.",
+                'message' => "Адрес email подтвержден.",
                 'status' => 200
             ]);
         }else{
             return response()->json([
                 'message' => "Учетной записи не найденно.",
                 'status' => 422
-            ]);
+            ], 422);
         }
 
         //$request->session()->flash('message', 'Учетная запись подтверждена. Войдите под своим именем.');
