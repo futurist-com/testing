@@ -1910,6 +1910,7 @@ __webpack_require__.r(__webpack_exports__);
     }).then(function (resp) {
       _this.message = resp.data.message;
       _this.error = false;
+      auth.login(resp.data.token, resp.data.user);
     })["catch"](function (_ref) {
       var response = _ref.response;
       _this.error = true;
@@ -2129,6 +2130,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //import { truncateSync } from 'fs';
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2144,6 +2157,7 @@ __webpack_require__.r(__webpack_exports__);
       errorsEmail: [],
       valid: true,
       repassword: null,
+      registSuccess: false,
       nameRules: [function (v) {
         return !!v || "Поле не может быть пустым";
       }],
@@ -2177,10 +2191,12 @@ __webpack_require__.r(__webpack_exports__);
           email: this.email,
           password: this.user.password
         }).then(function (resp) {
-          auth.login(resp.data.token, resp.data.user);
-          console.log(resp);
-
-          _this2.$router.push("/dashboard");
+          //auth.login(resp.data.token, resp.data.user);
+          //показываем
+          //this.$router.push("/dashboard");
+          console.log(_this2.registSuccess);
+          _this2.registSuccess = true;
+          console.log(_this2.registSuccess);
         })["catch"](function (_ref) {
           var response = _ref.response;
         });
@@ -2192,7 +2208,6 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       axios.get("/api/get-email?email=" + val).then(function (resp) {
-        //this.errorsEmail = resp.status == 200 ? [] : [];
         _this3.errorsEmail = [];
       })["catch"](function (_ref2) {
         var response = _ref2.response;
@@ -46975,7 +46990,7 @@ var render = function() {
                         [
                           _c(
                             "v-toolbar",
-                            { attrs: { dark: "", color: "primary" } },
+                            { attrs: { dar: "", k: "", color: "primary" } },
                             [
                               _c("v-toolbar-title", [_vm._v("Регистрация")]),
                               _vm._v(" "),
@@ -46984,119 +46999,153 @@ var render = function() {
                             1
                           ),
                           _vm._v(" "),
-                          _c(
-                            "v-card-text",
-                            [
-                              _c(
-                                "v-form",
-                                {
-                                  ref: "form",
-                                  attrs: { "lazy-validation": "" },
-                                  model: {
-                                    value: _vm.valid,
-                                    callback: function($$v) {
-                                      _vm.valid = $$v
-                                    },
-                                    expression: "valid"
-                                  }
-                                },
+                          _vm.registSuccess
+                            ? _c(
+                                "div",
                                 [
-                                  _c("v-text-field", {
-                                    attrs: {
-                                      "prepend-icon": "person",
-                                      name: "name",
-                                      label: "Имя",
-                                      type: "text",
-                                      rules: _vm.nameRules
-                                    },
-                                    model: {
-                                      value: _vm.user.name,
-                                      callback: function($$v) {
-                                        _vm.$set(_vm.user, "name", $$v)
-                                      },
-                                      expression: "user.name"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("v-text-field", {
-                                    attrs: {
-                                      "prepend-icon": "person",
-                                      name: "email",
-                                      label: "email",
-                                      type: "text",
-                                      rules: _vm.emailRules,
-                                      "error-messages": _vm.errorsEmail
-                                    },
-                                    model: {
-                                      value: _vm.email,
-                                      callback: function($$v) {
-                                        _vm.email = $$v
-                                      },
-                                      expression: "email"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("v-text-field", {
-                                    attrs: {
-                                      "prepend-icon": "lock",
-                                      name: "password",
-                                      label: "Пароль",
-                                      id: "password",
-                                      type: "password",
-                                      rules: _vm.passRules
-                                    },
-                                    model: {
-                                      value: _vm.user.password,
-                                      callback: function($$v) {
-                                        _vm.$set(_vm.user, "password", $$v)
-                                      },
-                                      expression: "user.password"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("v-text-field", {
-                                    attrs: {
-                                      "prepend-icon": "lock",
-                                      name: "repassword",
-                                      label: "Повторите пароль",
-                                      id: "repassword",
-                                      type: "password",
-                                      rules: _vm.rePassRules
-                                    },
-                                    model: {
-                                      value: _vm.repassword,
-                                      callback: function($$v) {
-                                        _vm.repassword = $$v
-                                      },
-                                      expression: "repassword"
-                                    }
-                                  })
+                                  _c(
+                                    "v-card",
+                                    { staticClass: "pa-2" },
+                                    [
+                                      _vm._v(
+                                        "Спасибо за регистрацию. \n                На вашу почту отправленно письмо с подтверждением адреса почтового ящика.\n                Для завершения регистрации  перейдите по ссылке в отправленном вам письме.\n              "
+                                      ),
+                                      _c("br"),
+                                      _vm._v(" "),
+                                      _c(
+                                        "router-link",
+                                        { attrs: { to: "/" } },
+                                        [_vm._v("Перейти на главную ")]
+                                      )
+                                    ],
+                                    1
+                                  )
                                 ],
                                 1
                               )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-card-actions",
-                            [
-                              _c("v-spacer"),
-                              _vm._v(" "),
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: {
-                                    color: "primary",
-                                    disabled: !_vm.valid
-                                  },
-                                  on: { click: _vm.registr }
-                                },
-                                [_vm._v("Регистрация")]
+                            : _c(
+                                "div",
+                                [
+                                  _c(
+                                    "v-card-text",
+                                    [
+                                      _c(
+                                        "v-form",
+                                        {
+                                          ref: "form",
+                                          attrs: { "lazy-validation": "" },
+                                          model: {
+                                            value: _vm.valid,
+                                            callback: function($$v) {
+                                              _vm.valid = $$v
+                                            },
+                                            expression: "valid"
+                                          }
+                                        },
+                                        [
+                                          _c("v-text-field", {
+                                            attrs: {
+                                              "prepend-icon": "person",
+                                              name: "name",
+                                              label: "Имя",
+                                              type: "text",
+                                              rules: _vm.nameRules
+                                            },
+                                            model: {
+                                              value: _vm.user.name,
+                                              callback: function($$v) {
+                                                _vm.$set(_vm.user, "name", $$v)
+                                              },
+                                              expression: "user.name"
+                                            }
+                                          }),
+                                          _vm._v(" "),
+                                          _c("v-text-field", {
+                                            attrs: {
+                                              "prepend-icon": "person",
+                                              name: "email",
+                                              label: "email",
+                                              type: "text",
+                                              rules: _vm.emailRules,
+                                              "error-messages": _vm.errorsEmail
+                                            },
+                                            model: {
+                                              value: _vm.email,
+                                              callback: function($$v) {
+                                                _vm.email = $$v
+                                              },
+                                              expression: "email"
+                                            }
+                                          }),
+                                          _vm._v(" "),
+                                          _c("v-text-field", {
+                                            attrs: {
+                                              "prepend-icon": "lock",
+                                              name: "password",
+                                              label: "Пароль",
+                                              id: "password",
+                                              type: "password",
+                                              rules: _vm.passRules
+                                            },
+                                            model: {
+                                              value: _vm.user.password,
+                                              callback: function($$v) {
+                                                _vm.$set(
+                                                  _vm.user,
+                                                  "password",
+                                                  $$v
+                                                )
+                                              },
+                                              expression: "user.password"
+                                            }
+                                          }),
+                                          _vm._v(" "),
+                                          _c("v-text-field", {
+                                            attrs: {
+                                              "prepend-icon": "lock",
+                                              name: "repassword",
+                                              label: "Повторите пароль",
+                                              id: "repassword",
+                                              type: "password",
+                                              rules: _vm.rePassRules
+                                            },
+                                            model: {
+                                              value: _vm.repassword,
+                                              callback: function($$v) {
+                                                _vm.repassword = $$v
+                                              },
+                                              expression: "repassword"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-card-actions",
+                                    [
+                                      _c("v-spacer"),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            color: "primary",
+                                            disabled: !_vm.valid
+                                          },
+                                          on: { click: _vm.registr }
+                                        },
+                                        [_vm._v("Регистрация")]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
                               )
-                            ],
-                            1
-                          )
                         ],
                         1
                       )

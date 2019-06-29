@@ -15,11 +15,9 @@ use App\Mail\UserRegistred;
 class AuthController extends Controller
 {
     //
-    public function register(/*UserStoreRequest $request*/)
+    public function register(UserStoreRequest $request)
     {
-
-        //$validate = $request->validated();
-        //dd(request('email'));   
+         $validate = $request->validated();
         $user = User::create([
             'name' => request('name'),
             'email' => request('email'),
@@ -34,8 +32,8 @@ class AuthController extends Controller
 
             return response()->json(
                 [
-                    'token' => $success['token'],
-                    'user' => $user,
+                    //'token' => $success['token'],
+                    //'user' => $user,
                     'status' => 200
                 ]
             );
@@ -148,15 +146,19 @@ class AuthController extends Controller
     public function confirmEmail()
     {
         //dd($request);
-        $user=User::whereToken(request('token'))->first();
+        $user = User::whereToken(request('token'))->first();
 
-        if ($user){
+        if ($user) {
             $user->confirmEmail();
+            Auth::login($user);
+            $success['token'] =  $user->createToken('MyApp')->accessToken;
             return response()->json([
                 'message' => "Адрес email подтвержден.",
+                'token' => $success['token'],
+                'user' => $user,
                 'status' => 200
             ]);
-        }else{
+        } else {
             return response()->json([
                 'message' => "Учетной записи не найденно.",
                 'status' => 422

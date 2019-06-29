@@ -46,6 +46,7 @@ export default {
       .then(resp => {
         this.message = resp.data.message;
         this.error = false;
+        auth.login(resp.data.token, resp.data.user);
       })
       .catch(({ response }) => {
         this.error = true;
