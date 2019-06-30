@@ -39,8 +39,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    
-     public static function boot()
+
+    public static function boot()
     {
         parent::boot();
         static::creating(function ($user) {
@@ -52,5 +52,9 @@ class User extends Authenticatable
         $this->email_verified_at = Carbon::today();
         $this->token = null;
         $this->save();
+    }
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new \App\Notifications\EmailResetPasswordNotification($token));
     }
 }

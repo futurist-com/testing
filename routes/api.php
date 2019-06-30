@@ -30,6 +30,10 @@ Route::post('/register', 'API\AuthController@register');
 Route::post('/login', 'API\AuthController@login');
 Route::get('/get-email', 'API\AuthController@getEmail');
 Route::put('/confirm-email', 'API\AuthController@confirmEmail');
+// Send reset password mail
+Route::post('reset-password', 'API\AuthController@sendPasswordResetLink');
+// handle reset password form process
+Route::post('reset/password', 'API\ResetPasswordController@callResetPassword');
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', 'API\AuthController@logout');

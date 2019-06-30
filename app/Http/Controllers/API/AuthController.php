@@ -10,14 +10,23 @@ use App\Http\Requests\UserStoreRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\UserRegistred;
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+//use Illuminate\Auth\Notifications\ResetPassword;
+//use Illuminate\Foundation\Auth\ResetsPasswords;
+//use Hash;
 
+use Illuminate\Auth\Events\PasswordReset;
+//use Illuminate\Auth\Passwords\CanResetPassword;
 
 class AuthController extends Controller
 {
     //
+    use SendsPasswordResetEmails;
+    //use ResetsPasswords;
+
     public function register(UserStoreRequest $request)
     {
-         $validate = $request->validated();
+        $validate = $request->validated();
         $user = User::create([
             'name' => request('name'),
             'email' => request('email'),
@@ -169,4 +178,20 @@ class AuthController extends Controller
 
         //return redirect('login');
     }
+    public function sendPasswordResetLink(Request $request)
+    {
+        return $this->sendResetLinkEmail($request);
+    }
+    protected function sendResetLinkResponse(Request $request, $response)
+    {
+        return response()->json([
+            'message' => 'Password reset email sent.',
+            'data' => $response
+        ]);
+    }
+    protected function sendResetLinkFailedResponse(Request $request, $response)
+    {
+        return response()->json(['message' => 'Email could not be sent to this email address.']);
+    }
+    
 }
