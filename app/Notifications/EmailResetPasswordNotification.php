@@ -43,7 +43,7 @@ class EmailResetPasswordNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        $link = url("/reset-password/" . $this->token);
+        $link = url("/#/register/reset-password/" . $this->token);
         return (new MailMessage)
             ->subject('Ввостановление пароля ')
             ->line("Hello! You are receiving this email because we received a password reset request for your account.")

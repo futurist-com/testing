@@ -185,13 +185,13 @@ class AuthController extends Controller
     protected function sendResetLinkResponse(Request $request, $response)
     {
         return response()->json([
-            'message' => 'Password reset email sent.',
+            'message' => 'На почту  было отправленно письмо  с дальнейшими инструкциями по смене пароля.',
             'data' => $response
         ]);
     }
     protected function sendResetLinkFailedResponse(Request $request, $response)
     {
-        return response()->json(['message' => 'Email could not be sent to this email address.']);
+        return response()->json(['message' => 'Не удалось отправить электронное письмо на этот адрес электронной почты.'], 422);
     }
     
 }

@@ -45,6 +45,9 @@
                 <v-spacer></v-spacer>
                 <v-btn v-on:click="login" color="primary" :disabled="!valid">Войти</v-btn>
               </v-card-actions>
+              <v-card-text>
+                <router-link to="/register/forget-password">Востановить пароль</router-link>
+              </v-card-text>
             </v-card>
           </v-flex>
         </v-layout>

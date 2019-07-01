@@ -34,6 +34,8 @@ Route::put('/confirm-email', 'API\AuthController@confirmEmail');
 Route::post('reset-password', 'API\AuthController@sendPasswordResetLink');
 // handle reset password form process
 Route::post('reset/password', 'API\ResetPasswordController@callResetPassword');
+Route::post('reset/is-token', 'API\ResetPasswordController@isToken');
+
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', 'API\AuthController@logout');

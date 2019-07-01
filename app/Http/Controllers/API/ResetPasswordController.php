@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\DB;
 
 class ResetPasswordController extends Controller
 {
@@ -31,5 +32,22 @@ class ResetPasswordController extends Controller
     protected function sendResetFailedResponse(Request $request, $response)
     {
         return response()->json(['message' => 'Failed, Invalid Token.']);
+    }
+    public function isToken(){
+        $token = DB::table('password_resets')
+            ->where('token', request('token'))
+            ->first();
+            if ($token){
+                return response()->json([
+                    'message' => 'IsToken true.',
+                    'status' => 200
+                ], 200);
+            }else {
+                return response()->json([
+                    'message' => 'Запроса на изменения пароля нет. Проверьте ссылку.',
+                    'status' => 422
+                ], 422);
+            }
+
     }
 }

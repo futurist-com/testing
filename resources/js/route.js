@@ -6,9 +6,12 @@ import VueRouter from 'vue-router';
 import login from './components/autch/LoginComponent.vue';
 import registration from './components/autch/RegistrationComponent.vue';
 import confirmEmail from './components/autch/EmailConfirmComponent.vue';
+import forgetPass from './components/autch/ForgePasswordComponent.vue';
+import resetPassword from './components/autch/ResetPasswordComponent.vue';
 //import user-panel from './components/autch/UserPanelComponent.vue';
 import index from './components/IndexComponent.vue';
 import dashboard from './components/dashboardComponent.vue';
+
 
 let routes = [
     {
@@ -35,12 +38,23 @@ let routes = [
         name: 'confirmEmail'
     },
     {
+        path: '/register/forget-password',
+        component: forgetPass,
+        name: 'forgetPassword'
+    },
+    {
+        path: '/register/reset-password/:token',
+        component:resetPassword ,
+        name: 'resetPassword'
+    },
+    {
         path: '/dashboard',
         component: dashboard,
         //component:require('./components/autch/RegistrationComponent.vue')
         name: 'dashboard',
         meta: { middlewareAuth: true }
     }
+
 ];
 
 const router = new VueRouter({
