@@ -7,7 +7,11 @@
             <v-card class="elevation-12">
               <v-toolbar dark color="primary">
                 <v-toolbar-title>Смена Пароля</v-toolbar-title>
-                <v-spacer></v-spacer>
+                <v-spacer>
+                  {{errorTokenMess}}
+                  {{$route.token}}
+
+                </v-spacer>
               </v-toolbar>
               <div v-if="errorToken">
                 <v-alert :value="true"
@@ -42,7 +46,10 @@
                   <v-btn color="primary" v-on:click="registr" :disabled="!valid">Сменить пароль</v-btn>
                 </v-card-actions>
               </div>
+            {{errorTokenMess}}
             </v-card>
+            {{$route.token}}
+            
           </v-flex>
         </v-layout>
       </v-container>
@@ -101,9 +108,9 @@ export default {
             //auth.login(resp.data.token, resp.data.user);
             //показываем
             //this.$router.push("/dashboard");
-            console.log(this.registSuccess);
+            //console.log(this.registSuccess);
             this.errortoken = false;
-            console.log(this.registSuccess);
+            //console.log(this.registSuccess);
           })
           .catch(({ response }) => {
               this.errorToken = true;

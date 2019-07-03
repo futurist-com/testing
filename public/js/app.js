@@ -2401,6 +2401,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 //import { truncateSync } from 'fs';
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2457,9 +2464,8 @@ __webpack_require__.r(__webpack_exports__);
       //auth.login(resp.data.token, resp.data.user);
       //показываем
       //this.$router.push("/dashboard");
-      console.log(_this3.registSuccess);
-      _this3.errortoken = false;
-      console.log(_this3.registSuccess);
+      //console.log(this.registSuccess);
+      _this3.errortoken = false; //console.log(this.registSuccess);
     })["catch"](function (_ref2) {
       var response = _ref2.response;
       _this3.errorToken = true;
@@ -47723,7 +47729,15 @@ var render = function() {
                             [
                               _c("v-toolbar-title", [_vm._v("Смена Пароля")]),
                               _vm._v(" "),
-                              _c("v-spacer")
+                              _c("v-spacer", [
+                                _vm._v(
+                                  "\n                " +
+                                    _vm._s(_vm.errorTokenMess) +
+                                    "\n                " +
+                                    _vm._s(_vm.$route.token) +
+                                    "\n\n              "
+                                )
+                              ])
                             ],
                             1
                           ),
@@ -47812,9 +47826,19 @@ var render = function() {
                                   )
                                 ],
                                 1
-                              )
+                              ),
+                          _vm._v(
+                            "\n          " +
+                              _vm._s(_vm.errorTokenMess) +
+                              "\n          "
+                          )
                         ],
                         1
+                      ),
+                      _vm._v(
+                        "\n          " +
+                          _vm._s(_vm.$route.token) +
+                          "\n          \n        "
                       )
                     ],
                     1
