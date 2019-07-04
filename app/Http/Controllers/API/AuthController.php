@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\UserRegistred;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use App\Model\PasswordReset;
 //use Illuminate\Auth\Notifications\ResetPassword;
 //use Illuminate\Foundation\Auth\ResetsPasswords;
 //use Hash;
@@ -178,8 +179,16 @@ class AuthController extends Controller
 
         //return redirect('login');
     }
+    
     public function sendPasswordResetLink(Request $request)
     {
+        //валидация email
+        //генерируем код
+        $passwordReset= new PasswordReset();
+        $passwordReset->email=request('email')
+        //$passwordReset->code=
+        
+
         return $this->sendResetLinkEmail($request);
     }
     protected function sendResetLinkResponse(Request $request, $response)
