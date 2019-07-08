@@ -12,11 +12,12 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\UserRegistred;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use App\Model\PasswordReset;
+use App\library\Helpers\Helper;
 //use Illuminate\Auth\Notifications\ResetPassword;
 //use Illuminate\Foundation\Auth\ResetsPasswords;
 //use Hash;
 
-use Illuminate\Auth\Events\PasswordReset;
+//use Illuminate\Auth\Events\PasswordReset;
 //use Illuminate\Auth\Passwords\CanResetPassword;
 
 class AuthController extends Controller
@@ -184,12 +185,36 @@ class AuthController extends Controller
     {
         //валидация email
         //генерируем код
+        $getEmail=$this->getEmail($request);
+        //$get
+        $getEmailArray=json_decode($getEmail->content(), true);
+        //dd($getEmailArray);
+        if ($getEmailArray['unique']==1){
+            return response()->json([
+                'message' => "Учетной записи не найденно.",
+                'status' => 422
+            ], 422);
+        }else{
+            $code=Helper::generatePIN(8);
+            $resetPass= new PasswordReset();
+            $resetPass->email=request('email');
+            $resetPass->code=$code;
+            $resetPass->save();
+
+
+            return response()->json([
+                'message' => "user est.",
+                'status' => 200
+            ], 200);
+        }
+
+
         $passwordReset= new PasswordReset();
-        $passwordReset->email=request('email')
+        $passwordReset->email=request('email');
         //$passwordReset->code=
         
 
-        return $this->sendResetLinkEmail($request);
+        //return $this->sendResetLinkEmail($request);
     }
     protected function sendResetLinkResponse(Request $request, $response)
     {
