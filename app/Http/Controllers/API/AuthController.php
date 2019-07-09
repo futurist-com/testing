@@ -13,6 +13,8 @@ use App\Mail\UserRegistred;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use App\Model\PasswordReset;
 use App\library\Helpers\Helper;
+use Carbon\Carbon;
+
 //use Illuminate\Auth\Notifications\ResetPassword;
 //use Illuminate\Foundation\Auth\ResetsPasswords;
 //use Hash;
@@ -198,10 +200,14 @@ class AuthController extends Controller
             $code=Helper::generatePIN(8);
             $resetPass= new PasswordReset();
             $resetPass->email=request('email');
+            $resetPass->token=str_random(30);
+            $resetPass->created_at=Carbon::now();
             $resetPass->code=$code;
             $resetPass->save();
-
-
+            /*@todo подумать  может написать модель  для  замены записи а может  хранить все запросы на изменения пароля??
+            @todo продумать связь моделей
+              
+            */
             return response()->json([
                 'message' => "user est.",
                 'status' => 200
