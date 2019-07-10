@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Support\Carbon;
+use App\Model\PasswordReset;
 
 class User extends Authenticatable
 {
@@ -39,6 +40,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+     
+    public function passReset(){
+        return $this->hasOne('App\Model\PasswordReset', 'email', 'email');
+    }
 
     public static function boot()
     {

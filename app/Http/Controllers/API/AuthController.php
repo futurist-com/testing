@@ -14,6 +14,7 @@ use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use App\Model\PasswordReset;
 use App\library\Helpers\Helper;
 use Carbon\Carbon;
+use App\Notifications\EmailResetPasswordNotification;
 
 //use Illuminate\Auth\Notifications\ResetPassword;
 //use Illuminate\Foundation\Auth\ResetsPasswords;
@@ -145,7 +146,7 @@ class AuthController extends Controller
         $user = User::whereEmail(request('email'))->first();
         if ($user) {
             return response()->json([
-                'message' => 'Такой email уже зарегестрирован.',
+                'message' => 'Такой email уже зарегистрирован.',
                 'unique' => 0,
                 'status' => 422
             ], 422);
@@ -182,45 +183,38 @@ class AuthController extends Controller
 
         //return redirect('login');
     }
-    
+
     public function sendPasswordResetLink(Request $request)
     {
         //валидация email
         //генерируем код
-        $getEmail=$this->getEmail($request);
-        //$get
-        $getEmailArray=json_decode($getEmail->content(), true);
-        //dd($getEmailArray);
-        if ($getEmailArray['unique']==1){
+        $this->validate($request, [
+            'email' => 'required|email',
+        ]);
+        $user = User::whereEmail(request('email'))->first();
+        if (!$user) {
             return response()->json([
                 'message' => "Учетной записи не найденно.",
                 'status' => 422
             ], 422);
-        }else{
-            $code=Helper::generatePIN(8);
-            $resetPass= new PasswordReset();
-            $resetPass->email=request('email');
-            $resetPass->token=str_random(30);
-            $resetPass->created_at=Carbon::now();
-            $resetPass->code=$code;
+        } else {
+            //$resetPass=$user->passReset();
+            if (!$resetPass = $user->passReset) {
+                $resetPass = new PasswordReset();
+            }
+            $code = Helper::generatePIN(8);
+            $resetPass->email = request('email');
+            $resetPass->token = str_random(30);
+            $resetPass->created_at = Carbon::now();
+            $resetPass->code = $code;
             $resetPass->save();
-            /*@todo подумать  может написать модель  для  замены записи а может  хранить все запросы на изменения пароля??
-            @todo продумать связь моделей
-              
-            */
+            $user->notify(new EmailResetPasswordNotification($code));
+
             return response()->json([
-                'message' => "user est.",
+                'message' => "На вашу почту отправленно письмо с кодом поддверждения. Введите код",
                 'status' => 200
             ], 200);
         }
-
-
-        $passwordReset= new PasswordReset();
-        $passwordReset->email=request('email');
-        //$passwordReset->code=
-        
-
-        //return $this->sendResetLinkEmail($request);
     }
     protected function sendResetLinkResponse(Request $request, $response)
     {
@@ -233,5 +227,4 @@ class AuthController extends Controller
     {
         return response()->json(['message' => 'Не удалось отправить электронное письмо на этот адрес электронной почты.'], 422);
     }
-    
 }
