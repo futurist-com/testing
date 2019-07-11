@@ -5,8 +5,9 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Model\PasswordReset;
 use Illuminate\Foundation\Auth\ResetsPasswords;
-use Illuminate\Auth\Events\PasswordReset;
+//use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -22,6 +23,23 @@ class ResetPasswordController extends Controller
     {
         return $this->reset($request);
     }*/
+    public function checkCodeResetPassword()
+    {
+        $passRest=PasswordReset::where('email', '=', request('email'))->
+        where('code', '=', request('code'))->first();
+        if ($passRest){
+            return response()->json([
+                'message' => 'IsCode true.',
+                'status' => 200
+            ], 200);
+        }else{
+            return response()->json([
+                'message' => 'Не верный код.',
+                'status' => 422
+            ], 422);
+        }
+
+    }
     public function callResetPassword(Request $request){
         $tokenHash=\Hash::make($request->token);
         //dd($tokenHash);
