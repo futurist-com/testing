@@ -31,10 +31,10 @@ Route::post('/login', 'API\AuthController@login');
 Route::get('/get-email', 'API\AuthController@getEmail');
 Route::put('/confirm-email', 'API\AuthController@confirmEmail');
 // Send reset password mail
-Route::post('reset-password', 'API\AuthController@sendPasswordResetLink');
+Route::post('reset-password', 'API\ResetPasswordController@sendPasswordResetLink');
 // handle reset password form process
 Route::post('reset/password', 'API\ResetPasswordController@callResetPassword');
-Route::post('reset/is-token', 'API\ResetPasswordController@isToken');
+//Route::post('reset/is-token', 'API\ResetPasswordController@isToken');
 Route::post('reset/check-code-password', 'API\ResetPasswordController@checkCodeResetPassword');
 
 

@@ -10,12 +10,6 @@ use App\Http\Requests\UserStoreRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\UserRegistred;
-use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
-use App\Model\PasswordReset;
-use App\library\Helpers\Helper;
-use Carbon\Carbon;
-use App\Notifications\EmailResetPasswordNotification;
-
 //use Illuminate\Auth\Notifications\ResetPassword;
 //use Illuminate\Foundation\Auth\ResetsPasswords;
 //use Hash;
@@ -184,47 +178,4 @@ class AuthController extends Controller
         //return redirect('login');
     }
 
-    public function sendPasswordResetLink(Request $request)
-    {
-        //валидация email
-        //генерируем код
-        $this->validate($request, [
-            'email' => 'required|email',
-        ]);
-        $user = User::whereEmail(request('email'))->first();
-        if (!$user) {
-            return response()->json([
-                'message' => "Учетной записи не найденно.",
-                'status' => 422
-            ], 422);
-        } else {
-            //$resetPass=$user->passReset();
-            if (!$resetPass = $user->passReset) {
-                $resetPass = new PasswordReset();
-            }
-            $code = Helper::generatePIN(8);
-            $resetPass->email = request('email');
-            $resetPass->token = str_random(30);
-            $resetPass->created_at = Carbon::now();
-            $resetPass->code = $code;
-            $resetPass->save();
-            $user->notify(new EmailResetPasswordNotification($code));
-
-            return response()->json([
-                'message' => "На вашу почту отправленно письмо с кодом поддверждения. Введите код",
-                'status' => 200
-            ], 200);
-        }
-    }
-    protected function sendResetLinkResponse(Request $request, $response)
-    {
-        return response()->json([
-            'message' => 'На почту  было отправленно письмо  с дальнейшими инструкциями по смене пароля.',
-            'data' => $response
-        ]);
-    }
-    protected function sendResetLinkFailedResponse(Request $request, $response)
-    {
-        return response()->json(['message' => 'Не удалось отправить электронное письмо на этот адрес электронной почты.'], 422);
-    }
 }
