@@ -56,8 +56,12 @@ class ResetPasswordController extends Controller
             ], 200);
         }
     }
-    public function checkCodeResetPassword()
+    public function checkCodeResetPassword(Request $request)
     {
+        $this->validate($request, [
+            'email' => 'required|email',
+            'code'=>'required|int'
+        ]);
         $passReset = PasswordReset::where('email', '=', request('email'))->first();
         if ($passReset) {
             if (\Hash::check(request('code'), $passReset->code)) {
@@ -80,13 +84,20 @@ class ResetPasswordController extends Controller
 
     public function callResetPassword(Request $request)
     {
-        //@todo дотестировать
-        $passReset = PasswordReset::whereEmail($request->email);
+        $this->validate($request, [
+            'email' => 'required|email',
+            'token'=>'required'
+        ]);
+        $passReset = PasswordReset::whereEmail($request->email)->first();
         if ($passReset) {
+            //dd($passReset);
             if (\Hash::check($request->token, $passReset->token)) {
-                $user = $passReset->user();
+                $user = $passReset->user;
                 $user->password = bcrypt($request->password);
+                //@todo not save password test
+                //dd($user);
                 $user->save();
+                $passReset->delete();
                 return response()->json([
                     'message' => 'Password change.',
                     'status' => 200

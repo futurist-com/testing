@@ -20,9 +20,7 @@ use App\Mail\UserRegistred;
 class AuthController extends Controller
 {
     //
-    use SendsPasswordResetEmails;
-    //use ResetsPasswords;
-
+    
     public function register(UserStoreRequest $request)
     {
         $validate = $request->validated();

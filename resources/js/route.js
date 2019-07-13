@@ -39,7 +39,7 @@ let routes = [
     },
     {
         path: '/register/forget-password',
-        component: forgetPass,
+        component: resetPassword,
         name: 'forgetPassword'
     },
     {
