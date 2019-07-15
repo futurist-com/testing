@@ -1,7 +1,36 @@
 <template>
   <v-app id="inspire">
-    <v-content>
+        <v-layout align-top justify-center>
+        <v-flex xs12 sm8 md4>
+        <v-snackbar
+      v-model="shackbarSuccess"
+      :color="success"
+      :multi-line="'multi-line'"
+      :timeout="5000"
+      :vertical="'vertical'"
+    >{{message}}</v-snackbar>
+    <v-snackbar
+      v-model="shackbarError"
+      :color="error"
+      :multi-line="'multi-line'"
+      :timeout="5000"
+      :vertical="'vertical'"
+    >{{errorMes}}</v-snackbar>
+        <v-alert
+      :value="errorMes"
+      color="error">
+      {{errorMes}}
+    </v-alert>
+    <v-alert
+      :value="message"
+      color="success">
+      {{message}}
+    </v-alert>
+        </v-flex>
+      
+    </v-layout>
       <v-container fluid fill-height>
+        
         <v-layout align-center justify-center>
           <!--step 1-->
           <v-flex xs12 sm8 md4>
@@ -27,12 +56,7 @@
                       required
                     ></v-text-field>
                   </v-form>
-                  <transition name="slide-fade">
-                    <div class="error-messages red--text mx-4" v-if="errorShow">
-                      <span>{{errorMes}}</span>
-                    </div>
-                  </transition>
-                </v-card-text>
+                  </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn v-on:click="forgetPass" color="primary" :disabled="!valid">Сменить пароль</v-btn>
@@ -129,6 +153,8 @@ export default {
       valid: true,
       repassword: null,
       registSuccess: false,
+      shackbarSuccess:false,
+      shackbarError:false,
       emailRules: [
         v => !!v || "Поле не может быть пустым",
         v => /.+@.+/.test(v) || "Не подходит под формат e-mail."
@@ -155,16 +181,15 @@ export default {
         axios
           .post("/api/reset-password", { email: this.email })
           .then(resp => {
-            //console.log(resp.data.token);
+            this.shackbarSuccess=true;
+            this.shackbarError=false;
             this.message = resp.data.message;
             this.step=2;
           })
           .catch(({ response }) => {
             console.log(response);
-            //if (resp.response.status==401){
-            //({response}) => {
-            // alert(response.data.message);
-            //this.errorMes="Пара email и пароль не совпали. Проверьте правильность введёного email и пароля!!!";
+             this.shackbarSuccess=false;
+            this.shackbarError=true;
             this.errorMes = response.data.message;
             this.errorShow = true;
             //}
@@ -177,12 +202,15 @@ export default {
           .post("/api/reset/check-code-password", { email: this.email,
               code:this.code})
           .then(resp => {
-            //this.message = resp.data.message;
+            this.shackbarSuccess=true;
+            this.message = resp.data.message;
             this.token=resp.data.token;
             this.step=3;
           })
           .catch(({ response }) => {
             console.log(response);
+             this.shackbarSuccess =false;
+             this.shackbarError=true,
             this.errorMes = response.data.message;
             this.errorShow = true;
             //}

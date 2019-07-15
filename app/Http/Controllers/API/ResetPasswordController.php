@@ -51,8 +51,8 @@ class ResetPasswordController extends Controller
             $user->notify(new EmailResetPasswordNotification($code));
 
             return response()->json([
-                'message' => "На вашу почту отправленно письмо с кодом поддверждения. Введите код",
-                'status' => 200
+                'message' => "На вашу почту отправленно письмо с кодом подтверждения. Введите код.",
+                 'status' => 200
             ], 200);
         }
     }
@@ -69,7 +69,7 @@ class ResetPasswordController extends Controller
                 $passReset->token = bcrypt($token);
                 $passReset->save();
                 return response()->json([
-                    'message' => 'IsCode true.',
+                    'message' => 'Код подтвержден. Введите новый пароль.',
                     'token' => $token,
                     'status' => 200
                 ], 200);
@@ -105,7 +105,7 @@ class ResetPasswordController extends Controller
             }
         }
         return response()->json([
-            'message' => 'Запроса на изменения пароля нет. Проверьте почту.',
+            'message' => 'Запрос на изменения пароля не верен.  Обратитесь в службу поддержки.',
             'status' => 422
         ], 422);
     }
