@@ -52,7 +52,9 @@ class ResetPasswordController extends Controller
 
             return response()->json([
                 'message' => "На вашу почту отправленно письмо с кодом подтверждения. Введите код.",
-                 'status' => 200
+                 'status' => 200,
+                 'code'=>$code
+
             ], 200);
         }
     }
@@ -60,7 +62,7 @@ class ResetPasswordController extends Controller
     {
         $this->validate($request, [
             'email' => 'required|email',
-            'code'=>'required|int'
+            'code'=>'required'
         ]);
         $passReset = PasswordReset::where('email', '=', request('email'))->first();
         if ($passReset) {
@@ -99,7 +101,7 @@ class ResetPasswordController extends Controller
                 $user->save();
                 $passReset->delete();
                 return response()->json([
-                    'message' => 'Password change.',
+                    'message' => 'Пароль изменнен.',
                     'status' => 200
                 ], 200);
             }

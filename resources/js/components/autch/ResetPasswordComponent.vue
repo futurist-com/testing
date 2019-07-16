@@ -3,29 +3,11 @@
         <v-layout align-top justify-center>
         <v-flex xs12 sm8 md4>
         <v-snackbar
-      v-model="shackbarSuccess"
-      :color="success"
-      :multi-line="'multi-line'"
-      :timeout="5000"
-      :vertical="'vertical'"
-    >{{message}}</v-snackbar>
-    <v-snackbar
-      v-model="shackbarError"
-      :color="error"
-      :multi-line="'multi-line'"
-      :timeout="5000"
-      :vertical="'vertical'"
-    >{{errorMes}}</v-snackbar>
-        <v-alert
-      :value="errorMes"
-      color="error">
-      {{errorMes}}
-    </v-alert>
-    <v-alert
-      :value="message"
-      color="success">
-      {{message}}
-    </v-alert>
+          v-model="shackbar"
+          :color="colorShackbar"
+          :timeout="5000"
+          :top="true"
+        >{{message}}</v-snackbar>
         </v-flex>
       
     </v-layout>
@@ -86,12 +68,7 @@
                       required
                     ></v-text-field>
                   </v-form>
-                  <transition name="slide-fade">
-                    <div class="error-messages red--text mx-4" v-if="errorShow">
-                      <span>{{errorMes}}</span>
-                    </div>
-                  </transition>
-                </v-card-text>
+                  </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn v-on:click="codeCheck" color="primary" :disabled="!valid">Отправить код</v-btn>
@@ -153,8 +130,8 @@ export default {
       valid: true,
       repassword: null,
       registSuccess: false,
-      shackbarSuccess:false,
-      shackbarError:false,
+      shackbar:false,
+      colorShackbar:"",
       emailRules: [
         v => !!v || "Поле не может быть пустым",
         v => /.+@.+/.test(v) || "Не подходит под формат e-mail."
@@ -171,7 +148,6 @@ export default {
       reCode: [
         v => !!v || "Поле не может быть пустым",
       ], 
-      errorMes:'',
       message:'',
     };
   },
@@ -181,19 +157,18 @@ export default {
         axios
           .post("/api/reset-password", { email: this.email })
           .then(resp => {
-            this.shackbarSuccess=true;
-            this.shackbarError=false;
-            this.message = resp.data.message;
+            this.colorShackbar="success";
+            //@todo убрать код this.message = resp.data.message+' '+resp.data.code;
+             this.message = resp.data.message+' '+resp.data.code;
+            this.shackbar=true;
             this.step=2;
           })
           .catch(({ response }) => {
             console.log(response);
-             this.shackbarSuccess=false;
-            this.shackbarError=true;
-            this.errorMes = response.data.message;
-            this.errorShow = true;
-            //}
-          });
+            this.colorShackbar='error';
+            this.shackbar=true;
+            this.message = response.data.message;
+         });
       }
     },
     codeCheck: function() {
@@ -202,17 +177,16 @@ export default {
           .post("/api/reset/check-code-password", { email: this.email,
               code:this.code})
           .then(resp => {
-            this.shackbarSuccess=true;
-            this.message = resp.data.message;
             this.token=resp.data.token;
+            this.colorShackbar="success";
+             this.message = resp.data.message;
+            this.shackbar=true;
             this.step=3;
           })
           .catch(({ response }) => {
-            console.log(response);
-             this.shackbarSuccess =false;
-             this.shackbarError=true,
-            this.errorMes = response.data.message;
-            this.errorShow = true;
+            this.colorShackbar='error';
+            this.shackbar=true;
+            this.message = response.data.message;
             //}
           });
       }
@@ -225,12 +199,16 @@ export default {
               password:this.password})
           .then(resp => {
             //this.message = resp.data.message;
+              this.colorShackbar="success";
+             this.message = resp.data.message;
+            this.shackbar=true;
               this.$router.push("/login");
             })
           .catch(({ response }) => {
-            console.log(response);
-            this.errorMes = response.data.message;
-            this.errorShow = true;
+            console.log(this.token);
+            this.colorShackbar='error';
+            this.shackbar=true;
+            this.message = response.data.message;
             //}
           });
       }

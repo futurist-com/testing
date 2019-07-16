@@ -2470,29 +2470,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //import { truncateSync } from 'fs';
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2505,8 +2482,8 @@ __webpack_require__.r(__webpack_exports__);
       valid: true,
       repassword: null,
       registSuccess: false,
-      shackbarSuccess: false,
-      shackbarError: false,
+      shackbar: false,
+      colorShackbar: "",
       emailRules: [function (v) {
         return !!v || "Поле не может быть пустым";
       }, function (v) {
@@ -2527,7 +2504,6 @@ __webpack_require__.r(__webpack_exports__);
       reCode: [function (v) {
         return !!v || "Поле не может быть пустым";
       }],
-      errorMes: '',
       message: ''
     };
   },
@@ -2539,17 +2515,17 @@ __webpack_require__.r(__webpack_exports__);
         axios.post("/api/reset-password", {
           email: this.email
         }).then(function (resp) {
-          _this2.shackbarSuccess = true;
-          _this2.shackbarError = false;
-          _this2.message = resp.data.message;
+          _this2.colorShackbar = "success"; //@todo убрать код this.message = resp.data.message+' '+resp.data.code;
+
+          _this2.message = resp.data.message + ' ' + resp.data.code;
+          _this2.shackbar = true;
           _this2.step = 2;
         })["catch"](function (_ref) {
           var response = _ref.response;
           console.log(response);
-          _this2.shackbarSuccess = false;
-          _this2.shackbarError = true;
-          _this2.errorMes = response.data.message;
-          _this2.errorShow = true; //}
+          _this2.colorShackbar = 'error';
+          _this2.shackbar = true;
+          _this2.message = response.data.message;
         });
       }
     },
@@ -2561,16 +2537,16 @@ __webpack_require__.r(__webpack_exports__);
           email: this.email,
           code: this.code
         }).then(function (resp) {
-          _this3.shackbarSuccess = true;
-          _this3.message = resp.data.message;
           _this3.token = resp.data.token;
+          _this3.colorShackbar = "success";
+          _this3.message = resp.data.message;
+          _this3.shackbar = true;
           _this3.step = 3;
         })["catch"](function (_ref2) {
           var response = _ref2.response;
-          console.log(response);
-          _this3.shackbarSuccess = false;
-          _this3.shackbarError = true, _this3.errorMes = response.data.message;
-          _this3.errorShow = true; //}
+          _this3.colorShackbar = 'error';
+          _this3.shackbar = true;
+          _this3.message = response.data.message; //}
         });
       }
     },
@@ -2584,12 +2560,17 @@ __webpack_require__.r(__webpack_exports__);
           password: this.password
         }).then(function (resp) {
           //this.message = resp.data.message;
+          _this4.colorShackbar = "success";
+          _this4.message = resp.data.message;
+          _this4.shackbar = true;
+
           _this4.$router.push("/login");
         })["catch"](function (_ref3) {
           var response = _ref3.response;
-          console.log(response);
-          _this4.errorMes = response.data.message;
-          _this4.errorShow = true; //}
+          console.log(_this4.token);
+          _this4.colorShackbar = 'error';
+          _this4.shackbar = true;
+          _this4.message = response.data.message; //}
         });
       }
     }
@@ -47841,53 +47822,16 @@ var render = function() {
               _c(
                 "v-snackbar",
                 {
-                  attrs: {
-                    color: _vm.success,
-                    "multi-line": "multi-line",
-                    timeout: 5000,
-                    vertical: "vertical"
-                  },
+                  attrs: { color: _vm.colorShackbar, timeout: 5000, top: true },
                   model: {
-                    value: _vm.shackbarSuccess,
+                    value: _vm.shackbar,
                     callback: function($$v) {
-                      _vm.shackbarSuccess = $$v
+                      _vm.shackbar = $$v
                     },
-                    expression: "shackbarSuccess"
+                    expression: "shackbar"
                   }
                 },
                 [_vm._v(_vm._s(_vm.message))]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-snackbar",
-                {
-                  attrs: {
-                    color: _vm.error,
-                    "multi-line": "multi-line",
-                    timeout: 5000,
-                    vertical: "vertical"
-                  },
-                  model: {
-                    value: _vm.shackbarError,
-                    callback: function($$v) {
-                      _vm.shackbarError = $$v
-                    },
-                    expression: "shackbarError"
-                  }
-                },
-                [_vm._v(_vm._s(_vm.errorMes))]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-alert",
-                { attrs: { value: _vm.errorMes, color: "error" } },
-                [_vm._v("\n    " + _vm._s(_vm.errorMes) + "\n  ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-alert",
-                { attrs: { value: _vm.message, color: "success" } },
-                [_vm._v("\n    " + _vm._s(_vm.message) + "\n  ")]
               )
             ],
             1
@@ -48076,27 +48020,6 @@ var render = function() {
                                     })
                                   ],
                                   1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "transition",
-                                  { attrs: { name: "slide-fade" } },
-                                  [
-                                    _vm.errorShow
-                                      ? _c(
-                                          "div",
-                                          {
-                                            staticClass:
-                                              "error-messages red--text mx-4"
-                                          },
-                                          [
-                                            _c("span", [
-                                              _vm._v(_vm._s(_vm.errorMes))
-                                            ])
-                                          ]
-                                        )
-                                      : _vm._e()
-                                  ]
                                 )
                               ],
                               1
