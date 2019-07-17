@@ -1,18 +1,17 @@
 <template>
   <v-app id="inspire">
-        <v-layout align-top justify-center>
+    <v-content>
+      <v-layout align-top justify-center>
         <v-flex xs12 sm8 md4>
-        <v-snackbar
-          v-model="shackbar"
-          :color="colorShackbar"
-          :timeout="5000"
-          :top="true"
-        >{{message}}</v-snackbar>
+          <v-snackbar
+            v-model="shackbar"
+            :color="colorShackbar"
+            :timeout="5000"
+            :top="true"
+          >{{message}}</v-snackbar>
         </v-flex>
-      
-    </v-layout>
+      </v-layout>
       <v-container fluid fill-height>
-        
         <v-layout align-center justify-center>
           <!--step 1-->
           <v-flex xs12 sm8 md4>
@@ -21,11 +20,11 @@
                 <v-toolbar dark color="primary">
                   <v-toolbar-title>Восстановление пароля</v-toolbar-title>
                   <v-spacer></v-spacer>
-                <v-tooltip bottom>
-                  <v-icon large>code</v-icon>
-                  <span>Source</span>
-                </v-tooltip>
-              </v-toolbar>
+                  <v-tooltip bottom>
+                    <v-icon large>code</v-icon>
+                    <span>Source</span>
+                  </v-tooltip>
+                </v-toolbar>
                 <v-card-text>
                   <v-form v-model="valid" ref="form" lazy-validation>
                     <v-text-field
@@ -38,25 +37,25 @@
                       required
                     ></v-text-field>
                   </v-form>
-                  </v-card-text>
+                </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn v-on:click="forgetPass" color="primary" :disabled="!valid">Сменить пароль</v-btn>
                 </v-card-actions>
-               </v-card>
-          </div>
-          
-          <!--step 2-->
-          <div v-if="step==2">
-            <v-card class="elevation-12">
-              <v-toolbar dark color="primary">
-                <v-toolbar-title>Подтверждение проверочного  кода</v-toolbar-title>
-                <v-spacer></v-spacer>
-                <v-tooltip bottom>
-                  <v-icon large>code</v-icon>
-                  <span>Source</span>
-                </v-tooltip>
-              </v-toolbar>
+              </v-card>
+            </div>
+
+            <!--step 2-->
+            <div v-if="step==2">
+              <v-card class="elevation-12">
+                <v-toolbar dark color="primary">
+                  <v-toolbar-title>Подтверждение проверочного кода</v-toolbar-title>
+                  <v-spacer></v-spacer>
+                  <v-tooltip bottom>
+                    <v-icon large>code</v-icon>
+                    <span>Source</span>
+                  </v-tooltip>
+                </v-toolbar>
                 <v-card-text>
                   <v-form v-model="valid" ref="form" lazy-validation>
                     <v-text-field
@@ -66,26 +65,26 @@
                       type="text"
                       v-model="code"
                       required
+                      :rules="reCode"
                     ></v-text-field>
                   </v-form>
-                  </v-card-text>
+                </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn v-on:click="codeCheck" color="primary" :disabled="!valid">Отправить код</v-btn>
                 </v-card-actions>
               </v-card>
-          </div>
-          <!--step 3-->
-          <div v-if="step==3">
-            <v-card class="elevation-12">
-              <v-toolbar dark color="primary">
-                <v-toolbar-title>Смена Пароля</v-toolbar-title>
-                <v-spacer>
-                  </v-spacer>
-              </v-toolbar>
+            </div>
+            <!--step 3-->
+            <div v-if="step==3">
+              <v-card class="elevation-12">
+                <v-toolbar dark color="primary">
+                  <v-toolbar-title>Смена Пароля</v-toolbar-title>
+                  <v-spacer></v-spacer>
+                </v-toolbar>
                 <v-card-text>
-                    <v-form v-model="valid" ref="form" lazy-validation>
-                     <v-text-field
+                  <v-form v-model="valid" ref="form" lazy-validation>
+                    <v-text-field
                       prepend-icon="lock"
                       name="password"
                       label="Новый пароль"
@@ -107,11 +106,14 @@
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="primary" v-on:click="resetPassword" :disabled="!valid">Сменить пароль</v-btn>
+                  <v-btn
+                    color="primary"
+                    v-on:click="resetPassword"
+                    :disabled="!valid"
+                  >Сменить пароль</v-btn>
                 </v-card-actions>
-            </v-card>
-            
-          </div>
+              </v-card>
+            </div>
           </v-flex>
         </v-layout>
       </v-container>
@@ -124,14 +126,14 @@
 export default {
   data: function() {
     return {
-      step:1,
-      email:'',
-      password:null,
+      step: 1,
+      email: "",
+      password: null,
       valid: true,
       repassword: null,
       registSuccess: false,
-      shackbar:false,
-      colorShackbar:"",
+      shackbar: false,
+      colorShackbar: "",
       emailRules: [
         v => !!v || "Поле не может быть пустым",
         v => /.+@.+/.test(v) || "Не подходит под формат e-mail."
@@ -145,10 +147,8 @@ export default {
         v => (v && v.length >= 3) || "Пароль не меньше 3 символов.",
         v => v == this.password || "Введенные пароли не совпадают."
       ],
-      reCode: [
-        v => !!v || "Поле не может быть пустым",
-      ], 
-      message:'',
+      reCode: [v => !!v || "Поле не может быть пустым"],
+      message: ""
     };
   },
   methods: {
@@ -157,36 +157,29 @@ export default {
         axios
           .post("/api/reset-password", { email: this.email })
           .then(resp => {
-            this.colorShackbar="success";
-            //@todo убрать код this.message = resp.data.message+' '+resp.data.code;
-             this.message = resp.data.message+' '+resp.data.code;
-            this.shackbar=true;
-            this.step=2;
+            this.shackbarRun(resp.data.message, "success");
+            this.step = 2;
           })
           .catch(({ response }) => {
-            console.log(response);
-            this.colorShackbar='error';
-            this.shackbar=true;
-            this.message = response.data.message;
-         });
+            this.shackbarRun(response.data.message, "error");
+            
+          });
       }
     },
     codeCheck: function() {
       if (this.$refs.form.validate()) {
         axios
-          .post("/api/reset/check-code-password", { email: this.email,
-              code:this.code})
+          .post("/api/reset/check-code-password", {
+            email: this.email,
+            code: this.code
+          })
           .then(resp => {
-            this.token=resp.data.token;
-            this.colorShackbar="success";
-             this.message = resp.data.message;
-            this.shackbar=true;
-            this.step=3;
+            this.token = resp.data.token;
+            this.shackbarRun(resp.data.message, "success");
+            this.step = 3;
           })
           .catch(({ response }) => {
-            this.colorShackbar='error';
-            this.shackbar=true;
-            this.message = response.data.message;
+            this.shackbarRun(response.data.message, "error");
             //}
           });
       }
@@ -194,30 +187,31 @@ export default {
     resetPassword: function() {
       if (this.$refs.form.validate()) {
         axios
-          .post("/api/reset/password", { email: this.email,
-              token:this.token,
-              password:this.password})
+          .post("/api/reset/password", {
+            email: this.email,
+            token: this.token,
+            password: this.password
+          })
           .then(resp => {
             //this.message = resp.data.message;
-              this.colorShackbar="success";
-             this.message = resp.data.message;
-            this.shackbar=true;
-              this.$router.push("/login");
-            })
+            this.shackbarRun(resp.data.message, "success");
+            this.$router.push("/login");
+          })
           .catch(({ response }) => {
-            console.log(this.token);
-            this.colorShackbar='error';
-            this.shackbar=true;
-            this.message = response.data.message;
-            //}
+            this.shackbarRun(response.data.message, "error");
+          
           });
       }
     },
-
+    shackbarRun:function(message, color){
+            this.colorShackbar = color;
+            this.shackbar = true;
+            this.message = message;
+    }
   },
-  mounted:function(){
-     // 
-     console.log(this.step);
+  mounted: function() {
+    //
+    console.log(this.step);
   }
 };
 </script>

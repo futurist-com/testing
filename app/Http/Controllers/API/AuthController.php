@@ -10,17 +10,9 @@ use App\Http\Requests\UserStoreRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\UserRegistred;
-//use Illuminate\Auth\Notifications\ResetPassword;
-//use Illuminate\Foundation\Auth\ResetsPasswords;
-//use Hash;
-
-//use Illuminate\Auth\Events\PasswordReset;
-//use Illuminate\Auth\Passwords\CanResetPassword;
 
 class AuthController extends Controller
 {
-    //
-    
     public function register(UserStoreRequest $request)
     {
         $validate = $request->validated();
@@ -170,10 +162,5 @@ class AuthController extends Controller
                 'status' => 422
             ], 422);
         }
-
-        //$request->session()->flash('message', 'Учетная запись подтверждена. Войдите под своим именем.');
-
-        //return redirect('login');
     }
-
 }

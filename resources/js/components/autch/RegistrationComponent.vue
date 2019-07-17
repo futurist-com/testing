@@ -5,18 +5,18 @@
         <v-layout align-center justify-center>
           <v-flex xs12 sm8 md4>
             <v-card class="elevation-12">
-              <v-toolbar dar
-              k color="primary">
+              <v-toolbar dar k color="primary">
                 <v-toolbar-title>Регистрация</v-toolbar-title>
                 <v-spacer></v-spacer>
               </v-toolbar>
-                  
+
               <div v-if="registSuccess">
-                <v-card class="pa-2">Спасибо за регистрацию. 
+                <v-card class="pa-2">
+                  Спасибо за регистрацию.
                   На вашу почту отправленно письмо с подтверждением адреса почтового ящика.
-                  Для завершения регистрации  перейдите по ссылке в отправленном вам письме.
-                <br>
-                <router-link to="/">Перейти на главную </router-link>
+                  Для завершения регистрации перейдите по ссылке в отправленном вам письме.
+                  <br />
+                  <router-link to="/">Перейти на главную</router-link>
                 </v-card>
               </div>
               <div v-else>

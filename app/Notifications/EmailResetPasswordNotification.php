@@ -16,12 +16,12 @@ class EmailResetPasswordNotification extends Notification
      *
      * @return void
      */
-    protected $token;
+    protected $code;
 
-    public function __construct($token)
+    public function __construct($code)
     {
         //
-        $this->token=$token;
+        $this->code=$code;
     }
 
     /**
@@ -43,13 +43,13 @@ class EmailResetPasswordNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        $link = url("/#/register/reset-password/" . $this->token);
+        $link = url("/#/register/reset-password/" . $this->code);
         return (new MailMessage)
-            ->subject('Ввостановление пароля ')
-            ->line("Hello! You are receiving this email because we received a password reset request for your account.")
-            ->action('Reset Password', $this->token)
-            ->line("This password reset link will expire in " . config('auth.passwords.users.expire') . " minutes")
-            ->line("If you did not request a password reset, no further action is required.");
+            ->subject('Восстановление пароля')
+            ->line("
+            Здравствуйте! Вы получили это письмо, потому что мы получили запрос на сброс пароля для вашей учетной записи.")
+            ->action('Код подтверждения для смены пароля', $this->code)
+            ->line("Если вы не запрашивали сброс пароля, никаких дальнейших действий не предпринимайте.");
     }
 
     /**

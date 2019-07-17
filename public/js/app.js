@@ -2470,6 +2470,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 //import { truncateSync } from 'fs';
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2477,7 +2479,7 @@ __webpack_require__.r(__webpack_exports__);
 
     return {
       step: 1,
-      email: '',
+      email: "",
       password: null,
       valid: true,
       repassword: null,
@@ -2504,7 +2506,7 @@ __webpack_require__.r(__webpack_exports__);
       reCode: [function (v) {
         return !!v || "Поле не может быть пустым";
       }],
-      message: ''
+      message: ""
     };
   },
   methods: {
@@ -2515,17 +2517,13 @@ __webpack_require__.r(__webpack_exports__);
         axios.post("/api/reset-password", {
           email: this.email
         }).then(function (resp) {
-          _this2.colorShackbar = "success"; //@todo убрать код this.message = resp.data.message+' '+resp.data.code;
+          _this2.shackbarRun(resp.data.message, "success");
 
-          _this2.message = resp.data.message + ' ' + resp.data.code;
-          _this2.shackbar = true;
           _this2.step = 2;
         })["catch"](function (_ref) {
           var response = _ref.response;
-          console.log(response);
-          _this2.colorShackbar = 'error';
-          _this2.shackbar = true;
-          _this2.message = response.data.message;
+
+          _this2.shackbarRun(response.data.message, "error");
         });
       }
     },
@@ -2538,15 +2536,15 @@ __webpack_require__.r(__webpack_exports__);
           code: this.code
         }).then(function (resp) {
           _this3.token = resp.data.token;
-          _this3.colorShackbar = "success";
-          _this3.message = resp.data.message;
-          _this3.shackbar = true;
+
+          _this3.shackbarRun(resp.data.message, "success");
+
           _this3.step = 3;
         })["catch"](function (_ref2) {
           var response = _ref2.response;
-          _this3.colorShackbar = 'error';
-          _this3.shackbar = true;
-          _this3.message = response.data.message; //}
+
+          _this3.shackbarRun(response.data.message, "error"); //}
+
         });
       }
     },
@@ -2560,23 +2558,24 @@ __webpack_require__.r(__webpack_exports__);
           password: this.password
         }).then(function (resp) {
           //this.message = resp.data.message;
-          _this4.colorShackbar = "success";
-          _this4.message = resp.data.message;
-          _this4.shackbar = true;
+          _this4.shackbarRun(resp.data.message, "success");
 
           _this4.$router.push("/login");
         })["catch"](function (_ref3) {
           var response = _ref3.response;
-          console.log(_this4.token);
-          _this4.colorShackbar = 'error';
-          _this4.shackbar = true;
-          _this4.message = response.data.message; //}
+
+          _this4.shackbarRun(response.data.message, "error");
         });
       }
+    },
+    shackbarRun: function shackbarRun(message, color) {
+      this.colorShackbar = color;
+      this.shackbar = true;
+      this.message = message;
     }
   },
   mounted: function mounted() {
-    // 
+    //
     console.log(this.step);
   }
 });
@@ -47628,14 +47627,14 @@ var render = function() {
                                     { staticClass: "pa-2" },
                                     [
                                       _vm._v(
-                                        "Спасибо за регистрацию. \n                На вашу почту отправленно письмо с подтверждением адреса почтового ящика.\n                Для завершения регистрации  перейдите по ссылке в отправленном вам письме.\n              "
+                                        "\n                Спасибо за регистрацию.\n                На вашу почту отправленно письмо с подтверждением адреса почтового ящика.\n                Для завершения регистрации перейдите по ссылке в отправленном вам письме.\n                "
                                       ),
                                       _c("br"),
                                       _vm._v(" "),
                                       _c(
                                         "router-link",
                                         { attrs: { to: "/" } },
-                                        [_vm._v("Перейти на главную ")]
+                                        [_vm._v("Перейти на главную")]
                                       )
                                     ],
                                     1
@@ -47812,133 +47811,143 @@ var render = function() {
     { attrs: { id: "inspire" } },
     [
       _c(
-        "v-layout",
-        { attrs: { "align-top": "", "justify-center": "" } },
-        [
-          _c(
-            "v-flex",
-            { attrs: { xs12: "", sm8: "", md4: "" } },
-            [
-              _c(
-                "v-snackbar",
-                {
-                  attrs: { color: _vm.colorShackbar, timeout: 5000, top: true },
-                  model: {
-                    value: _vm.shackbar,
-                    callback: function($$v) {
-                      _vm.shackbar = $$v
-                    },
-                    expression: "shackbar"
-                  }
-                },
-                [_vm._v(_vm._s(_vm.message))]
-              )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-container",
-        { attrs: { fluid: "", "fill-height": "" } },
+        "v-content",
         [
           _c(
             "v-layout",
-            { attrs: { "align-center": "", "justify-center": "" } },
+            { attrs: { "align-top": "", "justify-center": "" } },
             [
-              _c("v-flex", { attrs: { xs12: "", sm8: "", md4: "" } }, [
-                _vm.step == 1
-                  ? _c(
-                      "div",
-                      [
-                        _c(
-                          "v-card",
-                          { staticClass: "elevation-12" },
+              _c(
+                "v-flex",
+                { attrs: { xs12: "", sm8: "", md4: "" } },
+                [
+                  _c(
+                    "v-snackbar",
+                    {
+                      attrs: {
+                        color: _vm.colorShackbar,
+                        timeout: 5000,
+                        top: true
+                      },
+                      model: {
+                        value: _vm.shackbar,
+                        callback: function($$v) {
+                          _vm.shackbar = $$v
+                        },
+                        expression: "shackbar"
+                      }
+                    },
+                    [_vm._v(_vm._s(_vm.message))]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-container",
+            { attrs: { fluid: "", "fill-height": "" } },
+            [
+              _c(
+                "v-layout",
+                { attrs: { "align-center": "", "justify-center": "" } },
+                [
+                  _c("v-flex", { attrs: { xs12: "", sm8: "", md4: "" } }, [
+                    _vm.step == 1
+                      ? _c(
+                          "div",
                           [
                             _c(
-                              "v-toolbar",
-                              { attrs: { dark: "", color: "primary" } },
+                              "v-card",
+                              { staticClass: "elevation-12" },
                               [
-                                _c("v-toolbar-title", [
-                                  _vm._v("Восстановление пароля")
-                                ]),
-                                _vm._v(" "),
-                                _c("v-spacer"),
-                                _vm._v(" "),
                                 _c(
-                                  "v-tooltip",
-                                  { attrs: { bottom: "" } },
+                                  "v-toolbar",
+                                  { attrs: { dark: "", color: "primary" } },
                                   [
-                                    _c("v-icon", { attrs: { large: "" } }, [
-                                      _vm._v("code")
+                                    _c("v-toolbar-title", [
+                                      _vm._v("Восстановление пароля")
                                     ]),
                                     _vm._v(" "),
-                                    _c("span", [_vm._v("Source")])
+                                    _c("v-spacer"),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-tooltip",
+                                      { attrs: { bottom: "" } },
+                                      [
+                                        _c("v-icon", { attrs: { large: "" } }, [
+                                          _vm._v("code")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("span", [_vm._v("Source")])
+                                      ],
+                                      1
+                                    )
                                   ],
                                   1
-                                )
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "v-card-text",
-                              [
-                                _c(
-                                  "v-form",
-                                  {
-                                    ref: "form",
-                                    attrs: { "lazy-validation": "" },
-                                    model: {
-                                      value: _vm.valid,
-                                      callback: function($$v) {
-                                        _vm.valid = $$v
-                                      },
-                                      expression: "valid"
-                                    }
-                                  },
-                                  [
-                                    _c("v-text-field", {
-                                      attrs: {
-                                        "prepend-icon": "person",
-                                        name: "email",
-                                        label: "email",
-                                        type: "text",
-                                        rules: _vm.emailRules,
-                                        required: ""
-                                      },
-                                      model: {
-                                        value: _vm.email,
-                                        callback: function($$v) {
-                                          _vm.email = $$v
-                                        },
-                                        expression: "email"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "v-card-actions",
-                              [
-                                _c("v-spacer"),
+                                ),
                                 _vm._v(" "),
                                 _c(
-                                  "v-btn",
-                                  {
-                                    attrs: {
-                                      color: "primary",
-                                      disabled: !_vm.valid
-                                    },
-                                    on: { click: _vm.forgetPass }
-                                  },
-                                  [_vm._v("Сменить пароль")]
+                                  "v-card-text",
+                                  [
+                                    _c(
+                                      "v-form",
+                                      {
+                                        ref: "form",
+                                        attrs: { "lazy-validation": "" },
+                                        model: {
+                                          value: _vm.valid,
+                                          callback: function($$v) {
+                                            _vm.valid = $$v
+                                          },
+                                          expression: "valid"
+                                        }
+                                      },
+                                      [
+                                        _c("v-text-field", {
+                                          attrs: {
+                                            "prepend-icon": "person",
+                                            name: "email",
+                                            label: "email",
+                                            type: "text",
+                                            rules: _vm.emailRules,
+                                            required: ""
+                                          },
+                                          model: {
+                                            value: _vm.email,
+                                            callback: function($$v) {
+                                              _vm.email = $$v
+                                            },
+                                            expression: "email"
+                                          }
+                                        })
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-card-actions",
+                                  [
+                                    _c("v-spacer"),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-btn",
+                                      {
+                                        attrs: {
+                                          color: "primary",
+                                          disabled: !_vm.valid
+                                        },
+                                        on: { click: _vm.forgetPass }
+                                      },
+                                      [_vm._v("Сменить пароль")]
+                                    )
+                                  ],
+                                  1
                                 )
                               ],
                               1
@@ -47946,100 +47955,101 @@ var render = function() {
                           ],
                           1
                         )
-                      ],
-                      1
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.step == 2
-                  ? _c(
-                      "div",
-                      [
-                        _c(
-                          "v-card",
-                          { staticClass: "elevation-12" },
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.step == 2
+                      ? _c(
+                          "div",
                           [
                             _c(
-                              "v-toolbar",
-                              { attrs: { dark: "", color: "primary" } },
+                              "v-card",
+                              { staticClass: "elevation-12" },
                               [
-                                _c("v-toolbar-title", [
-                                  _vm._v("Подтверждение проверочного  кода")
-                                ]),
-                                _vm._v(" "),
-                                _c("v-spacer"),
-                                _vm._v(" "),
                                 _c(
-                                  "v-tooltip",
-                                  { attrs: { bottom: "" } },
+                                  "v-toolbar",
+                                  { attrs: { dark: "", color: "primary" } },
                                   [
-                                    _c("v-icon", { attrs: { large: "" } }, [
-                                      _vm._v("code")
+                                    _c("v-toolbar-title", [
+                                      _vm._v("Подтверждение проверочного кода")
                                     ]),
                                     _vm._v(" "),
-                                    _c("span", [_vm._v("Source")])
+                                    _c("v-spacer"),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-tooltip",
+                                      { attrs: { bottom: "" } },
+                                      [
+                                        _c("v-icon", { attrs: { large: "" } }, [
+                                          _vm._v("code")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("span", [_vm._v("Source")])
+                                      ],
+                                      1
+                                    )
                                   ],
                                   1
-                                )
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "v-card-text",
-                              [
-                                _c(
-                                  "v-form",
-                                  {
-                                    ref: "form",
-                                    attrs: { "lazy-validation": "" },
-                                    model: {
-                                      value: _vm.valid,
-                                      callback: function($$v) {
-                                        _vm.valid = $$v
-                                      },
-                                      expression: "valid"
-                                    }
-                                  },
-                                  [
-                                    _c("v-text-field", {
-                                      attrs: {
-                                        "prepend-icon": "person",
-                                        name: "code",
-                                        label: "Проверочный Код",
-                                        type: "text",
-                                        required: ""
-                                      },
-                                      model: {
-                                        value: _vm.code,
-                                        callback: function($$v) {
-                                          _vm.code = $$v
-                                        },
-                                        expression: "code"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "v-card-actions",
-                              [
-                                _c("v-spacer"),
+                                ),
                                 _vm._v(" "),
                                 _c(
-                                  "v-btn",
-                                  {
-                                    attrs: {
-                                      color: "primary",
-                                      disabled: !_vm.valid
-                                    },
-                                    on: { click: _vm.codeCheck }
-                                  },
-                                  [_vm._v("Отправить код")]
+                                  "v-card-text",
+                                  [
+                                    _c(
+                                      "v-form",
+                                      {
+                                        ref: "form",
+                                        attrs: { "lazy-validation": "" },
+                                        model: {
+                                          value: _vm.valid,
+                                          callback: function($$v) {
+                                            _vm.valid = $$v
+                                          },
+                                          expression: "valid"
+                                        }
+                                      },
+                                      [
+                                        _c("v-text-field", {
+                                          attrs: {
+                                            "prepend-icon": "person",
+                                            name: "code",
+                                            label: "Проверочный Код",
+                                            type: "text",
+                                            required: "",
+                                            rules: _vm.reCode
+                                          },
+                                          model: {
+                                            value: _vm.code,
+                                            callback: function($$v) {
+                                              _vm.code = $$v
+                                            },
+                                            expression: "code"
+                                          }
+                                        })
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-card-actions",
+                                  [
+                                    _c("v-spacer"),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-btn",
+                                      {
+                                        attrs: {
+                                          color: "primary",
+                                          disabled: !_vm.valid
+                                        },
+                                        on: { click: _vm.codeCheck }
+                                      },
+                                      [_vm._v("Отправить код")]
+                                    )
+                                  ],
+                                  1
                                 )
                               ],
                               1
@@ -48047,104 +48057,106 @@ var render = function() {
                           ],
                           1
                         )
-                      ],
-                      1
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.step == 3
-                  ? _c(
-                      "div",
-                      [
-                        _c(
-                          "v-card",
-                          { staticClass: "elevation-12" },
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.step == 3
+                      ? _c(
+                          "div",
                           [
                             _c(
-                              "v-toolbar",
-                              { attrs: { dark: "", color: "primary" } },
-                              [
-                                _c("v-toolbar-title", [_vm._v("Смена Пароля")]),
-                                _vm._v(" "),
-                                _c("v-spacer")
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "v-card-text",
+                              "v-card",
+                              { staticClass: "elevation-12" },
                               [
                                 _c(
-                                  "v-form",
-                                  {
-                                    ref: "form",
-                                    attrs: { "lazy-validation": "" },
-                                    model: {
-                                      value: _vm.valid,
-                                      callback: function($$v) {
-                                        _vm.valid = $$v
-                                      },
-                                      expression: "valid"
-                                    }
-                                  },
+                                  "v-toolbar",
+                                  { attrs: { dark: "", color: "primary" } },
                                   [
-                                    _c("v-text-field", {
-                                      attrs: {
-                                        "prepend-icon": "lock",
-                                        name: "password",
-                                        label: "Новый пароль",
-                                        id: "password",
-                                        type: "password",
-                                        rules: _vm.passRules
-                                      },
-                                      model: {
-                                        value: _vm.password,
-                                        callback: function($$v) {
-                                          _vm.password = $$v
-                                        },
-                                        expression: "password"
-                                      }
-                                    }),
+                                    _c("v-toolbar-title", [
+                                      _vm._v("Смена Пароля")
+                                    ]),
                                     _vm._v(" "),
-                                    _c("v-text-field", {
-                                      attrs: {
-                                        "prepend-icon": "lock",
-                                        name: "repassword",
-                                        label: "Повторите пароль",
-                                        id: "repassword",
-                                        type: "password",
-                                        rules: _vm.rePassRules
-                                      },
-                                      model: {
-                                        value: _vm.repassword,
-                                        callback: function($$v) {
-                                          _vm.repassword = $$v
-                                        },
-                                        expression: "repassword"
-                                      }
-                                    })
+                                    _c("v-spacer")
                                   ],
                                   1
-                                )
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "v-card-actions",
-                              [
-                                _c("v-spacer"),
+                                ),
                                 _vm._v(" "),
                                 _c(
-                                  "v-btn",
-                                  {
-                                    attrs: {
-                                      color: "primary",
-                                      disabled: !_vm.valid
-                                    },
-                                    on: { click: _vm.resetPassword }
-                                  },
-                                  [_vm._v("Сменить пароль")]
+                                  "v-card-text",
+                                  [
+                                    _c(
+                                      "v-form",
+                                      {
+                                        ref: "form",
+                                        attrs: { "lazy-validation": "" },
+                                        model: {
+                                          value: _vm.valid,
+                                          callback: function($$v) {
+                                            _vm.valid = $$v
+                                          },
+                                          expression: "valid"
+                                        }
+                                      },
+                                      [
+                                        _c("v-text-field", {
+                                          attrs: {
+                                            "prepend-icon": "lock",
+                                            name: "password",
+                                            label: "Новый пароль",
+                                            id: "password",
+                                            type: "password",
+                                            rules: _vm.passRules
+                                          },
+                                          model: {
+                                            value: _vm.password,
+                                            callback: function($$v) {
+                                              _vm.password = $$v
+                                            },
+                                            expression: "password"
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c("v-text-field", {
+                                          attrs: {
+                                            "prepend-icon": "lock",
+                                            name: "repassword",
+                                            label: "Повторите пароль",
+                                            id: "repassword",
+                                            type: "password",
+                                            rules: _vm.rePassRules
+                                          },
+                                          model: {
+                                            value: _vm.repassword,
+                                            callback: function($$v) {
+                                              _vm.repassword = $$v
+                                            },
+                                            expression: "repassword"
+                                          }
+                                        })
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-card-actions",
+                                  [
+                                    _c("v-spacer"),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-btn",
+                                      {
+                                        attrs: {
+                                          color: "primary",
+                                          disabled: !_vm.valid
+                                        },
+                                        on: { click: _vm.resetPassword }
+                                      },
+                                      [_vm._v("Сменить пароль")]
+                                    )
+                                  ],
+                                  1
                                 )
                               ],
                               1
@@ -48152,11 +48164,11 @@ var render = function() {
                           ],
                           1
                         )
-                      ],
-                      1
-                    )
-                  : _vm._e()
-              ])
+                      : _vm._e()
+                  ])
+                ],
+                1
+              )
             ],
             1
           )

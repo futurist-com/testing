@@ -7,25 +7,21 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\Model\PasswordReset;
 use Illuminate\Foundation\Auth\ResetsPasswords;
-//use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\library\Helpers\Helper;
 use Carbon\Carbon;
 use App\Notifications\EmailResetPasswordNotification;
 
-//use Illuminate\Support\Facades\Hash;
-//use phpseclib\Crypt\Hash;
-
 class ResetPasswordController extends Controller
 {
     //
     use ResetsPasswords;
-
-    /*public function callResetPassword(Request $request)
-    {
-        return $this->reset($request);
-    }*/
+    /**
+     * send from mail code for verification user
+     * @string request->email 
+     * @return  status 200 
+     */
     public function sendPasswordResetLink(Request $request)
     {
         $this->validate($request, [
@@ -52,17 +48,20 @@ class ResetPasswordController extends Controller
 
             return response()->json([
                 'message' => "На вашу почту отправленно письмо с кодом подтверждения. Введите код.",
-                 'status' => 200,
-                 'code'=>$code
-
+                'status' => 200,
             ], 200);
         }
     }
+    /**
+     * check code for reset password
+     * @
+     * @return code 200 and token 
+     */
     public function checkCodeResetPassword(Request $request)
     {
         $this->validate($request, [
             'email' => 'required|email',
-            'code'=>'required'
+            'code' => 'required'
         ]);
         $passReset = PasswordReset::where('email', '=', request('email'))->first();
         if ($passReset) {
@@ -82,22 +81,20 @@ class ResetPasswordController extends Controller
             ], 422);
         }
     }
-
-
+    /**
+     * update password 
+     */
     public function callResetPassword(Request $request)
     {
         $this->validate($request, [
             'email' => 'required|email',
-            'token'=>'required'
+            'token' => 'required'
         ]);
         $passReset = PasswordReset::whereEmail($request->email)->first();
         if ($passReset) {
-            //dd($passReset);
             if (\Hash::check($request->token, $passReset->token)) {
-                $user = $passReset->user;
-                $user->password = bcrypt($request->password);
-                //@todo not save password test
-                //dd($user);
+                $user = User::whereEmail($request->email)->first();
+                $user->password = \Hash::make($request->password);
                 $user->save();
                 $passReset->delete();
                 return response()->json([
@@ -110,56 +107,5 @@ class ResetPasswordController extends Controller
             'message' => 'Запрос на изменения пароля не верен.  Обратитесь в службу поддержки.',
             'status' => 422
         ], 422);
-    }
-
-
-    protected function resetPassword($user, $password)
-    {
-        $user->password = \Hash::make($password);
-        $user->save();
-        event(new PasswordReset($user));
-    }
-    protected function sendResetResponse(Request $request, $response)
-    {
-        return response()->json(['message' => 'Password reset successfully.']);
-    }
-    protected function sendResetFailedResponse(Request $request, $response)
-    {
-        return response()->json(['message' => 'Failed, Invalid Token.']);
-    }
-    public function isToken()
-    {
-        // 
-        $tokenHash = \Hash::make(request('token'));
-        //$tokenHash=bcrypt(request('token'));
-        $tok = "e51b240909633fbba0eec40fd7f9b1f6749c744200b1fc194048b2e9112e8ace";
-        $val = Hash::check($tokenHash, $tok);
-        dd($val);
-        dd($tokenHash);
-
-        $token = DB::table('password_resets')
-            ->where('token', bcrypt(request('token')))
-            ->first();
-        if ($token) {
-            return response()->json([
-                'message' => 'IsToken true.',
-                'status' => 200
-            ], 200);
-        } else {
-            return response()->json([
-                'message' => 'Запроса на изменения пароля нет. Проверьте ссылку.',
-                'status' => 422
-            ], 422);
-        }
-    }
-    //@todo --потестровать на завтра 
-    function get_user_by_token($token)
-    {
-        $records =  DB::table('password_resets')->get();
-        foreach ($records as $record) {
-            if (Hash::check($token, $record->token)) {
-                return $record->email;
-            }
-        }
     }
 }
