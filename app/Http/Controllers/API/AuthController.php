@@ -41,8 +41,7 @@ class AuthController extends Controller
     }
     public function login()
     {
-        //return response()->json(['status' => 201]);
-        // Проверяем существует ли пользователь с указанным email адресом
+        //@todo make validation
         $user = User::whereEmail(request('username'))->first();
 
         if (!$user) {

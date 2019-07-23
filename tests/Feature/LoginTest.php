@@ -11,19 +11,26 @@ class LoginTest extends TestCase
 {
     public function testRequirulesEmailAndLogin()
     {
-        $this->json('POST', '/api/login')->assertStatus(422);
+        $this->json('POST', '/api/login')->
+        assertStatus(422)->
+        assertJsonStructure([
+            'message',
+            'status'
+        ]);;
     }
-    public function testUserLoginsSuccessfully(){
+    public function testUserLoginsSuccessfully()
+    {
         /*$user=factory(User::class)->create(['email'=>'test503@test.lr',
          'password' => bcrypt('toptal123')]
         );*/
-        $payload=['email'=>'test500@test.lr', 'password'=>bcrypt('toptal123')];
+        $payload = ['username' => 'test1@test.lr', 'password' => '852'];
         //dd($payload);
-        $response=$this->json('POST', "api/login")
-                ->assertStatus(422)
-                ->assertJsonStructure([
-                    'user',
-                    'status']);
-                    dd($response);
+        $response = $this->json('POST', "api/login", $payload)
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'user',
+                'token',
+                'status'
+            ]);
     }
 }
