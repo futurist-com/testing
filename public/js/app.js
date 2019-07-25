@@ -2159,17 +2159,12 @@ __webpack_require__.r(__webpack_exports__);
       if (this.$refs.form.validate()) {
         this.snackbar = true;
         axios.post("/api/login", data).then(function (resp) {
-          //console.log(resp.data.token);
           auth.login(resp.data.token, resp.data.user);
 
           _this.$router.push("/dashboard");
         })["catch"](function (_ref) {
           var response = _ref.response;
-          console.log(response); //if (resp.response.status==401){
-          //({response}) => {
-          // alert(response.data.message);
-          //this.errorMes="Пара email и пароль не совпали. Проверьте правильность введёного email и пароля!!!";
-
+          console.log(response);
           _this.errorMes = response.data.message;
           _this.errorShow = true; //}
         });

@@ -16,7 +16,7 @@ class LoginTest extends TestCase
         assertJsonStructure([
             'message',
             'status'
-        ]);;
+        ]);
     }
     public function testUserLoginsSuccessfully()
     {

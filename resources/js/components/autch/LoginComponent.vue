@@ -100,16 +100,11 @@ export default {
         axios
           .post("/api/login", data)
           .then(resp => {
-            //console.log(resp.data.token);
             auth.login(resp.data.token, resp.data.user);
             this.$router.push("/dashboard");
           })
           .catch(({ response }) => {
             console.log(response);
-            //if (resp.response.status==401){
-            //({response}) => {
-            // alert(response.data.message);
-            //this.errorMes="Пара email и пароль не совпали. Проверьте правильность введёного email и пароля!!!";
             this.errorMes = response.data.message;
             this.errorShow = true;
             //}
