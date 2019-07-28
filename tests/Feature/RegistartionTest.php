@@ -38,8 +38,20 @@ class RegistartionTest extends TestCase
             assertJsonStructure(['message',
             'errors']);    
     }
-    public function testGetEmail(){
+    public function testGetiEmail(){
         $user=User::first();
-        dd($user);
+        $resp=$this->json('get', '/api/get-email', ['email'=>$user->email])
+            ->assertStatus(422)->
+            assertJson(['message'=>'Такой email уже зарегистрирован.',
+            'unique'=>'0',
+            'status'=>'422']);
+        
     }
+    public function testGetISNotEmail(){
+        $resp=$this->json('get', '/api/get-email', ['email'=>$this->faker->unique()->safeEmail])
+            ->assertStatus(200)->
+            assertJson(['unique'=>'1',
+            'status'=>'200']);
+    }
+
 }
