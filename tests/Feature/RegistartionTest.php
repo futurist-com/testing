@@ -47,7 +47,7 @@ class RegistartionTest extends TestCase
             'status'=>'422']);
         
     }
-    public function testGetISNotEmail(){
+    public function testGetIsNotEmail(){
         $resp=$this->json('get', '/api/get-email', ['email'=>$this->faker->unique()->safeEmail])
             ->assertStatus(200)->
             assertJson(['unique'=>'1',

@@ -9,6 +9,8 @@ use App\User;
 
 class LoginTest extends TestCase
 {
+    use WithFaker;
+
     public function testRequirulesEmailAndLogin()
     {
         $this->json('POST', '/api/login')->
@@ -20,9 +22,9 @@ class LoginTest extends TestCase
     }
     public function testUserLoginsSuccessfully()
     {
-        /*$user=factory(User::class)->create(['email'=>'test503@test.lr',
+        $user=factory(User::class)->create(['email'=>$this->faker->unique()->safeEmail,
          'password' => bcrypt('toptal123')]
-        );*/
+        );
         $payload = ['username' => 'test1@test.lr', 'password' => '852'];
         //dd($payload);
         $response = $this->json('POST', "api/login", $payload)
