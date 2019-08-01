@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Support\Carbon;
 use App\Model\PasswordReset;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -40,8 +41,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-     
-    public function passReset(){
+
+    public function conpanies()
+    {
+        return $this->BelongsToMany('App\Model\Company');
+    }
+    public function passReset()
+    {
         return $this->hasOne('App\Model\PasswordReset', 'email', 'email');
     }
 
