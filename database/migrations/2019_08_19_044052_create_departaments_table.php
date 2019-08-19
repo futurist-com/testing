@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UserCompanies extends Migration
+class CreateDepartamentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,14 @@ class UserCompanies extends Migration
      */
     public function up()
     {
-        Schema::create('user_companies', function (Blueprint $table) {
+        Schema::create('departaments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('user_id')->unsigned();
-            $table->integer('company_id')->unsigned();
-            $table->bigInteger('role_id')->unsigned();
+            $table->string('name', 100)->nullable();
+            $table->text('description')->nullable();
+            $table->integer('company_id')->unsigned()->nullable();
             $table->softDeletes();
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users');            
             $table->foreign('company_id')->references('id')->on('companies');
-            $table->foreign('role_id')->references('id')->on('roles');
         });
     }
 
@@ -33,8 +31,8 @@ class UserCompanies extends Migration
      */
     public function down()
     {
-        Schema::enableForeignKeyConstraints();
-        Schema::dropIfExists('user_companies');
+        Schema::disableForeignKeyConstraints();
+        Schema::dropIfExists('departament');
         Schema::enableForeignKeyConstraints();
     }
 }

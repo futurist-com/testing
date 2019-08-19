@@ -17,5 +17,9 @@ class RolesTableSeeder extends Seeder
         if (!$adminRole) { 
             DB::table('roles')->insert(['name'=>'Администратор']);
         }
+        $adminRole = DB::table('roles')->where('name', '=', 'Гость')->first();
+        if (!$adminRole) { 
+            DB::table('roles')->insert(['name'=>'Гость']);
+        }
     }
 }

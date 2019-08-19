@@ -14,10 +14,10 @@ class CreateCompaniesTable extends Migration
     public function up()
     {
         Schema::create('companies', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name', 100)->nullable();
-            $table->text('description')>nullable();
-            $table->string('logo', 100)->nullable();
+            $table->increments('id');
+            $table->string('name', 100)->nullable()->comment('Название');
+            $table->text('description')->nullable()->comment('Описание');
+            $table->string('logo', 100)->nullable()->comment('Логотип');
             $table->softDeletes();
             $table->timestamps();
              });
@@ -30,6 +30,8 @@ class CreateCompaniesTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('companies');
+        Schema::enableForeignKeyConstraints();
     }
 }

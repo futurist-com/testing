@@ -10,8 +10,7 @@ $factory->define(Company::class, function (Faker $faker) {
     return [
         'name'=>$faker->company,
         'description'=>$faker->realText(),
-        'logo'=>$facker->imageUrl($width = 640, $height = 480),
-            
+        'logo'=>$faker->imageUrl($width = 640, $height = 480),
         //
     ];
 });
