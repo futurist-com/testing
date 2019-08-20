@@ -39,7 +39,6 @@ export default {
     };
   },
   mounted() {
-    console.log("Component mounted.");
     //axios.put('/api/', {token:$route.params.id}).then().catch();
     axios
       .put("/api/confirm-email", { token: this.$route.params.id })

@@ -32,7 +32,7 @@ class CreateDepartamentsTable extends Migration
     public function down()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('departament');
+        Schema::dropIfExists('departaments');
         Schema::enableForeignKeyConstraints();
     }
 }

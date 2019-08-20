@@ -1,16 +1,10 @@
 <template>
   <v-container>
     <user-panel></user-panel>
-    <div class="container">
-      <div class="row justify-content-center mt-auto">
-        <div class="col-md-8">
-          <div class="card">
-            <div class="card-body">I'm an dashboard component.</div>
-          </div>
-        </div>
-      </div>
+            <div class="card-body"><companies-component></companies-component></div>
+         
       <footer-panel></footer-panel>
-    </div>
+    
   </v-container>
 </template>
 

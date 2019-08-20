@@ -42,9 +42,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function conpanies()
+    public function companies()
     {
-        return $this->BelongsToMany('App\Model\Company');
+        return $this->BelongsToMany('App\Model\Company', 'user_companies', 'user_id', 'company_id');
     }
     public function passReset()
     {

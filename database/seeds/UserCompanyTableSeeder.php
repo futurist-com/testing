@@ -24,7 +24,9 @@ class UserCompanyTableSeeder extends Seeder
                 \DB::table('user_companies')->insert([
                     'user_id' => $user->id,
                     'company_id' => $companyRand->id,
-                    'role' => rand(1, 2),
+                    'role_id' => rand(1, 2),
+                    'created_at'=>$companyRand->created_at,
+                    'updated_at'=>$companyRand->updated_at
                 ]);
             }
         }

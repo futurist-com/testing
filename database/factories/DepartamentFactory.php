@@ -4,11 +4,12 @@
 
 use App\Model;
 use Faker\Generator as Faker;
+use App\Model\Departament;
 
-$factory->define(Model::class, function (Faker $faker) {
+$factory->define(Departament::class, function (Faker $faker) {
     return [
         //
-        'name'=>$faker->departmentName,
-        'description'=>$faker->departmentName.$faker->departmentNumber,
+        'name'=>$faker->word ,
+        'description'=>$faker->sentence(5, true),
     ];
 });

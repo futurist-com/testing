@@ -31,6 +31,7 @@ import router from './route.js';
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('user-panel', require('./components/autch/UserPanelComponent.vue').default);
 Vue.component('footer-panel', require('./components/FooterComponent.vue').default);
+Vue.component('companies-component', require('./components/dashboard/CompaniesComponent.vue').default);
 
 const app = new Vue({
   router

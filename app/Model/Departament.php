@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Departament extends Model
 {
-    //
-    public function post(){
+    
+    public function posts(){
         return $this->hasMany('App\Model\Post');
     }
 }

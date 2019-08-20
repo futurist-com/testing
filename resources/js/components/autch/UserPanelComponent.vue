@@ -49,7 +49,6 @@ export default {
   },
   methods: {
     logout: function() {
-      console.log(this);
       auth.logout();
       this.$router.push("/");
     }

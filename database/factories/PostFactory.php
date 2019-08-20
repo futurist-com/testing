@@ -9,6 +9,6 @@ use App\Model\Post;
 $factory->define(Post::class, function (Faker $faker) {
     return [
         'name'=>$faker->bs,
-        'description'=>$faker->catch_phrase    
+        'description'=>$faker->sentence(6, true)    
     ];
 });
