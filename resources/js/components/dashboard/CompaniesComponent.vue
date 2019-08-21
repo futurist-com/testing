@@ -6,7 +6,7 @@
           
           <v-btn class="mx-2" fab dark color="indigo">
             
-            <router-link to="/registration"><v-icon dark>add</v-icon></router-link>
+            <router-link to="/add-company"><v-icon dark>add</v-icon></router-link>
             </v-btn>
         </v-flex>
       </v-layout>

@@ -11,6 +11,7 @@ import resetPassword from './components/autch/ResetPasswordComponent.vue';
 //import user-panel from './components/autch/UserPanelComponent.vue';
 import index from './components/IndexComponent.vue';
 import dashboard from './components/dashboardComponent.vue';
+import addCompany from './components/dashboard/addCompanyComponent.vue';
 
 
 let routes = [
@@ -52,6 +53,12 @@ let routes = [
         component: dashboard,
         //component:require('./components/autch/RegistrationComponent.vue')
         name: 'dashboard',
+        meta: { middlewareAuth: true }
+    },
+    {
+        path: '/add-company',
+        component: addCompany,
+        name: 'add-company',
         meta: { middlewareAuth: true }
     }
 

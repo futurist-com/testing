@@ -12,7 +12,7 @@
   "dependencies": {
     "vue-cookie": "^1.1.4",
     "vue-router": "^3.0.6",
-    "vuetify": "^1.5.5"
+    "vuetify": "^2.0.9"
   },
   "devDependencies": {
     "axios": "^0.18",
