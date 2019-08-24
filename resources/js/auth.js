@@ -17,6 +17,7 @@ class Auth {
         this.token = token;
         this.user = user;
         Event.$emit("userLoggedIn");
+        console.log(token);
     }
     check() {
         return !!this.token;

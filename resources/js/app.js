@@ -34,6 +34,7 @@ Vue.component('footer-panel', require('./components/FooterComponent.vue').defaul
 Vue.component('companies-component', require('./components/dashboard/CompaniesComponent.vue').default);
 
 const app = new Vue({
-  router
+  vuetify: new Vuetify(),
+  router,
 }).$mount('#app')
 

@@ -1,10 +1,11 @@
 <template>
   <v-container>
+    <v-app>
     <user-panel></user-panel>
             <div class="card-body"><companies-component></companies-component></div>
          
       <footer-panel></footer-panel>
-    
+    </v-app>
   </v-container>
 </template>
 

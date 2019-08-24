@@ -1844,10 +1844,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   /*mounted() {
-      
-  }*/
+            
+        }*/
 });
 
 /***/ }),
@@ -2158,12 +2160,12 @@ __webpack_require__.r(__webpack_exports__);
       if (this.$refs.form.validate()) {
         this.snackbar = true;
         axios.post("/api/login", data).then(function (resp) {
+          console.log('login');
           auth.login(resp.data.token, resp.data.user);
 
           _this.$router.push("/dashboard");
         })["catch"](function (_ref) {
           var response = _ref.response;
-          console.log(response);
           _this.errorMes = response.data.message;
           _this.errorShow = true; //}
         });
@@ -2607,6 +2609,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2694,16 +2700,7 @@ __webpack_require__.r(__webpack_exports__);
       var data = _ref.data;
       //console.log(data);
       _this.companies = data;
-      console.log(_this.companies);
     });
-    /*axios
-      .get("/api/get-company")
-      .then(resp => {
-        //console.log(resp);
-        this.companies = resp.data;
-      })
-      .catch(({ response }) => {
-      });*/
   }
 });
 
@@ -2807,6 +2804,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -47180,7 +47178,9 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [_c("user-panel")], 1)
+  return _c("v-app", [
+    _c("div", { staticClass: "container" }, [_c("user-panel")], 1)
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -48343,12 +48343,12 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-toolbar",
-    { attrs: { app: "" } },
+    "v-app-bar",
+    { attrs: { app: "", color: "primary", dark: "" } },
     [
-      _c("v-toolbar-side-icon"),
+      _c("v-app-bar-nav-icon", [_c("v-icon", [_vm._v("fas fa-list")])], 1),
       _vm._v(" "),
-      _c("v-toolbar-title", [_vm._v("Test.lr")]),
+      _c("v-toolbar-title", { attrs: { light: "" } }, [_vm._v("Test.lr")]),
       _vm._v(" "),
       _c("v-spacer"),
       _vm._v(" "),
@@ -48360,7 +48360,11 @@ var render = function() {
               [
                 _c("span", [_vm._v(_vm._s(_vm.user.name))]),
                 _vm._v(" "),
-                _c("v-btn", { on: { click: _vm.logout } }, [_vm._v("Выход")])
+                _c(
+                  "v-btn",
+                  { attrs: { light: "" }, on: { click: _vm.logout } },
+                  [_vm._v("Выход")]
+                )
               ],
               1
             )
@@ -48368,8 +48372,11 @@ var render = function() {
               "div",
               { staticClass: "m-auto" },
               [
+                _c("v-icon", [_vm._v("fas fa-list")]),
+                _vm._v(" "),
                 _c(
                   "v-btn",
+                  { attrs: { light: "" } },
                   [
                     _c("router-link", { attrs: { to: "/registration" } }, [
                       _vm._v("Регистрация")
@@ -48380,6 +48387,7 @@ var render = function() {
                 _vm._v(" "),
                 _c(
                   "v-btn",
+                  { attrs: { light: "" } },
                   [
                     _c("router-link", { attrs: { to: "/login" } }, [
                       _vm._v("Войти")
@@ -48426,7 +48434,7 @@ var render = function() {
         [
           _c(
             "v-layout",
-            { staticClass: "mt-2", attrs: { row: "", wrap: "" } },
+            { staticClass: "mt-6", attrs: { row: "", wrap: "" } },
             [
               _c(
                 "v-flex",
@@ -48436,18 +48444,9 @@ var render = function() {
                     "v-btn",
                     {
                       staticClass: "mx-2",
-                      attrs: { fab: "", dark: "", color: "indigo" }
+                      attrs: { fab: "", color: "primary" }
                     },
-                    [
-                      _c(
-                        "router-link",
-                        { attrs: { to: "/add-company" } },
-                        [
-                          _c("v-icon", { attrs: { dark: "" } }, [_vm._v("add")])
-                        ],
-                        1
-                      )
-                    ],
+                    [_c("v-icon", { attrs: { light: "" } }, [_vm._v("add")])],
                     1
                   )
                 ],
@@ -48697,11 +48696,22 @@ var render = function() {
   return _c(
     "v-container",
     [
-      _c("user-panel"),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [_c("companies-component")], 1),
-      _vm._v(" "),
-      _c("footer-panel")
+      _c(
+        "v-app",
+        [
+          _c("user-panel"),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "card-body" },
+            [_c("companies-component")],
+            1
+          ),
+          _vm._v(" "),
+          _c("footer-panel")
+        ],
+        1
+      )
     ],
     1
   )
@@ -100058,6 +100068,7 @@ Vue.component('user-panel', __webpack_require__(/*! ./components/autch/UserPanel
 Vue.component('footer-panel', __webpack_require__(/*! ./components/FooterComponent.vue */ "./resources/js/components/FooterComponent.vue")["default"]);
 Vue.component('companies-component', __webpack_require__(/*! ./components/dashboard/CompaniesComponent.vue */ "./resources/js/components/dashboard/CompaniesComponent.vue")["default"]);
 var app = new Vue({
+  vuetify: new vuetify__WEBPACK_IMPORTED_MODULE_1___default.a(),
   router: _route_js__WEBPACK_IMPORTED_MODULE_5__["default"]
 }).$mount('#app');
 
@@ -100108,6 +100119,7 @@ function () {
       this.token = token;
       this.user = user;
       Event.$emit("userLoggedIn");
+      console.log(token);
     }
   }, {
     key: "check",

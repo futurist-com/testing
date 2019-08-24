@@ -1,23 +1,27 @@
 <template>
-  <v-toolbar  app>
-    <v-toolbar-side-icon></v-toolbar-side-icon>
-    <v-toolbar-title>Test.lr</v-toolbar-title>
-    <v-spacer></v-spacer>
-    <v-toolbar-items class="hidden-sm-and-down">
-      <div class="m-auto" v-if="authenticated && user">
-        <span>{{ user.name }}</span>
-        <v-btn v-on:click="logout">Выход</v-btn>
-      </div>
-      <div v-else class="m-auto">
-        <v-btn>
-          <router-link to="/registration">Регистрация</router-link>
-        </v-btn>
-        <v-btn>
-          <router-link to="/login">Войти</router-link>
-        </v-btn>
-      </div>
-    </v-toolbar-items>
-  </v-toolbar>
+    <v-app-bar app color="primary" dark>
+      <v-app-bar-nav-icon>
+        <v-icon>fas fa-list</v-icon>
+      </v-app-bar-nav-icon>
+      <v-toolbar-title light>Test.lr</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-items class="hidden-sm-and-down">
+        <div class="m-auto" v-if="authenticated && user">
+          <span>{{ user.name }}</span>
+          <v-btn v-on:click="logout" light>Выход</v-btn>
+        </div>
+        <div v-else class="m-auto">
+          <v-icon>fas fa-list</v-icon>
+          <v-btn light>
+            <router-link to="/registration">Регистрация</router-link>
+          </v-btn>
+          <v-btn light>
+            <router-link to="/login">Войти</router-link>
+          </v-btn>
+        </div>
+      </v-toolbar-items>
+    </v-app-bar>
+  
 </template>
 
 <script>

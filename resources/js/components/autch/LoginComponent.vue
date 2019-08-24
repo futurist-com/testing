@@ -100,11 +100,11 @@ export default {
         axios
           .post("/api/login", data)
           .then(resp => {
+            console.log('login');
             auth.login(resp.data.token, resp.data.user);
             this.$router.push("/dashboard");
           })
           .catch(({ response }) => {
-            console.log(response);
             this.errorMes = response.data.message;
             this.errorShow = true;
             //}
