@@ -24,7 +24,7 @@ Route::put('/confirm-email', 'API\AuthController@confirmEmail');
 Route::post('reset-password', 'API\ResetPasswordController@sendPasswordResetLink');
 Route::post('reset/password', 'API\ResetPasswordController@callResetPassword');
 Route::post('reset/check-code-password', 'API\ResetPasswordController@checkCodeResetPassword');
-
+//Route::get('/get-company', 'API\CompanyController@show');
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', 'API\AuthController@logout');

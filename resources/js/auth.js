@@ -13,11 +13,11 @@ class Auth {
     login(token, user) {
         window.localStorage.setItem('token', token);
         window.localStorage.setItem('user', JSON.stringify(user));
-        Axios.defaults.headers.common['Autorization'] = 'Bearer ' + token;
+        Axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
         this.token = token;
         this.user = user;
         Event.$emit("userLoggedIn");
-        console.log(token);
+        //console.log(token);
     }
     check() {
         return !!this.token;

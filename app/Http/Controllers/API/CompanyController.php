@@ -15,7 +15,5 @@ class CompanyController extends Controller
     public function show()
     {
         return $company = auth()->user()->companies()->get();
-        dd(json_encode( $company = auth()->user()->companies()->get()));
-        //return $company;
     }
 }

@@ -1,13 +1,16 @@
 <template>
-  <v-container  grid-list-md text-xs-center>
+  <v-container grid-list-md text-xs-center>
     <div>
       <v-layout row wrap class="mt-6">
         <v-flex xs1>
-          <v-btn class="mx-2" fab color="primary">
-            
-              <v-icon light>add</v-icon>
-           
-          </v-btn>
+          <v-tooltip right>
+            <template v-slot:activator="{ on }">
+              <v-btn class="mx-2" fab color="primary">
+                <v-icon light>add</v-icon>
+              </v-btn>
+            </template>
+            <span>В компании вы можете  создавать тесты и назначать их для проверки тестируемых</span>
+          </v-tooltip>
         </v-flex>
       </v-layout>
       <v-layout row wrap class="mt-2">
@@ -26,6 +29,7 @@
 </template>
 
 <script>
+import { SSL_OP_SSLREF2_REUSE_CERT_TYPE_BUG } from 'constants';
 export default {
   data: function() {
     return {
@@ -34,9 +38,9 @@ export default {
   },
 
   mounted() {
-    //console.log("Component mounted.");
-    api.call("get", "/api/get-company").then(({ data }) => {
-      //console.log(data);
+ 
+    api.call("get", "/api/get-company")
+    .then(({data}) => {
       this.companies = data;
     });
   }

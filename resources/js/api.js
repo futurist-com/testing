@@ -8,6 +8,7 @@ class Api {
                 })
                 .catch(({response}) => {
                     if (response.status === 401) {
+                        console.log(url);
                         auth.logout();
                     }
     
