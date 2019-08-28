@@ -3,13 +3,15 @@
     <div>
       <v-layout row wrap class="mt-6">
         <v-flex xs1>
-          <v-tooltip right>
+          <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <v-btn class="mx-2" fab color="primary">
-                <v-icon light>add</v-icon>
+              <v-btn v-on="on" class="mx-2" fab color="primary" light>
+                <router-link to="/add-company" light><v-icon light>add</v-icon></router-link>
               </v-btn>
             </template>
-            <span>В компании вы можете  создавать тесты и назначать их для проверки тестируемых</span>
+            <span>В компании вы можете создавать тесты и назначать их для проверки тестируемых.
+            </span>
+            
           </v-tooltip>
         </v-flex>
       </v-layout>
@@ -29,7 +31,7 @@
 </template>
 
 <script>
-import { SSL_OP_SSLREF2_REUSE_CERT_TYPE_BUG } from 'constants';
+import { SSL_OP_SSLREF2_REUSE_CERT_TYPE_BUG } from "constants";
 export default {
   data: function() {
     return {
@@ -38,9 +40,7 @@ export default {
   },
 
   mounted() {
- 
-    api.call("get", "/api/get-company")
-    .then(({data}) => {
+    api.call("get", "/api/get-company").then(({ data }) => {
       this.companies = data;
     });
   }

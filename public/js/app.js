@@ -2691,6 +2691,8 @@ var constants__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__webpack_re
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2763,38 +2765,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: null
-  /*data: function() {
+  data: function data() {
     return {
-      authenticated: auth.check(),
-      user: auth.user
+      valid: true,
+      name: "",
+      description: "",
+      nameRules: [function (v) {
+        return !!v || "Поле не может быть пустым";
+      }]
     };
-  },*/
+  },
+  mounted: function mounted() {
+    var access_token = Vue.cookie.get("XSRF-TOKEN");
+  },
+  methods: {
+    createCompany: function createCompany() {
+      var _this = this;
 
-  /*mounted() {
-    Event.$on("userLoggedIn", () => {
-      this.authenticated = true;
-      this.user = auth.user;
-    });
-    if (!auth.check()) {
-      this.$router.push("/");
+      var data = {
+        name: this.name,
+        description: this.description
+      };
+
+      if (this.$refs.form.validate()) {
+        api.call("post", "/api/add-company", data).then(function (_ref) {
+          var data = _ref.data;
+
+          _this.$router.push("/dashboard");
+        });
+      }
     }
-    //console.log(this.user);
-    //console.log('Component mounted.')
-  }*/
-
+  }
 });
 
 /***/ }),
@@ -48458,7 +48460,7 @@ var render = function() {
                   _c(
                     "v-tooltip",
                     {
-                      attrs: { right: "" },
+                      attrs: { bottom: "" },
                       scopedSlots: _vm._u([
                         {
                           key: "activator",
@@ -48467,14 +48469,30 @@ var render = function() {
                             return [
                               _c(
                                 "v-btn",
-                                {
-                                  staticClass: "mx-2",
-                                  attrs: { fab: "", color: "primary" }
-                                },
+                                _vm._g(
+                                  {
+                                    staticClass: "mx-2",
+                                    attrs: {
+                                      fab: "",
+                                      color: "primary",
+                                      light: ""
+                                    }
+                                  },
+                                  on
+                                ),
                                 [
-                                  _c("v-icon", { attrs: { light: "" } }, [
-                                    _vm._v("add")
-                                  ])
+                                  _c(
+                                    "router-link",
+                                    {
+                                      attrs: { to: "/add-company", light: "" }
+                                    },
+                                    [
+                                      _c("v-icon", { attrs: { light: "" } }, [
+                                        _vm._v("add")
+                                      ])
+                                    ],
+                                    1
+                                  )
                                 ],
                                 1
                               )
@@ -48487,7 +48505,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("span", [
                         _vm._v(
-                          "В компании вы можете  создавать тесты и назначать их для проверки тестируемых"
+                          "В компании вы можете создавать тесты и назначать их для проверки тестируемых.\n          "
                         )
                       ])
                     ]
@@ -48561,14 +48579,14 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-container",
+    "v-app",
+    { attrs: { id: "inspire" } },
     [
-      _c("user-panel"),
-      _vm._v(" "),
       _c(
-        "v-app",
-        { attrs: { id: "inspire" } },
+        "v-container",
         [
+          _c("user-panel"),
+          _vm._v(" "),
           _c(
             "v-content",
             [
@@ -48577,118 +48595,81 @@ var render = function() {
                 { attrs: { fluid: "", "fill-height": "" } },
                 [
                   _c(
-                    "v-layout",
-                    { attrs: { "align-center": "", "justify-center": "" } },
+                    "v-row",
+                    { attrs: { justify: "center" } },
                     [
                       _c(
-                        "v-flex",
-                        { attrs: { xs12: "", sm8: "", md4: "" } },
+                        "v-col",
+                        { attrs: { cols: "12", md: "6" } },
                         [
+                          _c("h3", [_vm._v("Создание компании")]),
+                          _vm._v(" "),
                           _c(
-                            "v-card",
-                            { staticClass: "elevation-12" },
+                            "v-form",
+                            {
+                              ref: "form",
+                              attrs: { "lazy-validation": "" },
+                              model: {
+                                value: _vm.valid,
+                                callback: function($$v) {
+                                  _vm.valid = $$v
+                                },
+                                expression: "valid"
+                              }
+                            },
                             [
-                              _c(
-                                "v-toolbar",
-                                { attrs: { dark: "", color: "primary" } },
-                                [
-                                  _c("v-toolbar-title", [
-                                    _vm._v("Форма входа")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("v-spacer"),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-tooltip",
-                                    { attrs: { bottom: "" } },
-                                    [
-                                      _c("v-icon", { attrs: { large: "" } }, [
-                                        _vm._v("code")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("span", [_vm._v("Source")])
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              ),
+                              _c("v-text-field", {
+                                attrs: {
+                                  "prepend-icon": "",
+                                  name: "name",
+                                  label: "Название компании",
+                                  type: "text",
+                                  rules: _vm.nameRules,
+                                  required: ""
+                                },
+                                model: {
+                                  value: _vm.name,
+                                  callback: function($$v) {
+                                    _vm.name = $$v
+                                  },
+                                  expression: "name"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("v-textarea", {
+                                attrs: {
+                                  name: "description",
+                                  label: "Описание компании",
+                                  hint: "Hint text",
+                                  id: "description"
+                                },
+                                model: {
+                                  value: _vm.description,
+                                  callback: function($$v) {
+                                    _vm.description = $$v
+                                  },
+                                  expression: "description"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-card-actions",
+                            [
+                              _c("v-spacer"),
                               _vm._v(" "),
                               _c(
-                                "v-card-text",
-                                [
-                                  _c(
-                                    "v-form",
-                                    {
-                                      ref: "form",
-                                      attrs: { "lazy-validation": "" },
-                                      model: {
-                                        value: _vm.valid,
-                                        callback: function($$v) {
-                                          _vm.valid = $$v
-                                        },
-                                        expression: "valid"
-                                      }
-                                    },
-                                    [
-                                      _c("v-text-field", {
-                                        attrs: {
-                                          "prepend-icon": "",
-                                          name: "name",
-                                          label: "Название компании",
-                                          type: "text",
-                                          required: ""
-                                        },
-                                        model: {
-                                          value: _vm.name,
-                                          callback: function($$v) {
-                                            _vm.name = $$v
-                                          },
-                                          expression: "name"
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("v-text-field", {
-                                        attrs: {
-                                          "prepend-icon": "lock",
-                                          name: "description",
-                                          label: "Описание",
-                                          id: "description",
-                                          required: ""
-                                        },
-                                        model: {
-                                          value: _vm.description,
-                                          callback: function($$v) {
-                                            _vm.description = $$v
-                                          },
-                                          expression: "description"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-card-actions",
-                                [
-                                  _c("v-spacer"),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      attrs: {
-                                        color: "primary",
-                                        disabled: !_vm.valid
-                                      },
-                                      on: { click: _vm.login }
-                                    },
-                                    [_vm._v("Создать")]
-                                  )
-                                ],
-                                1
+                                "v-btn",
+                                {
+                                  attrs: {
+                                    color: "primary",
+                                    disabled: !_vm.valid
+                                  },
+                                  on: { click: _vm.createCompany }
+                                },
+                                [_vm._v("Создать")]
                               )
                             ],
                             1
@@ -48704,12 +48685,12 @@ var render = function() {
               )
             ],
             1
-          )
+          ),
+          _vm._v(" "),
+          _c("footer-panel")
         ],
         1
-      ),
-      _vm._v(" "),
-      _c("footer-panel")
+      )
     ],
     1
   )

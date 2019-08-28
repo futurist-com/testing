@@ -16,4 +16,11 @@ class CompanyController extends Controller
     {
         return $company = auth()->user()->companies()->get();
     }
+    public function store()
+    {
+      //dd(request());
+        $user=auth()->user();
+        Company::create(['name'=>request('name'), 'description'=>request('description')])
+                ->users()->attach($user->id, ['role'=>1]);   
+    }
 }
