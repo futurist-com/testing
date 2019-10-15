@@ -4,10 +4,12 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCompany;
 use App\Model\Company;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+
 
 class CompanyController extends Controller
 {
@@ -16,11 +18,13 @@ class CompanyController extends Controller
     {
         return $company = auth()->user()->companies()->get();
     }
-    public function store()
+    public function store(StoreCompany $request)
     {
-      //dd(request());
+      //dd(request('name'));
         $user=auth()->user();
-        Company::create(['name'=>request('name'), 'description'=>request('description')])
-                ->users()->attach($user->id, ['role'=>1]);   
+        $company=Company::create(['name'=>request('name'), 'description'=>request('description')])
+                ->users()->attach($user->id, ['role_id'=>1]); 
+      //dd($company);
+        return ;  
     }
 }

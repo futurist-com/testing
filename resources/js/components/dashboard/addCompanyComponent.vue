@@ -15,7 +15,6 @@
                   label="Название компании"
                   type="text"
                   v-model="name"
-                  :rules="nameRules"
                   required
                 ></v-text-field>
                 <v-textarea
