@@ -2772,6 +2772,8 @@ __webpack_require__.r(__webpack_exports__);
       description: "",
       nameRules: [function (v) {
         return !!v || "Поле не может быть пустым";
+      }, function (v) {
+        return v && v.length <= 100 || "Поле больше 100 символов.";
       }]
     };
   },
@@ -48623,6 +48625,7 @@ var render = function() {
                                   name: "name",
                                   label: "Название компании",
                                   type: "text",
+                                  rules: _vm.nameRules,
                                   required: ""
                                 },
                                 model: {
@@ -48638,7 +48641,7 @@ var render = function() {
                                 attrs: {
                                   name: "description",
                                   label: "Описание компании",
-                                  hint: "Hint text",
+                                  hint: "Описание компании",
                                   id: "description"
                                 },
                                 model: {

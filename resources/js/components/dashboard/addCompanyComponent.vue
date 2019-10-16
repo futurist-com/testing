@@ -5,7 +5,7 @@
 
       <v-content>
         <v-container fluid fill-height>
-          <v-row  justify="center">
+          <v-row justify="center">
             <v-col cols="12" md="6">
               <h3>Создание компании</h3>
               <v-form v-model="valid" ref="form" lazy-validation>
@@ -15,13 +15,13 @@
                   label="Название компании"
                   type="text"
                   v-model="name"
+                  :rules="nameRules"
                   required
                 ></v-text-field>
                 <v-textarea
                   name="description"
                   label="Описание компании"
-                  
-                  hint="Hint text"
+                  hint="Описание компании"
                   v-model="description"
                   id="description"
                 ></v-textarea>
@@ -48,7 +48,10 @@ export default {
       valid: true,
       name: "",
       description: "",
-      nameRules: [v => !!v || "Поле не может быть пустым"]
+      nameRules: [
+        v => !!v || "Поле не может быть пустым",
+        v => (v && v.length <= 100) || "Поле больше 100 символов."
+      ]
     };
   },
   mounted() {
@@ -62,7 +65,7 @@ export default {
       };
       if (this.$refs.form.validate()) {
         api.call("post", "/api/add-company", data).then(({ data }) => {
-            this.$router.push("/dashboard");
+          this.$router.push("/dashboard");
         });
       }
     }

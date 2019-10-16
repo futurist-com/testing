@@ -13,18 +13,21 @@ use Illuminate\Support\Facades\DB;
 
 class CompanyController extends Controller
 {
-    //
-    public function show()
-    {
-        return $company = auth()->user()->companies()->get();
-    }
-    public function store(StoreCompany $request)
-    {
-      //dd(request('name'));
-        $user=auth()->user();
-        $company=Company::create(['name'=>request('name'), 'description'=>request('description')])
-                ->users()->attach($user->id, ['role_id'=>1]); 
-      //dd($company);
-        return ;  
-    }
+  //
+  public function show()
+  {
+    return $company = auth()->user()->companies()->get();
+  }
+  public function store(StoreCompany $request)
+  {
+    //dd(request('name'));
+    $validated=$request->validated();
+    $user = auth()->user();
+    $company = Company::create(['name' => request('name'), 'description' => request('description')])
+      ->users()->attach($user->id, ['role_id' => 1]);
+    //dd($company);
+    return response()->json([
+      'status' => 200
+    ]);
+  }
 }

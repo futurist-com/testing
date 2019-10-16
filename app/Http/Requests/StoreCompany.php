@@ -13,7 +13,7 @@ class StoreCompany extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,8 +24,15 @@ class StoreCompany extends FormRequest
     public function rules()
     {
         return [
-            'name'=>'required|max:255',
+            'name' => 'required|max:100',
             //
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'name.required' => 'Поле  не может быть пустым',
+            'name.max'  => 'Название не может превышать 100 символов',
         ];
     }
 }
