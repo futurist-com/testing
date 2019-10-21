@@ -2760,20 +2760,38 @@ var constants__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__webpack_re
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      company: $route.params.id
+      company: $route.params.id,
+      mini: true,
+      drawer: true,
+      items: [{
+        title: "Home",
+        icon: "mdi-home-city"
+      }, {
+        title: "My Account",
+        icon: "mdi-account"
+      }, {
+        title: "Users",
+        icon: "mdi-account-group-outline"
+      }],
+      companies: {}
     };
   },
-  mounted: function mounted() {
-    var _this = this;
-
-    api.call("get", "/api/get-company").then(function (_ref) {
-      var data = _ref.data;
-      _this.companies = data;
-    });
+  mounted: function mounted() {//
   }
 });
 
@@ -48657,11 +48675,12 @@ var render = function() {
     "v-app",
     { attrs: { id: "inspire" } },
     [
+      _c("user-panel"),
+      _vm._v(" "),
       _c(
-        "v-container",
+        "div",
+        { staticClass: "card-body" },
         [
-          _c("user-panel"),
-          _vm._v(" "),
           _c(
             "v-container",
             { attrs: { "grid-list-md": "", "text-xs-center": "" } },
@@ -48670,58 +48689,123 @@ var render = function() {
                 "div",
                 [
                   _c(
-                    "v-navigation-drawer",
-                    { attrs: { app: "", clipped: "" } },
+                    "v-layout",
+                    { staticClass: "mt-10", attrs: { row: "", wrap: "" } },
                     [
                       _c(
-                        "v-list",
+                        "v-row",
                         [
                           _c(
-                            "v-list-item",
+                            "v-card",
                             [
                               _c(
-                                "v-list-item-action",
-                                [_c("v-icon", [_vm._v("mdi-" + _vm._s(1))])],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-item-content",
+                                "v-navigation-drawer",
+                                {
+                                  attrs: {
+                                    "mini-variant": _vm.mini,
+                                    permanent: ""
+                                  },
+                                  on: {
+                                    "update:miniVariant": function($event) {
+                                      _vm.mini = $event
+                                    },
+                                    "update:mini-variant": function($event) {
+                                      _vm.mini = $event
+                                    }
+                                  },
+                                  model: {
+                                    value: _vm.drawer,
+                                    callback: function($$v) {
+                                      _vm.drawer = $$v
+                                    },
+                                    expression: "drawer"
+                                  }
+                                },
                                 [
-                                  _c("v-list-item-title", [
-                                    _vm._v("Page " + _vm._s(1))
-                                  ])
+                                  _c(
+                                    "v-list-item",
+                                    [
+                                      _c(
+                                        "v-list-item-avatar",
+                                        [
+                                          _c("v-img", {
+                                            attrs: {
+                                              src:
+                                                "https://randomuser.me/api/portraits/men/85.jpg"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c("v-list-item-title", [
+                                        _vm._v("John Leider")
+                                      ]),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: { icon: "" },
+                                          on: {
+                                            click: function($event) {
+                                              $event.stopPropagation()
+                                              _vm.mini = !_vm.mini
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c("v-icon", [
+                                            _vm._v("mdi-chevron-left")
+                                          ])
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c("v-divider"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list",
+                                    { attrs: { dense: "" } },
+                                    _vm._l(_vm.items, function(item) {
+                                      return _c(
+                                        "v-list-item",
+                                        {
+                                          key: item.title,
+                                          attrs: { link: "" }
+                                        },
+                                        [
+                                          _c(
+                                            "v-list-item-icon",
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v(_vm._s(item.icon))
+                                              ])
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-list-item-content",
+                                            [
+                                              _c("v-list-item-title", [
+                                                _vm._v(_vm._s(item.title))
+                                              ])
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    }),
+                                    1
+                                  )
                                 ],
                                 1
                               )
                             ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-app-bar",
-                    { attrs: { app: "", "clipped-left": "" } },
-                    [_c("v-toolbar-title", [_vm._v("App Bar")])],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-content",
-                    [
-                      _c(
-                        "v-container",
-                        { attrs: { fluid: "" } },
-                        [
-                          _c(
-                            "v-fade-transition",
-                            { attrs: { mode: "out-in" } },
-                            [_c("router-view")],
                             1
                           )
                         ],
