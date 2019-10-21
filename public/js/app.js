@@ -2705,7 +2705,7 @@ var constants__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__webpack_re
   mounted: function mounted() {
     var _this = this;
 
-    api.call("get", "/api/get-company").then(function (_ref) {
+    api.call("get", "/api/get-companies").then(function (_ref) {
       var data = _ref.data;
       _this.companies = data;
     });
@@ -2770,14 +2770,13 @@ var constants__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__webpack_re
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      company: $route.params.id,
-      mini: true,
+      company: null,
       drawer: true,
+      mini: true,
       items: [{
         title: "Home",
         icon: "mdi-home-city"
@@ -2788,10 +2787,19 @@ var constants__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__webpack_re
         title: "Users",
         icon: "mdi-account-group-outline"
       }],
-      companies: {}
+      id: null
     };
   },
-  mounted: function mounted() {//
+  mounted: function mounted() {
+    var _this = this;
+
+    this.id = this.$route.params.id; //console.log(this.company);
+
+    api.call("get", "/api/get-company/" + this.id).then(function (_ref) {
+      var data = _ref.data;
+      _this.company = data.company;
+    });
+    console.log(this.company);
   }
 });
 

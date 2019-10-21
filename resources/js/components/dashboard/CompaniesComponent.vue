@@ -42,7 +42,7 @@ export default {
   },
 
   mounted() {
-    api.call("get", "/api/get-company").then(({ data }) => {
+    api.call("get", "/api/get-companies").then(({ data }) => {
       this.companies = data;
     });
   }

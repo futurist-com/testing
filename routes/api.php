@@ -29,6 +29,8 @@ Route::post('reset/check-code-password', 'API\ResetPasswordController@checkCodeR
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', 'API\AuthController@logout');
     Route::get('/get-user', 'API\AuthController@getUser');
-    Route::get('/get-company', 'API\CompanyController@show');
+    Route::get('/get-companies', 'API\CompanyController@show');
+    Route::get('/get-company/{id}', 'API\CompanyController@getCompany');
+    
     Route::post('/add-company', 'API\CompanyController@store');
 });

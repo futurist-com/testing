@@ -30,4 +30,11 @@ class CompanyController extends Controller
       'status' => 200
     ]);
   }
+  public function  getCompany($id){
+       $company=Company::find($id);
+       return response()->json([
+        'company'=>$company,
+        'status' => 200
+      ]);
+  }
 }
