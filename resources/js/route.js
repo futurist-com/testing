@@ -13,6 +13,7 @@ import index from './components/IndexComponent.vue';
 import dashboard from './components/dashboardComponent.vue';
 import addCompany from './components/dashboard/addCompanyComponent.vue';
 import company from './components/dashboard/CompanyComponent.vue';
+import updateCompany from './components/dashboard/updateCompanyComponent.vue';
 
 
 let routes = [
@@ -66,6 +67,12 @@ let routes = [
         path: '/company/:id',
         component: company,
         name: 'company',
+        meta: { middlewareAuth: true }
+    },
+    {
+        path: '/update/company/:id',
+        component: updateCompany,
+        name: 'updateCompany',
         meta: { middlewareAuth: true }
     }
 

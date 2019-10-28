@@ -2770,21 +2770,33 @@ var constants__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__webpack_re
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      company: null,
+      company: {
+        name: '',
+        logo: ''
+      },
       drawer: true,
       mini: true,
       items: [{
-        title: "Home",
+        title: "К выбору компаний",
         icon: "mdi-home-city"
       }, {
-        title: "My Account",
+        title: "Настройки компании",
         icon: "mdi-account"
       }, {
-        title: "Users",
+        title: "Структура компании",
         icon: "mdi-account-group-outline"
       }],
       id: null
@@ -2795,11 +2807,11 @@ var constants__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__webpack_re
 
     this.id = this.$route.params.id; //console.log(this.company);
 
-    api.call("get", "/api/get-company/" + this.id).then(function (_ref) {
-      var data = _ref.data;
-      _this.company = data.company;
-    });
-    console.log(this.company);
+    api.call("get", "/api/get-company/" + this.id).then(function (resp) {
+      _this.company = resp.data.company;
+      console.log(_this.company);
+    })["catch"](function (response) {//console.log(response)
+    }); //console.log(this.company)
   }
 });
 
@@ -2809,6 +2821,96 @@ var constants__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__webpack_re
 /*!****************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/dashboard/addCompanyComponent.vue?vue&type=script&lang=js& ***!
   \****************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      valid: true,
+      name: "",
+      description: "",
+      nameRules: [function (v) {
+        return !!v || "Поле не может быть пустым";
+      }, function (v) {
+        return v && v.length <= 100 || "Поле больше 100 символов.";
+      }]
+    };
+  },
+  mounted: function mounted() {
+    var access_token = Vue.cookie.get("XSRF-TOKEN");
+  },
+  methods: {
+    createCompany: function createCompany() {
+      var _this = this;
+
+      var data = {
+        name: this.name,
+        description: this.description
+      };
+
+      if (this.$refs.form.validate()) {
+        api.call("post", "/api/add-company", data).then(function (_ref) {
+          var data = _ref.data;
+
+          _this.$router.push("/dashboard");
+        });
+      }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/dashboard/updateCompanyComponent.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/dashboard/updateCompanyComponent.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -48736,10 +48838,20 @@ var render = function() {
                                       _c(
                                         "v-list-item-avatar",
                                         [
-                                          _c("v-img", {
+                                          _vm.company.logo != ""
+                                            ? _c("v-img", {
+                                                attrs: { src: _vm.company.logo }
+                                              })
+                                            : _c("v-img", {
+                                                attrs: {
+                                                  src:
+                                                    "/public/img/no_image.jpeg"
+                                                }
+                                              }),
+                                          _vm._v(" "),
+                                          _c("img", {
                                             attrs: {
-                                              src:
-                                                "https://randomuser.me/api/portraits/men/85.jpg"
+                                              src: "/public/img/no_images.png"
                                             }
                                           })
                                         ],
@@ -48747,7 +48859,7 @@ var render = function() {
                                       ),
                                       _vm._v(" "),
                                       _c("v-list-item-title", [
-                                        _vm._v("John Leider")
+                                        _vm._v(_vm._s(_vm.company.name))
                                       ]),
                                       _vm._v(" "),
                                       _c(
@@ -48777,19 +48889,16 @@ var render = function() {
                                   _c(
                                     "v-list",
                                     { attrs: { dense: "" } },
-                                    _vm._l(_vm.items, function(item) {
-                                      return _c(
+                                    [
+                                      _c(
                                         "v-list-item",
-                                        {
-                                          key: item.title,
-                                          attrs: { link: "" }
-                                        },
+                                        { attrs: { link: "" } },
                                         [
                                           _c(
                                             "v-list-item-icon",
                                             [
                                               _c("v-icon", [
-                                                _vm._v(_vm._s(item.icon))
+                                                _vm._v("mdi-home-city")
                                               ])
                                             ],
                                             1
@@ -48798,16 +48907,77 @@ var render = function() {
                                           _c(
                                             "v-list-item-content",
                                             [
-                                              _c("v-list-item-title", [
-                                                _vm._v(_vm._s(item.title))
+                                              _c(
+                                                "v-list-item-title",
+                                                [
+                                                  _c(
+                                                    "router-link",
+                                                    {
+                                                      attrs: {
+                                                        to: "/dashboard"
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "К выбору компании "
+                                                      )
+                                                    ]
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-list-item",
+                                        { attrs: { link: "" } },
+                                        [
+                                          _c(
+                                            "v-list-item-icon",
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v("mdi-account")
                                               ])
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-list-item-content",
+                                            [
+                                              _c(
+                                                "v-list-item-title",
+                                                [
+                                                  _c(
+                                                    "router-link",
+                                                    {
+                                                      attrs: {
+                                                        to:
+                                                          "/company/update/" +
+                                                          _vm.company.id
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "Изменить компанию"
+                                                      )
+                                                    ]
+                                                  )
+                                                ],
+                                                1
+                                              )
                                             ],
                                             1
                                           )
                                         ],
                                         1
                                       )
-                                    }),
+                                    ],
                                     1
                                   )
                                 ],
@@ -48845,6 +49015,145 @@ render._withStripped = true
 /*!********************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/dashboard/addCompanyComponent.vue?vue&type=template&id=7d9ada8b& ***!
   \********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-app",
+    { attrs: { id: "inspire" } },
+    [
+      _c(
+        "v-container",
+        [
+          _c("user-panel"),
+          _vm._v(" "),
+          _c(
+            "v-content",
+            [
+              _c(
+                "v-container",
+                { attrs: { fluid: "", "fill-height": "" } },
+                [
+                  _c(
+                    "v-row",
+                    { attrs: { justify: "center" } },
+                    [
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12", md: "6" } },
+                        [
+                          _c("h3", [_vm._v("Создание компании")]),
+                          _vm._v(" "),
+                          _c(
+                            "v-form",
+                            {
+                              ref: "form",
+                              attrs: { "lazy-validation": "" },
+                              model: {
+                                value: _vm.valid,
+                                callback: function($$v) {
+                                  _vm.valid = $$v
+                                },
+                                expression: "valid"
+                              }
+                            },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  "prepend-icon": "",
+                                  name: "name",
+                                  label: "Название компании",
+                                  type: "text",
+                                  rules: _vm.nameRules,
+                                  required: ""
+                                },
+                                model: {
+                                  value: _vm.name,
+                                  callback: function($$v) {
+                                    _vm.name = $$v
+                                  },
+                                  expression: "name"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("v-textarea", {
+                                attrs: {
+                                  name: "description",
+                                  label: "Описание компании",
+                                  hint: "Описание компании",
+                                  id: "description"
+                                },
+                                model: {
+                                  value: _vm.description,
+                                  callback: function($$v) {
+                                    _vm.description = $$v
+                                  },
+                                  expression: "description"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-card-actions",
+                            [
+                              _c("v-spacer"),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: {
+                                    color: "primary",
+                                    disabled: !_vm.valid
+                                  },
+                                  on: { click: _vm.createCompany }
+                                },
+                                [_vm._v("Создать")]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("footer-panel")
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/dashboard/updateCompanyComponent.vue?vue&type=template&id=173a300f&":
+/*!***********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/dashboard/updateCompanyComponent.vue?vue&type=template&id=173a300f& ***!
+  \***********************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -101377,6 +101686,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/dashboard/updateCompanyComponent.vue":
+/*!**********************************************************************!*\
+  !*** ./resources/js/components/dashboard/updateCompanyComponent.vue ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _updateCompanyComponent_vue_vue_type_template_id_173a300f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./updateCompanyComponent.vue?vue&type=template&id=173a300f& */ "./resources/js/components/dashboard/updateCompanyComponent.vue?vue&type=template&id=173a300f&");
+/* harmony import */ var _updateCompanyComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./updateCompanyComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/dashboard/updateCompanyComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _updateCompanyComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _updateCompanyComponent_vue_vue_type_template_id_173a300f___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _updateCompanyComponent_vue_vue_type_template_id_173a300f___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/dashboard/updateCompanyComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/dashboard/updateCompanyComponent.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/components/dashboard/updateCompanyComponent.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_updateCompanyComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./updateCompanyComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/dashboard/updateCompanyComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_updateCompanyComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/dashboard/updateCompanyComponent.vue?vue&type=template&id=173a300f&":
+/*!*****************************************************************************************************!*\
+  !*** ./resources/js/components/dashboard/updateCompanyComponent.vue?vue&type=template&id=173a300f& ***!
+  \*****************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_updateCompanyComponent_vue_vue_type_template_id_173a300f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./updateCompanyComponent.vue?vue&type=template&id=173a300f& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/dashboard/updateCompanyComponent.vue?vue&type=template&id=173a300f&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_updateCompanyComponent_vue_vue_type_template_id_173a300f___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_updateCompanyComponent_vue_vue_type_template_id_173a300f___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/dashboardComponent.vue":
 /*!********************************************************!*\
   !*** ./resources/js/components/dashboardComponent.vue ***!
@@ -101465,6 +101843,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_dashboardComponent_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/dashboardComponent.vue */ "./resources/js/components/dashboardComponent.vue");
 /* harmony import */ var _components_dashboard_addCompanyComponent_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/dashboard/addCompanyComponent.vue */ "./resources/js/components/dashboard/addCompanyComponent.vue");
 /* harmony import */ var _components_dashboard_CompanyComponent_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/dashboard/CompanyComponent.vue */ "./resources/js/components/dashboard/CompanyComponent.vue");
+/* harmony import */ var _components_dashboard_updateCompanyComponent_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/dashboard/updateCompanyComponent.vue */ "./resources/js/components/dashboard/updateCompanyComponent.vue");
 /**
  * rootes app
  */
@@ -101474,6 +101853,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
  //import user-panel from './components/autch/UserPanelComponent.vue';
+
 
 
 
@@ -101525,6 +101905,13 @@ var routes = [{
   path: '/company/:id',
   component: _components_dashboard_CompanyComponent_vue__WEBPACK_IMPORTED_MODULE_9__["default"],
   name: 'company',
+  meta: {
+    middlewareAuth: true
+  }
+}, {
+  path: '/update/company/:id',
+  component: _components_dashboard_updateCompanyComponent_vue__WEBPACK_IMPORTED_MODULE_10__["default"],
+  name: 'updateCompany',
   meta: {
     middlewareAuth: true
   }
