@@ -70,7 +70,7 @@ let routes = [
         meta: { middlewareAuth: true }
     },
     {
-        path: '/update/company/:id',
+        path: '/company/update/:id',
         component: updateCompany,
         name: 'updateCompany',
         meta: { middlewareAuth: true }

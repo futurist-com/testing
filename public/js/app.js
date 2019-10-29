@@ -2778,26 +2778,29 @@ var constants__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__webpack_re
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       company: {
         name: '',
-        logo: ''
+        logo: '',
+        id: ''
       },
       drawer: true,
       mini: true,
       items: [{
         title: "К выбору компаний",
-        icon: "mdi-home-city"
+        icon: "mdi-home-city",
+        link: "/dashboard"
       }, {
         title: "Настройки компании",
-        icon: "mdi-account"
+        icon: "mdi-account",
+        link: "/company/update/"
       }, {
         title: "Структура компании",
-        icon: "mdi-account-group-outline"
+        icon: "mdi-account-group-outline",
+        link: ""
       }],
       id: null
     };
@@ -2808,8 +2811,7 @@ var constants__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__webpack_re
     this.id = this.$route.params.id; //console.log(this.company);
 
     api.call("get", "/api/get-company/" + this.id).then(function (resp) {
-      _this.company = resp.data.company;
-      console.log(_this.company);
+      _this.company = resp.data.company; //console.log(this.company)
     })["catch"](function (response) {//console.log(response)
     }); //console.log(this.company)
   }
@@ -2965,6 +2967,7 @@ __webpack_require__.r(__webpack_exports__);
       valid: true,
       name: "",
       description: "",
+      logo: '',
       nameRules: [function (v) {
         return !!v || "Поле не может быть пустым";
       }, function (v) {
@@ -48847,13 +48850,7 @@ var render = function() {
                                                   src:
                                                     "/public/img/no_image.jpeg"
                                                 }
-                                              }),
-                                          _vm._v(" "),
-                                          _c("img", {
-                                            attrs: {
-                                              src: "/public/img/no_images.png"
-                                            }
-                                          })
+                                              })
                                         ],
                                         1
                                       ),
@@ -48890,48 +48887,48 @@ var render = function() {
                                     "v-list",
                                     { attrs: { dense: "" } },
                                     [
-                                      _c(
-                                        "v-list-item",
-                                        { attrs: { link: "" } },
-                                        [
-                                          _c(
-                                            "v-list-item-icon",
-                                            [
-                                              _c("v-icon", [
-                                                _vm._v("mdi-home-city")
-                                              ])
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "v-list-item-content",
-                                            [
-                                              _c(
-                                                "v-list-item-title",
-                                                [
-                                                  _c(
-                                                    "router-link",
-                                                    {
-                                                      attrs: {
-                                                        to: "/dashboard"
-                                                      }
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        "К выбору компании "
-                                                      )
-                                                    ]
-                                                  )
-                                                ],
-                                                1
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        ],
-                                        1
-                                      ),
+                                      _vm._l(_vm.items, function(item) {
+                                        return _c(
+                                          "v-list-item",
+                                          { attrs: { link: "" } },
+                                          [
+                                            _c(
+                                              "v-list-item-icon",
+                                              [
+                                                _c("v-icon", [
+                                                  _vm._v(_vm._s(item.icon))
+                                                ])
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "v-list-item-content",
+                                              [
+                                                _c(
+                                                  "v-list-item-title",
+                                                  [
+                                                    _c(
+                                                      "router-link",
+                                                      {
+                                                        attrs: { to: item.link }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(item.title)
+                                                        )
+                                                      ]
+                                                    )
+                                                  ],
+                                                  1
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          ],
+                                          1
+                                        )
+                                      }),
                                       _vm._v(" "),
                                       _c(
                                         "v-list-item",
@@ -48978,7 +48975,7 @@ var render = function() {
                                         1
                                       )
                                     ],
-                                    1
+                                    2
                                   )
                                 ],
                                 1
@@ -49189,7 +49186,7 @@ var render = function() {
                         "v-col",
                         { attrs: { cols: "12", md: "6" } },
                         [
-                          _c("h3", [_vm._v("Создание компании")]),
+                          _c("h3", [_vm._v("Редактирование компании")]),
                           _vm._v(" "),
                           _c(
                             "v-form",
@@ -49256,7 +49253,7 @@ var render = function() {
                                   },
                                   on: { click: _vm.createCompany }
                                 },
-                                [_vm._v("Создать")]
+                                [_vm._v("Сохранить")]
                               )
                             ],
                             1
@@ -101909,7 +101906,7 @@ var routes = [{
     middlewareAuth: true
   }
 }, {
-  path: '/update/company/:id',
+  path: '/company/update/:id',
   component: _components_dashboard_updateCompanyComponent_vue__WEBPACK_IMPORTED_MODULE_10__["default"],
   name: 'updateCompany',
   meta: {

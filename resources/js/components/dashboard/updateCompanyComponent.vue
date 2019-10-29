@@ -7,7 +7,7 @@
         <v-container fluid fill-height>
           <v-row justify="center">
             <v-col cols="12" md="6">
-              <h3>Создание компании</h3>
+              <h3>Редактирование компании</h3>
               <v-form v-model="valid" ref="form" lazy-validation>
                 <v-text-field
                   prepend-icon
@@ -29,7 +29,7 @@
 
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn v-on:click="createCompany" color="primary" :disabled="!valid">Создать</v-btn>
+                <v-btn v-on:click="createCompany" color="primary" :disabled="!valid">Сохранить</v-btn>
               </v-card-actions>
             </v-col>
           </v-row>
@@ -48,6 +48,7 @@ export default {
       valid: true,
       name: "",
       description: "",
+      logo:'',
       nameRules: [
         v => !!v || "Поле не может быть пустым",
         v => (v && v.length <= 100) || "Поле больше 100 символов."

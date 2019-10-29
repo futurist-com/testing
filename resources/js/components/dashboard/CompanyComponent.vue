@@ -12,7 +12,6 @@
                     <v-list-item-avatar>
                       <v-img v-if="company.logo!=''" :src="company.logo"></v-img>
                       <v-img v-else src="/public/img/no_image.jpeg"></v-img>
-                      <img src="/public/img/no_images.png">
                     </v-list-item-avatar>
                     
                     <v-list-item-title>{{company.name}}</v-list-item-title>
@@ -25,12 +24,12 @@
                   <v-divider></v-divider>
 
                   <v-list dense>
-                    <v-list-item  link>
+                    <v-list-item v-for="item in items" link>
                       <v-list-item-icon>
-                        <v-icon>mdi-home-city</v-icon>
+                        <v-icon>{{item.icon}}</v-icon>
                       </v-list-item-icon>
                       <v-list-item-content>
-                        <v-list-item-title><router-link to="/dashboard">К выбору компании </router-link></v-list-item-title>
+                        <v-list-item-title><router-link :to="item.link">{{item.title}}</router-link></v-list-item-title>
                       </v-list-item-content>
                     </v-list-item>
                     <v-list-item  link>
@@ -54,19 +53,21 @@
 
 <script>
 import { SSL_OP_SSLREF2_REUSE_CERT_TYPE_BUG } from "constants";
+import { METHODS } from 'http';
 export default {
   data: function() {
     return {
       company: {
         name:'',
-        logo:''
+        logo:'',
+        id:'',
       },
       drawer: true,
       mini: true,
       items: [
-        { title: "К выбору компаний", icon: "mdi-home-city" },
-        { title: "Настройки компании", icon: "mdi-account" },
-        { title: "Структура компании", icon: "mdi-account-group-outline" }
+        { title: "К выбору компаний", icon: "mdi-home-city", link:"/dashboard" },
+        { title: "Настройки компании", icon: "mdi-account", link:"/company/update/"+this.getCompanyId() },
+        { title: "Структура компании", icon: "mdi-account-group-outline", link:"" }
       ], 
       id:null,
     };
@@ -77,11 +78,17 @@ export default {
     //console.log(this.company);
     api.call("get", "/api/get-company/"+this.id).then((resp) => {
       this.company = resp.data.company;
-      console.log(this.company)
+      //console.log(this.company)
     }).catch(response=>{
       //console.log(response)
     });
     //console.log(this.company)
+  },
+  methods:{
+    getCompanyId:function(){
+      return this.company.id 
+    }
   }
+  
 };
 </script>
