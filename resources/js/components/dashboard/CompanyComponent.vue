@@ -3,49 +3,9 @@
     <user-panel></user-panel>
     <div class="card-body">
       <v-container grid-list-md text-xs-center>
-        <div>
-          <v-layout row wrap class="mt-10">
-            <v-row>
-              <v-card>
-                <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" permanent>
-                  <v-list-item>
-                    <v-list-item-avatar>
-                      <v-img v-if="company.logo!=''" :src="company.logo"></v-img>
-                      <v-img v-else src="/public/img/no_image.jpeg"></v-img>
-                    </v-list-item-avatar>
-                    
-                    <v-list-item-title>{{company.name}}</v-list-item-title>
-
-                    <v-btn icon @click.stop="mini = !mini">
-                      <v-icon>mdi-chevron-left</v-icon>
-                    </v-btn>
-                  </v-list-item>
-
-                  <v-divider></v-divider>
-
-                  <v-list dense>
-                    <v-list-item v-for="item in items" link>
-                      <v-list-item-icon>
-                        <v-icon>{{item.icon}}</v-icon>
-                      </v-list-item-icon>
-                      <v-list-item-content>
-                        <v-list-item-title><router-link :to="item.link">{{item.title}}</router-link></v-list-item-title>
-                      </v-list-item-content>
-                    </v-list-item>
-                    <v-list-item  link>
-                      <v-list-item-icon>
-                        <v-icon>mdi-account</v-icon>
-                      </v-list-item-icon>
-                      <v-list-item-content>
-                        <v-list-item-title><router-link :to="`/company/update/${company.id}`">Изменить компанию</router-link></v-list-item-title>
-                      </v-list-item-content>
-                    </v-list-item>
-                  </v-list>
-                </v-navigation-drawer>
-              </v-card>
-            </v-row>
-          </v-layout>
-        </div>
+        <menu-company-component
+          v-bind:company="company"
+        ></menu-company-component>
       </v-container>
     </div>
   </v-app>
@@ -62,12 +22,8 @@ export default {
         logo:'',
         id:'',
       },
-      drawer: true,
-      mini: true,
+      
       items: [
-        { title: "К выбору компаний", icon: "mdi-home-city", link:"/dashboard" },
-        { title: "Настройки компании", icon: "mdi-account", link:"/company/update/"+this.getCompanyId() },
-        { title: "Структура компании", icon: "mdi-account-group-outline", link:"" }
       ], 
       id:null,
     };
@@ -79,9 +35,15 @@ export default {
     api.call("get", "/api/get-company/"+this.id).then((resp) => {
       this.company = resp.data.company;
       //console.log(this.company)
+      this.id=this.company.id
     }).catch(response=>{
       //console.log(response)
     });
+    this.items= [
+        { title: "К выбору компаний", icon: "mdi-home-city",route:"/"},
+        { title: "Настройки компании", icon: "mdi-account",route:"company/update/"+this.id },
+        { title: "Структура компании", icon: "mdi-account-group-outline",route:"/" }
+      ]
     //console.log(this.company)
   },
   methods:{
