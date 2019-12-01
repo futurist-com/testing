@@ -2727,6 +2727,7 @@ __webpack_require__.r(__webpack_exports__);
 var constants__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__webpack_require__.t(/*! constants */ "./node_modules/constants-browserify/constants.json", 1);
 /* harmony import */ var http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! http */ "./node_modules/stream-http/index.js");
 /* harmony import */ var http__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(http__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _MenuCompanyComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./MenuCompanyComponent.vue */ "./resources/js/components/dashboard/MenuCompanyComponent.vue");
 //
 //
 //
@@ -2738,51 +2739,63 @@ var constants__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__webpack_re
 //
 //
 //
-//
-//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      company: {
-        name: '',
-        logo: '',
-        id: ''
-      },
-      items: [],
-      id: null
+      id: null,
+      company: {}
     };
   },
-  mounted: function mounted() {
-    var _this = this;
+  created: function created() {
+    this.getCompanyId(); //console.log(this.company)
 
-    this.id = this.$route.params.id; //console.log(this.company);
-
-    api.call("get", "/api/get-company/" + this.id).then(function (resp) {
-      _this.company = resp.data.company; //console.log(this.company)
-
-      _this.id = _this.company.id;
-    })["catch"](function (response) {//console.log(response)
-    });
-    this.items = [{
-      title: "К выбору компаний",
-      icon: "mdi-home-city",
-      route: "/"
-    }, {
-      title: "Настройки компании",
-      icon: "mdi-account",
-      route: "company/update/" + this.id
-    }, {
-      title: "Структура компании",
-      icon: "mdi-account-group-outline",
-      route: "/"
-    }]; //console.log(this.company)
+    /*this.id = this.$route.params.id;
+    //console.log(this.id);
+    api
+      .call("get", "/api/get-company/" + this.id)
+      .then(resp => {
+        //this.company = resp.data.company;
+        //this.id=this.company.id
+        Vue.set(this, 'comp', resp.data.company)
+        //console.log(this.company)
+        //console.log(this.company);
+        //this.id = this.company.id;
+      })
+      .catch(response => {
+        //console.log(response)
+      });
+     */
+    //this.getCompanyId()
   },
+
+  /*beforeMount(){
+   
+    
+     console.log(this.company)
+  },
+  */
   methods: {
     getCompanyId: function getCompanyId() {
-      return this.company.id;
+      var _this = this;
+
+      var id = this.$route.params.id;
+      api.call("get", "/api/get-company/" + id).then(function (resp) {
+        _this.company = resp.data.company; //console.log(this.company)
+      })["catch"](function (response) {//console.log(response)
+      });
     }
+    /*,
+    computed: {
+     companyProps: {
+       get: function() {
+         return this.company;
+       }
+     }
+    }*/
+
   }
 });
 
@@ -2842,15 +2855,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['company'],
+  props: ["comp"],
+  model: {
+    prop: "comp"
+  },
   data: function data() {
     return {
       drawer: true,
       mini: true,
-      items: []
+      items: [] //company:this.comp
+
     };
   },
   mounted: function mounted() {
+    /*let vm = this;      
+         vm.$nextTick(function () {      
+           console.log(vm.company);
+        });*/
+    //console.log(this.$route.params.id)
+    //console.log("_____________________")
+    //console.log(this.comp);
     this.items = [{
       title: "К выбору компаний",
       icon: "mdi-home-city",
@@ -2858,13 +2882,12 @@ __webpack_require__.r(__webpack_exports__);
     }, {
       title: "Настройки компании",
       icon: "mdi-account",
-      route: "company/update/" + this.id
+      route: "/company/update/" + this.$route.params.id
     }, {
       title: "Структура компании",
       icon: "mdi-account-group-outline",
       route: "/"
     }];
-    console.log(this.company);
   }
 });
 
@@ -3012,13 +3035,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      company: {},
       valid: true,
       name: "",
       description: "",
-      logo: '',
+      logo: "",
       nameRules: [function (v) {
         return !!v || "Поле не может быть пустым";
       }, function (v) {
@@ -3028,21 +3056,32 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     var access_token = Vue.cookie.get("XSRF-TOKEN");
+    this.getCompany();
   },
   methods: {
-    createCompany: function createCompany() {
+    getCompany: function getCompany() {
       var _this = this;
 
+      var id = this.$route.params.id;
+      api.call("get", "api/get-company/" + id).then(function (data) {
+        _this.company = data.data.company;
+        console.log(_this.company);
+      });
+    },
+    updateCompany: function updateCompany() {
+      var _this2 = this;
+
       var data = {
-        name: this.name,
-        description: this.description
+        name: this.company.name,
+        description: this.company.description
       };
+      var id = this.$route.params.id;
 
       if (this.$refs.form.validate()) {
-        api.call("post", "/api/add-company", data).then(function (_ref) {
+        api.call("put", "/api/company/" + id, data).then(function (_ref) {
           var data = _ref.data;
 
-          _this.$router.push("/dashboard");
+          _this2.$router.push("/dashboard");
         });
       }
     }
@@ -48848,7 +48887,7 @@ var render = function() {
           _c(
             "v-container",
             { attrs: { "grid-list-md": "", "text-xs-center": "" } },
-            [_c("menu-company-component", { attrs: { company: _vm.company } })],
+            [_c("menu-company-component", { attrs: { comp: _vm.company } })],
             1
           )
         ],
@@ -48920,17 +48959,15 @@ var render = function() {
                           _c(
                             "v-list-item-avatar",
                             [
-                              _vm.company.logo != ""
-                                ? _c("v-img", {
-                                    attrs: { src: _vm.company.logo }
-                                  })
+                              _vm.comp.logo != ""
+                                ? _c("v-img", { attrs: { src: _vm.comp.logo } })
                                 : _vm._e()
                             ],
                             1
                           ),
                           _vm._v(" "),
                           _c("v-list-item-title", [
-                            _vm._v(_vm._s(_vm.company.name))
+                            _vm._v(_vm._s(_vm.comp.name))
                           ]),
                           _vm._v(" "),
                           _c(
@@ -49217,11 +49254,11 @@ var render = function() {
                                   required: ""
                                 },
                                 model: {
-                                  value: _vm.name,
+                                  value: _vm.company.name,
                                   callback: function($$v) {
-                                    _vm.name = $$v
+                                    _vm.$set(_vm.company, "name", $$v)
                                   },
-                                  expression: "name"
+                                  expression: "company.name"
                                 }
                               }),
                               _vm._v(" "),
@@ -49233,16 +49270,30 @@ var render = function() {
                                   id: "description"
                                 },
                                 model: {
-                                  value: _vm.description,
+                                  value: _vm.company.description,
                                   callback: function($$v) {
-                                    _vm.description = $$v
+                                    _vm.$set(_vm.company, "description", $$v)
                                   },
-                                  expression: "description"
+                                  expression: "company.description"
                                 }
                               })
                             ],
                             1
                           ),
+                          _vm._v(" "),
+                          _c(
+                            "v-list-item-avatar",
+                            { attrs: { size: "128" } },
+                            [_c("v-img", { attrs: { src: _vm.company.logo } })],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("v-file-input", {
+                            attrs: {
+                              accept: "image/*",
+                              label: "Загрузите логотип"
+                            }
+                          }),
                           _vm._v(" "),
                           _c(
                             "v-card-actions",
@@ -49256,7 +49307,7 @@ var render = function() {
                                     color: "primary",
                                     disabled: !_vm.valid
                                   },
-                                  on: { click: _vm.createCompany }
+                                  on: { click: _vm.updateCompany }
                                 },
                                 [_vm._v("Сохранить")]
                               )

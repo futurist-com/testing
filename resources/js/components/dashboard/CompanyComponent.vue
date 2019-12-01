@@ -3,9 +3,7 @@
     <user-panel></user-panel>
     <div class="card-body">
       <v-container grid-list-md text-xs-center>
-        <menu-company-component
-          v-bind:company="company"
-        ></menu-company-component>
+        <menu-company-component v-bind:comp="company"></menu-company-component>
       </v-container>
     </div>
   </v-app>
@@ -13,44 +11,63 @@
 
 <script>
 import { SSL_OP_SSLREF2_REUSE_CERT_TYPE_BUG } from "constants";
-import { METHODS } from 'http';
+import { METHODS } from "http";
+import MenuCompanyComponentVue from "./MenuCompanyComponent.vue";
 export default {
   data: function() {
     return {
-      company: {
-        name:'',
-        logo:'',
-        id:'',
-      },
-      
-      items: [
-      ], 
-      id:null,
+      id: null,
+      company: {}
     };
   },
-
-  mounted() {
-    this.id=this.$route.params.id;
-    //console.log(this.company);
-    api.call("get", "/api/get-company/"+this.id).then((resp) => {
-      this.company = resp.data.company;
-      //console.log(this.company)
-      this.id=this.company.id
-    }).catch(response=>{
-      //console.log(response)
-    });
-    this.items= [
-        { title: "К выбору компаний", icon: "mdi-home-city",route:"/"},
-        { title: "Настройки компании", icon: "mdi-account",route:"company/update/"+this.id },
-        { title: "Структура компании", icon: "mdi-account-group-outline",route:"/" }
-      ]
+  created() {
+     this.getCompanyId()
     //console.log(this.company)
+
+    /*this.id = this.$route.params.id;
+    //console.log(this.id);
+    api
+      .call("get", "/api/get-company/" + this.id)
+      .then(resp => {
+        //this.company = resp.data.company;
+        //this.id=this.company.id
+        Vue.set(this, 'comp', resp.data.company)
+        //console.log(this.company)
+        //console.log(this.company);
+        //this.id = this.company.id;
+      })
+      .catch(response => {
+        //console.log(response)
+      });
+     */
+    //this.getCompanyId()
   },
-  methods:{
-    getCompanyId:function(){
-      return this.company.id 
+  /*beforeMount(){
+   
+    
+     console.log(this.company)
+  },
+  */
+  methods: {
+    getCompanyId: function() {
+      var id = this.$route.params.id;
+      api
+        .call("get", "/api/get-company/" + id)
+        .then(resp => {
+          this.company = resp.data.company;
+          //console.log(this.company)
+        })
+        .catch(response => {
+          //console.log(response)
+        });
     }
-  }
-  
+  }/*,
+  computed: {
+    companyProps: {
+      get: function() {
+        return this.company;
+      }
+    }
+  }*/
 };
 </script>

@@ -37,4 +37,14 @@ class CompanyController extends Controller
         'status' => 200
       ]);
   }
+  public function uploadLogo(Request $request){
+    $patch=$request->file('logo')->store('logo');
+  }
+  
+  public function update($id, Request $request){
+      $company=Company::find($id);
+      $company->name=$request->name;
+      $company->description=$request->description;
+      $company->save();
+  }
 }

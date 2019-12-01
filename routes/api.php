@@ -33,4 +33,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/get-company/{id}', 'API\CompanyController@getCompany');
     
     Route::post('/add-company', 'API\CompanyController@store');
+    Route::put('/company/{id}', 'API\CompanyController@update');
+    
+    Route::post('/load_logo', 'API\CompanyController@loadLogo');
 });

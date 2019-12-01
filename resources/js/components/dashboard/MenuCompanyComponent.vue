@@ -6,10 +6,10 @@
           <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" permanent>
             <v-list-item>
               <v-list-item-avatar>
-                <v-img v-if="company.logo!=''" :src="company.logo"></v-img>
+                <v-img v-if="comp.logo!=''" :src="comp.logo"></v-img>
               </v-list-item-avatar>
 
-              <v-list-item-title>{{company.name}}</v-list-item-title>
+              <v-list-item-title>{{comp.name}}</v-list-item-title>
 
               <v-btn icon @click.stop="mini = !mini">
                 <v-icon>mdi-chevron-left</v-icon>
@@ -44,21 +44,48 @@
 
 <script>
 export default {
-  props:['company'],
+  props: ["comp"],
+  model: {
+    prop: "comp"
+  },
   data: function() {
     return {
-        drawer: true,
+      drawer: true,
       mini: true,
       items: [],
+      //company:this.comp
     };
   },
   mounted() {
-     this.items= [
-        { title: "К выбору компаний", icon: "mdi-home-city",route:"/"},
-        { title: "Настройки компании", icon: "mdi-account",route:"company/update/"+this.id },
-        { title: "Структура компании", icon: "mdi-account-group-outline",route:"/" }
-      ]
-      console.log(this.company);
-  }
+    /*let vm = this;      
+
+        vm.$nextTick(function () {      
+           console.log(vm.company);
+        });*/
+    //console.log(this.$route.params.id)
+    //console.log("_____________________")
+
+    //console.log(this.comp);
+    this.items = [
+      { title: "К выбору компаний", icon: "mdi-home-city", route: "/" },
+      {
+        title: "Настройки компании",
+        icon: "mdi-account",
+        route: "/company/update/"+ this.$route.params.id
+      },
+      {
+        title: "Структура компании",
+        icon: "mdi-account-group-outline",
+        route: "/"
+      }
+    ];
+  },
+  /*computed: {
+    company: {
+      set: function() {
+        return this.comp
+      }
+    }
+  }*/
 };
 </script>

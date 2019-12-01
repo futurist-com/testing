@@ -14,7 +14,7 @@
                   name="name"
                   label="Название компании"
                   type="text"
-                  v-model="name"
+                  v-model="company.name"
                   :rules="nameRules"
                   required
                 ></v-text-field>
@@ -22,14 +22,18 @@
                   name="description"
                   label="Описание компании"
                   hint="Описание компании"
-                  v-model="description"
+                  v-model="company.description"
                   id="description"
                 ></v-textarea>
               </v-form>
 
+              <v-list-item-avatar size="128">
+                <v-img  :src="company.logo"></v-img>
+              </v-list-item-avatar>
+              <v-file-input accept="image/*" label="Загрузите логотип"></v-file-input>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn v-on:click="createCompany" color="primary" :disabled="!valid">Сохранить</v-btn>
+                <v-btn v-on:click="updateCompany" color="primary" :disabled="!valid">Сохранить</v-btn>
               </v-card-actions>
             </v-col>
           </v-row>
@@ -45,10 +49,11 @@
 export default {
   data: function() {
     return {
+      company: {},
       valid: true,
       name: "",
       description: "",
-      logo:'',
+      logo: "",
       nameRules: [
         v => !!v || "Поле не может быть пустым",
         v => (v && v.length <= 100) || "Поле больше 100 символов."
@@ -57,20 +62,29 @@ export default {
   },
   mounted() {
     let access_token = Vue.cookie.get("XSRF-TOKEN");
+    this.getCompany();
   },
   methods: {
-    createCompany: function() {
+    getCompany: function() {
+      let id = this.$route.params.id;
+      api.call("get", `api/get-company/` + id).then(data => {
+        this.company = data.data.company;
+        console.log(this.company);
+      });
+    },
+    updateCompany: function() {
       let data = {
-        name: this.name,
-        description: this.description
+        name: this.company.name,
+        description: this.company.description
       };
+      let id = this.$route.params.id
       if (this.$refs.form.validate()) {
-        api.call("post", "/api/add-company", data).then(({ data }) => {
+        api.call("put", `/api/company/`+id, data).then(({ data }) => {
           this.$router.push("/dashboard");
         });
       }
-    }
-  },
-  
+    },
+
+  }
 };
 </script>
