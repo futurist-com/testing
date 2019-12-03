@@ -2852,8 +2852,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["comp"],
   model: {
@@ -2992,6 +2990,16 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -48923,114 +48931,99 @@ var render = function() {
     "div",
     [
       _c(
-        "v-layout",
-        { staticClass: "mt-10", attrs: { row: "", wrap: "" } },
+        "v-card",
         [
           _c(
-            "v-row",
+            "v-navigation-drawer",
+            {
+              attrs: { "mini-variant": _vm.mini, permanent: "" },
+              on: {
+                "update:miniVariant": function($event) {
+                  _vm.mini = $event
+                },
+                "update:mini-variant": function($event) {
+                  _vm.mini = $event
+                }
+              },
+              model: {
+                value: _vm.drawer,
+                callback: function($$v) {
+                  _vm.drawer = $$v
+                },
+                expression: "drawer"
+              }
+            },
             [
               _c(
-                "v-card",
+                "v-list-item",
                 [
                   _c(
-                    "v-navigation-drawer",
+                    "v-list-item-avatar",
+                    [
+                      _vm.comp.logo != ""
+                        ? _c("v-img", { attrs: { src: _vm.comp.logo } })
+                        : _vm._e()
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("v-list-item-title", [_vm._v(_vm._s(_vm.comp.name))]),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
                     {
-                      attrs: { "mini-variant": _vm.mini, permanent: "" },
+                      attrs: { icon: "" },
                       on: {
-                        "update:miniVariant": function($event) {
-                          _vm.mini = $event
-                        },
-                        "update:mini-variant": function($event) {
-                          _vm.mini = $event
+                        click: function($event) {
+                          $event.stopPropagation()
+                          _vm.mini = !_vm.mini
                         }
-                      },
-                      model: {
-                        value: _vm.drawer,
-                        callback: function($$v) {
-                          _vm.drawer = $$v
-                        },
-                        expression: "drawer"
                       }
                     },
+                    [_c("v-icon", [_vm._v("mdi-chevron-left")])],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("v-divider"),
+              _vm._v(" "),
+              _c(
+                "v-list",
+                { attrs: { dense: "" } },
+                _vm._l(_vm.items, function(item, index) {
+                  return _c(
+                    "v-list-item",
+                    { key: index, attrs: { data: item, link: "" } },
                     [
                       _c(
-                        "v-list-item",
-                        [
-                          _c(
-                            "v-list-item-avatar",
-                            [
-                              _vm.comp.logo != ""
-                                ? _c("v-img", { attrs: { src: _vm.comp.logo } })
-                                : _vm._e()
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c("v-list-item-title", [
-                            _vm._v(_vm._s(_vm.comp.name))
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: { icon: "" },
-                              on: {
-                                click: function($event) {
-                                  $event.stopPropagation()
-                                  _vm.mini = !_vm.mini
-                                }
-                              }
-                            },
-                            [_c("v-icon", [_vm._v("mdi-chevron-left")])],
-                            1
-                          )
-                        ],
+                        "v-list-item-icon",
+                        [_c("v-icon", [_vm._v(_vm._s(item.icon))])],
                         1
                       ),
                       _vm._v(" "),
-                      _c("v-divider"),
-                      _vm._v(" "),
                       _c(
-                        "v-list",
-                        { attrs: { dense: "" } },
-                        _vm._l(_vm.items, function(item, index) {
-                          return _c(
-                            "v-list-item",
-                            { key: index, attrs: { data: item, link: "" } },
+                        "v-list-item-content",
+                        [
+                          _c(
+                            "v-list-item-title",
                             [
                               _c(
-                                "v-list-item-icon",
-                                [_c("v-icon", [_vm._v(_vm._s(item.icon))])],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-item-content",
-                                [
-                                  _c(
-                                    "v-list-item-title",
-                                    [
-                                      _c(
-                                        "router-link",
-                                        { attrs: { to: "" + item.route } },
-                                        [_vm._v(_vm._s(item.title))]
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
+                                "router-link",
+                                { attrs: { to: "" + item.route } },
+                                [_vm._v(_vm._s(item.title))]
                               )
                             ],
                             1
                           )
-                        }),
+                        ],
                         1
                       )
                     ],
                     1
                   )
-                ],
+                }),
                 1
               )
             ],
@@ -49214,102 +49207,135 @@ var render = function() {
           _c("user-panel"),
           _vm._v(" "),
           _c(
-            "v-content",
+            "div",
+            { staticClass: "card-body" },
             [
               _c(
                 "v-container",
-                { attrs: { fluid: "", "fill-height": "" } },
+                { attrs: { "grid-list-md": "", "text-xs-center": "" } },
                 [
                   _c(
                     "v-row",
-                    { attrs: { justify: "center" } },
+                    { staticClass: "pt-5", attrs: { fluid: "" } },
                     [
                       _c(
                         "v-col",
-                        { attrs: { cols: "12", md: "6" } },
+                        { attrs: { cols: "3" } },
                         [
-                          _c("h3", [_vm._v("Редактирование компании")]),
-                          _vm._v(" "),
+                          _c("menu-company-component", {
+                            attrs: { comp: _vm.company }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        [
                           _c(
-                            "v-form",
-                            {
-                              ref: "form",
-                              attrs: { "lazy-validation": "" },
-                              model: {
-                                value: _vm.valid,
-                                callback: function($$v) {
-                                  _vm.valid = $$v
-                                },
-                                expression: "valid"
-                              }
-                            },
+                            "v-row",
+                            { attrs: { justify: "left" } },
                             [
-                              _c("v-text-field", {
-                                attrs: {
-                                  "prepend-icon": "",
-                                  name: "name",
-                                  label: "Название компании",
-                                  type: "text",
-                                  rules: _vm.nameRules,
-                                  required: ""
-                                },
-                                model: {
-                                  value: _vm.company.name,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.company, "name", $$v)
-                                  },
-                                  expression: "company.name"
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("v-textarea", {
-                                attrs: {
-                                  name: "description",
-                                  label: "Описание компании",
-                                  hint: "Описание компании",
-                                  id: "description"
-                                },
-                                model: {
-                                  value: _vm.company.description,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.company, "description", $$v)
-                                  },
-                                  expression: "company.description"
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-list-item-avatar",
-                            { attrs: { size: "128" } },
-                            [_c("v-img", { attrs: { src: _vm.company.logo } })],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c("v-file-input", {
-                            attrs: {
-                              accept: "image/*",
-                              label: "Загрузите логотип"
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "v-card-actions",
-                            [
-                              _c("v-spacer"),
-                              _vm._v(" "),
                               _c(
-                                "v-btn",
-                                {
-                                  attrs: {
-                                    color: "primary",
-                                    disabled: !_vm.valid
-                                  },
-                                  on: { click: _vm.updateCompany }
-                                },
-                                [_vm._v("Сохранить")]
+                                "v-col",
+                                { attrs: { cols: "12", md: "6" } },
+                                [
+                                  _c("h3", [_vm._v("Редактирование компании")]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-form",
+                                    {
+                                      ref: "form",
+                                      attrs: { "lazy-validation": "" },
+                                      model: {
+                                        value: _vm.valid,
+                                        callback: function($$v) {
+                                          _vm.valid = $$v
+                                        },
+                                        expression: "valid"
+                                      }
+                                    },
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          "prepend-icon": "",
+                                          name: "name",
+                                          label: "Название компании",
+                                          type: "text",
+                                          rules: _vm.nameRules,
+                                          required: ""
+                                        },
+                                        model: {
+                                          value: _vm.company.name,
+                                          callback: function($$v) {
+                                            _vm.$set(_vm.company, "name", $$v)
+                                          },
+                                          expression: "company.name"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("v-textarea", {
+                                        attrs: {
+                                          name: "description",
+                                          label: "Описание компании",
+                                          hint: "Описание компании",
+                                          id: "description"
+                                        },
+                                        model: {
+                                          value: _vm.company.description,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.company,
+                                              "description",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "company.description"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item-avatar",
+                                    { attrs: { size: "128" } },
+                                    [
+                                      _c("v-img", {
+                                        attrs: { src: _vm.company.logo }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c("v-file-input", {
+                                    attrs: {
+                                      accept: "image/*",
+                                      label: "Загрузите логотип"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-card-actions",
+                                    [
+                                      _c("v-spacer"),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            color: "primary",
+                                            disabled: !_vm.valid
+                                          },
+                                          on: { click: _vm.updateCompany }
+                                        },
+                                        [_vm._v("Сохранить")]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
                               )
                             ],
                             1

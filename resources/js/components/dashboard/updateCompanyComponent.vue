@@ -2,11 +2,16 @@
   <v-app id="inspire">
     <v-container>
       <user-panel></user-panel>
-
-      <v-content>
-        <v-container fluid fill-height>
-          <v-row justify="center">
-            <v-col cols="12" md="6">
+    <div class="card-body">
+      <v-container grid-list-md text-xs-center>
+         <v-row fluid class="pt-5">
+        <v-col cols="3">
+        <menu-company-component v-bind:comp="company"></menu-company-component>
+        </v-col>
+         
+            <v-col>
+              <v-row justify="left">
+                <v-col cols="12" md="6" >
               <h3>Редактирование компании</h3>
               <v-form v-model="valid" ref="form" lazy-validation>
                 <v-text-field
@@ -35,10 +40,15 @@
                 <v-spacer></v-spacer>
                 <v-btn v-on:click="updateCompany" color="primary" :disabled="!valid">Сохранить</v-btn>
               </v-card-actions>
+                </v-col>
+              </v-row>
             </v-col>
           </v-row>
         </v-container>
-      </v-content>
+      </div>
+     
+       
+      
 
       <footer-panel></footer-panel>
     </v-container>

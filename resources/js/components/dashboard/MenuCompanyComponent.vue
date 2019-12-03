@@ -1,7 +1,6 @@
 <template>
   <div>
-    <v-layout row wrap class="mt-10">
-      <v-row>
+   
         <v-card>
           <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" permanent>
             <v-list-item>
@@ -37,8 +36,7 @@
             </v-list>
           </v-navigation-drawer>
         </v-card>
-      </v-row>
-    </v-layout>
+      
   </div>
 </template>
 
