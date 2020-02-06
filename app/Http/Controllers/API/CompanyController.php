@@ -37,7 +37,9 @@ class CompanyController extends Controller
         'status' => 200
       ]);
   }
+  
   public function uploadLogo(Request $request){
+    dd($request);
     $patch=$request->file('logo')->store('logo');
   }
   
@@ -47,4 +49,5 @@ class CompanyController extends Controller
       $company->description=$request->description;
       $company->save();
   }
+
 }

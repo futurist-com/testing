@@ -1,6 +1,5 @@
 <template>
   <div>
-   
         <v-card>
           <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" permanent>
             <v-list-item>
@@ -65,7 +64,7 @@ export default {
 
     //console.log(this.comp);
     this.items = [
-      { title: "К выбору компаний", icon: "mdi-home-city", route: "/" },
+      { title: "К выбору компаний", icon: "mdi-home-city", route: "/dashboard" },
       {
         title: "Настройки компании",
         icon: "mdi-account",

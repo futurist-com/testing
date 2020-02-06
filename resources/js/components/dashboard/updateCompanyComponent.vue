@@ -5,12 +5,9 @@
     <div class="card-body">
       <v-container grid-list-md text-xs-center>
          <v-row fluid class="pt-5">
-        <v-col cols="3">
         <menu-company-component v-bind:comp="company"></menu-company-component>
-        </v-col>
-         
-            <v-col>
-              <v-row justify="left">
+          <v-col class="align-centr justify-center">
+              <v-row justify="left" class="align-centr justify-center">
                 <v-col cols="12" md="6" >
               <h3>Редактирование компании</h3>
               <v-form v-model="valid" ref="form" lazy-validation>
@@ -35,7 +32,8 @@
               <v-list-item-avatar size="128">
                 <v-img  :src="company.logo"></v-img>
               </v-list-item-avatar>
-              <v-file-input accept="image/*" label="Загрузите логотип"></v-file-input>
+              <v-file-input accept="image/*" label="Загрузите логотип" model="logo" @change="onUpload">
+              </v-file-input>
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn v-on:click="updateCompany" color="primary" :disabled="!valid">Сохранить</v-btn>
@@ -94,6 +92,15 @@ export default {
         });
       }
     },
+    onUpload:function(event){
+      
+      console.log(event)
+      let fd= new FormData()
+      fd.append('image', event, event.name)
+      api.call("post", `api/upload-logo`, fd).then(data=>{
+        console.log('upload logo suesses')
+      })
+    }
 
   }
 };

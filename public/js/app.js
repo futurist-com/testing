@@ -2851,7 +2851,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["comp"],
   model: {
@@ -2876,7 +2875,7 @@ __webpack_require__.r(__webpack_exports__);
     this.items = [{
       title: "К выбору компаний",
       icon: "mdi-home-city",
-      route: "/"
+      route: "/dashboard"
     }, {
       title: "Настройки компании",
       icon: "mdi-account",
@@ -3045,8 +3044,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3092,6 +3089,14 @@ __webpack_require__.r(__webpack_exports__);
           _this2.$router.push("/dashboard");
         });
       }
+    },
+    onUpload: function onUpload(event) {
+      console.log(event);
+      var fd = new FormData();
+      fd.append('image', event, event.name);
+      api.call("post", "api/upload-logo", fd).then(function (data) {
+        console.log('upload logo suesses');
+      });
     }
   }
 });
@@ -48890,7 +48895,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "card-body" },
+        { staticClass: "card-body mt-10" },
         [
           _c(
             "v-container",
@@ -49218,23 +49223,20 @@ var render = function() {
                     "v-row",
                     { staticClass: "pt-5", attrs: { fluid: "" } },
                     [
-                      _c(
-                        "v-col",
-                        { attrs: { cols: "3" } },
-                        [
-                          _c("menu-company-component", {
-                            attrs: { comp: _vm.company }
-                          })
-                        ],
-                        1
-                      ),
+                      _c("menu-company-component", {
+                        attrs: { comp: _vm.company }
+                      }),
                       _vm._v(" "),
                       _c(
                         "v-col",
+                        { staticClass: "align-centr justify-center" },
                         [
                           _c(
                             "v-row",
-                            { attrs: { justify: "left" } },
+                            {
+                              staticClass: "align-centr justify-center",
+                              attrs: { justify: "left" }
+                            },
                             [
                               _c(
                                 "v-col",
@@ -49311,8 +49313,10 @@ var render = function() {
                                   _c("v-file-input", {
                                     attrs: {
                                       accept: "image/*",
-                                      label: "Загрузите логотип"
-                                    }
+                                      label: "Загрузите логотип",
+                                      model: "logo"
+                                    },
+                                    on: { change: _vm.onUpload }
                                   }),
                                   _vm._v(" "),
                                   _c(

@@ -36,4 +36,6 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/company/{id}', 'API\CompanyController@update');
     
     Route::post('/load_logo', 'API\CompanyController@loadLogo');
+    Route::post('/api/upload-logo', 'API\CompanyController@uploadLogo');
+
 });

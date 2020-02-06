@@ -1,7 +1,7 @@
 <template>
   <v-app id="inspire">
     <user-panel></user-panel>
-    <div class="card-body">
+    <div class="card-body mt-10">
       <v-container grid-list-md text-xs-center>
         <menu-company-component v-bind:comp="company"></menu-company-component>
       </v-container>
