@@ -7,36 +7,30 @@
          <v-row fluid class="pt-5">
         <menu-company-component v-bind:comp="company"></menu-company-component>
           <v-col class="align-centr justify-center">
-              <v-row justify="left" class="align-centr justify-center">
+              <v-row  class="align-centr justify-center">
                 <v-col cols="12" md="6" >
               <h3>Редактирование компании</h3>
-              <v-form v-model="valid" ref="form" lazy-validation>
+              <v-form>
                 <v-text-field
                   prepend-icon
                   name="name"
                   label="Название компании"
                   type="text"
-                  v-model="company.name"
-                  :rules="nameRules"
+                  v-model="name"
                   required
                 ></v-text-field>
                 <v-textarea
                   name="description"
                   label="Описание компании"
                   hint="Описание компании"
-                  v-model="company.description"
+                  v-model="description"
                   id="description"
                 ></v-textarea>
               </v-form>
 
-              <v-list-item-avatar size="128">
-                <v-img  :src="company.logo"></v-img>
-              </v-list-item-avatar>
-              <v-file-input accept="image/*" label="Загрузите логотип" model="logo" @change="onUpload">
-              </v-file-input>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn v-on:click="updateCompany" color="primary" :disabled="!valid">Сохранить</v-btn>
+                <v-btn v-on:click="updateCompany" color="primary" >Сохранить</v-btn>
               </v-card-actions>
                 </v-col>
               </v-row>
@@ -44,11 +38,7 @@
           </v-row>
         </v-container>
       </div>
-     
-       
-      
-
-      <footer-panel></footer-panel>
+     <footer-panel></footer-panel>
     </v-container>
   </v-app>
 </template>
@@ -58,14 +48,14 @@ export default {
   data: function() {
     return {
       company: {},
-      valid: true,
+      //valid: true,
       name: "",
       description: "",
       logo: "",
-      nameRules: [
+      /*nameRules: [
         v => !!v || "Поле не может быть пустым",
         v => (v && v.length <= 100) || "Поле больше 100 символов."
-      ]
+      ]*/
     };
   },
   mounted() {
@@ -77,7 +67,9 @@ export default {
       let id = this.$route.params.id;
       api.call("get", `api/get-company/` + id).then(data => {
         this.company = data.data.company;
-        console.log(this.company);
+        this.name=this.company.name
+        this.description=this.company.description
+        //console.log(this.company);
       });
     },
     updateCompany: function() {
@@ -86,14 +78,13 @@ export default {
         description: this.company.description
       };
       let id = this.$route.params.id
-      if (this.$refs.form.validate()) {
+      //if (this.$refs.form.validate()) {
         api.call("put", `/api/company/`+id, data).then(({ data }) => {
           this.$router.push("/dashboard");
         });
-      }
+      //}
     },
     onUpload:function(event){
-      
       console.log(event)
       let fd= new FormData()
       fd.append('image', event, event.name)
@@ -101,7 +92,6 @@ export default {
         console.log('upload logo suesses')
       })
     }
-
   }
 };
 </script>

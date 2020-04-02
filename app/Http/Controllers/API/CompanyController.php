@@ -38,9 +38,10 @@ class CompanyController extends Controller
       ]);
   }
   
-  public function uploadLogo(Request $request){
+  public function uploadLogo($id, Request $request){
     dd($request);
     $patch=$request->file('logo')->store('logo');
+    dd($patch);
   }
   
   public function update($id, Request $request){

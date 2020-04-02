@@ -16,7 +16,7 @@
         </v-flex>
       </v-layout>
       <v-layout row wrap class="mt-2">
-        <v-flex sm4 v-for="company in companies" key="company.id">
+        <v-flex sm4 v-for="company in companies" :key="company.id">
           <v-card>
             <v-card-title>{{company.name}}</v-card-title>
             <v-card-text>{{company.description}}</v-card-text>

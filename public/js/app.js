@@ -3034,29 +3034,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       company: {},
-      valid: true,
+      //valid: true,
       name: "",
       description: "",
-      logo: "",
-      nameRules: [function (v) {
-        return !!v || "Поле не может быть пустым";
-      }, function (v) {
-        return v && v.length <= 100 || "Поле больше 100 символов.";
-      }]
+      logo: ""
+      /*nameRules: [
+        v => !!v || "Поле не может быть пустым",
+        v => (v && v.length <= 100) || "Поле больше 100 символов."
+      ]*/
+
     };
   },
   mounted: function mounted() {
@@ -3070,7 +3060,8 @@ __webpack_require__.r(__webpack_exports__);
       var id = this.$route.params.id;
       api.call("get", "api/get-company/" + id).then(function (data) {
         _this.company = data.data.company;
-        console.log(_this.company);
+        _this.name = _this.company.name;
+        _this.description = _this.company.description; //console.log(this.company);
       });
     },
     updateCompany: function updateCompany() {
@@ -3080,15 +3071,13 @@ __webpack_require__.r(__webpack_exports__);
         name: this.company.name,
         description: this.company.description
       };
-      var id = this.$route.params.id;
+      var id = this.$route.params.id; //if (this.$refs.form.validate()) {
 
-      if (this.$refs.form.validate()) {
-        api.call("put", "/api/company/" + id, data).then(function (_ref) {
-          var data = _ref.data;
+      api.call("put", "/api/company/" + id, data).then(function (_ref) {
+        var data = _ref.data;
 
-          _this2.$router.push("/dashboard");
-        });
-      }
+        _this2.$router.push("/dashboard");
+      }); //}
     },
     onUpload: function onUpload(event) {
       console.log(event);
@@ -48823,7 +48812,7 @@ var render = function() {
             _vm._l(_vm.companies, function(company) {
               return _c(
                 "v-flex",
-                { key: "company.id", attrs: { sm4: "" } },
+                { key: company.id, attrs: { sm4: "" } },
                 [
                   _c(
                     "v-card",
@@ -49233,10 +49222,7 @@ var render = function() {
                         [
                           _c(
                             "v-row",
-                            {
-                              staticClass: "align-centr justify-center",
-                              attrs: { justify: "left" }
-                            },
+                            { staticClass: "align-centr justify-center" },
                             [
                               _c(
                                 "v-col",
@@ -49246,17 +49232,6 @@ var render = function() {
                                   _vm._v(" "),
                                   _c(
                                     "v-form",
-                                    {
-                                      ref: "form",
-                                      attrs: { "lazy-validation": "" },
-                                      model: {
-                                        value: _vm.valid,
-                                        callback: function($$v) {
-                                          _vm.valid = $$v
-                                        },
-                                        expression: "valid"
-                                      }
-                                    },
                                     [
                                       _c("v-text-field", {
                                         attrs: {
@@ -49264,15 +49239,14 @@ var render = function() {
                                           name: "name",
                                           label: "Название компании",
                                           type: "text",
-                                          rules: _vm.nameRules,
                                           required: ""
                                         },
                                         model: {
-                                          value: _vm.company.name,
+                                          value: _vm.name,
                                           callback: function($$v) {
-                                            _vm.$set(_vm.company, "name", $$v)
+                                            _vm.name = $$v
                                           },
-                                          expression: "company.name"
+                                          expression: "name"
                                         }
                                       }),
                                       _vm._v(" "),
@@ -49284,40 +49258,16 @@ var render = function() {
                                           id: "description"
                                         },
                                         model: {
-                                          value: _vm.company.description,
+                                          value: _vm.description,
                                           callback: function($$v) {
-                                            _vm.$set(
-                                              _vm.company,
-                                              "description",
-                                              $$v
-                                            )
+                                            _vm.description = $$v
                                           },
-                                          expression: "company.description"
+                                          expression: "description"
                                         }
                                       })
                                     ],
                                     1
                                   ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item-avatar",
-                                    { attrs: { size: "128" } },
-                                    [
-                                      _c("v-img", {
-                                        attrs: { src: _vm.company.logo }
-                                      })
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c("v-file-input", {
-                                    attrs: {
-                                      accept: "image/*",
-                                      label: "Загрузите логотип",
-                                      model: "logo"
-                                    },
-                                    on: { change: _vm.onUpload }
-                                  }),
                                   _vm._v(" "),
                                   _c(
                                     "v-card-actions",
@@ -49327,10 +49277,7 @@ var render = function() {
                                       _c(
                                         "v-btn",
                                         {
-                                          attrs: {
-                                            color: "primary",
-                                            disabled: !_vm.valid
-                                          },
+                                          attrs: { color: "primary" },
                                           on: { click: _vm.updateCompany }
                                         },
                                         [_vm._v("Сохранить")]
