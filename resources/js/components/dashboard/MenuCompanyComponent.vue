@@ -74,6 +74,16 @@ export default {
         title: "Структура компании",
         icon: "mdi-account-group-outline",
         route: "/"
+      },
+      {
+        title: "Тесты(доступыне)",
+        icon: "mdi-account-group-outline",
+        route: "/"
+      },
+      {
+        title: "Создать тест",
+        icon: "mdi-account-group-outline",
+        route: "/company/create-test/"+this.$route.params.id+'/'
       }
     ];
   },

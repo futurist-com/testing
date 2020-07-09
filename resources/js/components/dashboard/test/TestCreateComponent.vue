@@ -10,9 +10,7 @@
 </template>
 
 <script>
-import { SSL_OP_SSLREF2_REUSE_CERT_TYPE_BUG } from "constants";
-import { METHODS } from "http";
-import MenuCompanyComponentVue from "./MenuCompanyComponent.vue";
+import MenuCompanyComponentVue from "../MenuCompanyComponent";
 import { mapGetters, mapActions } from "vuex";export default {
   data: function() {
     return {
@@ -22,20 +20,11 @@ import { mapGetters, mapActions } from "vuex";export default {
   },
   computed:mapGetters(['currentCompany']),
   created() {
-     this.$store.dispatch('getCurrentCompany', this.$route.params.id)
+     //this.$store.dispatch('getCurrentCompany', this.$route.params.id)
      //this.getCompanyId()
       },
   methods: {
-    getCompanyId: function() {
-      var id = this.$route.params.id;
-      api
-        .call("get", "/api/get-company/" + id)
-        .then(resp => {
-          this.company = resp.data.company;
-        })
-        .catch(response => {
-        });
-    }
+    
   }
 };
 </script>

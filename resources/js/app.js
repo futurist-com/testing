@@ -12,6 +12,8 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 //
 window.Event = new Vue;
+//vuex
+import store from './store'
 //include vuetify
 import Vuetify from 'vuetify';
 Vue.use(Vuetify);
@@ -37,5 +39,6 @@ Vue.component('menu-company-component', require('./components/dashboard/MenuComp
 const app = new Vue({
   vuetify: new Vuetify(),
   router,
+  store
 }).$mount('#app')
 

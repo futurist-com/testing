@@ -14,6 +14,7 @@ import dashboard from './components/dashboardComponent.vue';
 import addCompany from './components/dashboard/addCompanyComponent.vue';
 import company from './components/dashboard/CompanyComponent.vue';
 import updateCompany from './components/dashboard/updateCompanyComponent.vue';
+import createTest from './components/dashboard/test/TestCreateComponent.vue';
 
 
 let routes = [
@@ -73,6 +74,13 @@ let routes = [
         path: '/company/update/:id',
         component: updateCompany,
         name: 'updateCompany',
+        meta: { middlewareAuth: true }
+    }
+    ,
+    {
+        path: '/company/create-test/:id',
+        component: createTest,
+        name: 'createTest',
         meta: { middlewareAuth: true }
     }
 
