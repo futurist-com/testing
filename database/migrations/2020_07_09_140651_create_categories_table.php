@@ -17,7 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name')->nullable();
             $table->text('description')->nullable();
-            $table->tinyInteger('private')->nullable();
+            $table->tinyInteger('public')->nullable();
             $table->integer('company_id')->nullable();
             $table->integer('parent_id')->nullable();
             $table->softDeletes();
