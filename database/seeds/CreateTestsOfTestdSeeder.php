@@ -7,6 +7,7 @@ use App\Model\Question;
 use App\Model\Answer_variant;
 use App\Model\Category;
 use App\Model\ResultTest;
+use Illuminate\Support\Facades\Storage;
 
 class CreateTestsOfTestdSeeder extends Seeder
 {
@@ -61,7 +62,7 @@ class CreateTestsOfTestdSeeder extends Seeder
                 $category= new Category();
                 $category->name=$resource->pagetitle;
                 $category->description=$resource->content;
-                $category->parent_id=$parent;
+                $categoryge->parent_id=$parent;
                 $category->save();
                 return $category->id;
             }
@@ -70,13 +71,23 @@ class CreateTestsOfTestdSeeder extends Seeder
     }
     public function saveQuestion($testId){
         $questionsTestd=DB::connection("mysql_testd")->select("select * from modx_testd_questions where test=$testId");
+        $path="/media/futurist/Новый том/sert_testd_ru/testd.ru/asset$/img";
         foreach($questionsTestd as $questionTestd){
             $question=  new Question();
             $question->test_id=$questionTestd->test_id;
             $question->text=$questionTestd->text;
             $question->ball=$questionTestd->scores;
             $question->video_link=$questionTestd->youtobe;
-
+            if (!empty($questionTestd->file)){
+                $this->setImage($questionTestd->file);
+                $question->image=$questionTestd->file;
+            }
+            //поиск фаила путь коирования фаилов /media/futurist/Новый том/sert_testd_ru/testd.ru/asset$ img
         }        
     }
+    public function setImage($link){
+        $path="/media/futurist/Новый том/sert_testd_ru/testd.ru/asset$/img/";
+        //$image=Storage::get($path.$link);
+        Storage::copy($path.$link, '/test_images/'.$link);
+    } 
 }
