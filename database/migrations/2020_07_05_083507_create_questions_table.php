@@ -22,6 +22,7 @@ class CreateQuestionsTable extends Migration
             $table->integer('ball')->nullable(); //колличество балов  за правильный ответ
             $table->smallInteger('pn')->nullable(); //порядковый  номер
             $table->tinyInteger('type_question')->nullable();//тип впороса
+            
             /**
              * 1- выбор правильного ответа одного - radio buttun 
              * 2 -  выбор правильных ответов несколько - checkdox

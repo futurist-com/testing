@@ -1,17 +1,16 @@
 <template>
   <v-container>
     <v-app>
-    <user-panel></user-panel>
-            <div class="card-body"><companies-component></companies-component></div>
-         
-      <footer-panel></footer-panel>
+      <div class="card-body">
+        <companies-component></companies-component>
+      </div>
     </v-app>
   </v-container>
 </template>
 
 <script>
 export default {
-  data:null,
+  data: null
   /*data: function() {
     return {
       authenticated: auth.check(),

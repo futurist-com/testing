@@ -13,9 +13,11 @@ import index from './components/IndexComponent.vue';
 import dashboard from './components/dashboardComponent.vue';
 import addCompany from './components/dashboard/addCompanyComponent.vue';
 import company from './components/dashboard/CompanyComponent.vue';
+import companyMenu from './components/dashboard/MenuCompanyComponent.vue';
 import updateCompany from './components/dashboard/updateCompanyComponent.vue';
 import createTest from './components/dashboard/test/TestCreateComponent.vue';
-
+import testCompany from './components/dashboard/test/TestCompanyComponent.vue';
+/*import userNav from './components/autch/UserPanelComponent.vue';*/
 
 let routes = [
     {
@@ -28,28 +30,43 @@ let routes = [
         path: '/login',
         component: login,
         //component:require('./components/autch/LoginComponent.vue')
-        name: 'login'
+        name: 'login',
+        meta:{
+            layout:'auth-layout-component'
+        }
     },
     {
         path: '/registration',
         component: registration,
         //component:require('./components/autch/RegistrationComponent.vue')
-        name: 'registration'
+        name: 'registration',
+        meta:{
+            layout:'auth-layout-component'
+        }
     },
     {
         path: '/register/confirm/:id',
         component: confirmEmail,
-        name: 'confirmEmail'
+        name: 'confirmEmail',
+        meta:{
+            layout:'auth-layout-component'
+        }
     },
     {
         path: '/register/forget-password',
         component: resetPassword,
-        name: 'forgetPassword'
+        name: 'forgetPassword',
+        meta:{
+            layout:'auth-layout-component'
+        }
     },
     {
         path: '/register/reset-password/:token',
-        component:resetPassword ,
-        name: 'resetPassword'
+        component: resetPassword,
+        name: 'resetPassword',
+        meta:{
+            layout:'auth-layout-component'
+        }
     },
     {
         path: '/dashboard',
@@ -65,23 +82,39 @@ let routes = [
         meta: { middlewareAuth: true }
     },
     {
-        path: '/company/:id',
+        path: '/company/id/:id',
         component: company,
         name: 'company',
-        meta: { middlewareAuth: true }
+        meta: {
+            middlewareAuth: true,
+            layout: "company-layout-component"
+        }
     },
     {
-        path: '/company/update/:id',
+        path: '/company/update',
         component: updateCompany,
         name: 'updateCompany',
-        meta: { middlewareAuth: true }
+        meta: {
+            middlewareAuth: true,
+            layout: "company-layout-component"
+        }
     }
     ,
     {
-        path: '/company/create-test/:id',
+        path: '/company/create-test',
         component: createTest,
         name: 'createTest',
-        meta: { middlewareAuth: true }
+        meta: {
+            middlewareAuth: true,
+            layout: "company-layout-component"
+        }
+    },
+    {
+        path: '/test-company',
+        component: testCompany,
+        name: 'testCompany',
+        meta: { middlewareAuth: true,
+            layout:"company-layout-component"  }
     }
 
 ];
@@ -91,7 +124,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.middlewareAuth)) {                
+    if (to.matched.some(record => record.meta.middlewareAuth)) {
         if (!auth.check()) {
             next({
                 path: '/login',

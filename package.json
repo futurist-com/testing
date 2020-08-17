@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "vue-cookie": "^1.1.4",
+    "vue-extend-layout": "^2.0.6",
     "vue-router": "^3.0.6",
     "vuetify": "2.0.9",
     "vuex": "^3.4.0"

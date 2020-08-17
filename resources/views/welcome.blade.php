@@ -22,7 +22,7 @@
 
 <body>
     <div id="app">
-        <router-view></router-view>
+        <main-component></main-component>
     </div>
     <!-- Scripts -->
 

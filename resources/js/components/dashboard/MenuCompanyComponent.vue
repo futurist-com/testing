@@ -1,14 +1,14 @@
 <template>
-  <div>
+  <div id="menu-company">
         <v-card>
           <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" permanent>
             <v-list-item>
               <v-list-item-avatar>
-                <v-img v-if="comp.logo!=''" :src="comp.logo"></v-img>
+                <!--<v-img v-if="comp.logo!=''" :src="comp.logo"></v-img>-->
               </v-list-item-avatar>
 
-              <v-list-item-title>{{comp.name}}</v-list-item-title>
-
+              <v-list-item-title>{{currentCompany.name}}</v-list-item-title>
+              
               <v-btn icon @click.stop="mini = !mini">
                 <v-icon>mdi-chevron-left</v-icon>
               </v-btn>
@@ -40,35 +40,40 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 export default {
-  props: ["comp"],
-  model: {
+  //props: ["comp"],
+  /*model: {
     prop: "comp"
-  },
+  },*/
   data: function() {
     return {
       drawer: true,
-      mini: true,
+      mini: false,
       items: [],
-      //company:this.comp
+      comp:null,
     };
   },
+  computed:{
+    ...mapGetters(['currentCompany'])
+    
+  },
   mounted() {
-    /*let vm = this;      
-
-        vm.$nextTick(function () {      
-           console.log(vm.company);
-        });*/
-    //console.log(this.$route.params.id)
-    //console.log("_____________________")
-
-    //console.log(this.comp);
+    //this.comp=this.currentCompany
+    //console.log(this.currentCompany.id)
+    if (!this.currentCompany.id){
+      let companyId= localStorage.getItem('company')
+      this.$store.dispatch("getCurrentCompany", companyId)
+    }else{
+      this.company=this.currentCompany.id
+    }
+    //console.log(this.company);
     this.items = [
       { title: "К выбору компаний", icon: "mdi-home-city", route: "/dashboard" },
       {
         title: "Настройки компании",
         icon: "mdi-account",
-        route: "/company/update/"+ this.$route.params.id
+        route: "/company/update"
       },
       {
         title: "Структура компании",
@@ -83,10 +88,12 @@ export default {
       {
         title: "Создать тест",
         icon: "mdi-account-group-outline",
-        route: "/company/create-test/"+this.$route.params.id+'/'
+        route: "/company/create-test"
       }
     ];
+  
   },
+  
   /*computed: {
     company: {
       set: function() {
@@ -96,3 +103,6 @@ export default {
   }*/
 };
 </script>
+<style>
+
+</style>

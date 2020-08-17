@@ -30,7 +30,10 @@ window.auth= new Auth();
 //get route faile
 import router from './route.js';
 //get component vue
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('main-component', require('./components/MainComponent.vue').default);
+Vue.component('company-layout-component', require('./layouts/CompanyLayoutComponent.vue').default);
+Vue.component('default-layout-component', require('./layouts/DefaultLayoutComponent.vue').default);
+Vue.component('auth-layout-component', require('./layouts/AuthLayoutComponent.vue').default);
 Vue.component('user-panel', require('./components/autch/UserPanelComponent.vue').default);
 Vue.component('footer-panel', require('./components/FooterComponent.vue').default);
 Vue.component('companies-component', require('./components/dashboard/CompaniesComponent.vue').default);

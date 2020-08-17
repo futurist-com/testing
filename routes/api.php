@@ -38,4 +38,13 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/load_logo', 'API\CompanyController@loadLogo');
     Route::post('/upload-logo/{id}', 'API\CompanyController@uploadLogo');
 
+    Route::prefix('tests')->group(function(){
+        Route::get('/company/{company}', 'API\TestController@index')->name('test_company');
+        Route::get('/system', 'API\TestController@system')->name('test_system');
+        Route::get('/test/{id}', 'API\TestController@show')->name('test_show');
+        Route::post('/test', 'API\TestController@store')->name('test_store');
+        Route::put('/test/{id}', 'API\TestController@store')->name('test_update');
+        Route::delete('/test/{id}', 'API\TestController@store')->name('test_del');
+    });
+
 });

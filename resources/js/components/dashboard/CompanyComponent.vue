@@ -1,41 +1,25 @@
 <template>
-  <v-app id="inspire">
-    <user-panel></user-panel>
-    <div class="card-body mt-10">
-      <v-container grid-list-md text-xs-center>
-        <menu-company-component v-bind:comp="company"></menu-company-component>
-      </v-container>
-    </div>
-  </v-app>
+  <v-container grid-list-md text-xs-center></v-container>
 </template>
 
 <script>
 import { SSL_OP_SSLREF2_REUSE_CERT_TYPE_BUG } from "constants";
 import { METHODS } from "http";
-import MenuCompanyComponentVue from "./MenuCompanyComponent.vue";
-import { mapGetters, mapActions } from "vuex";export default {
+import { mapGetters, mapActions } from "vuex";
+export default {
   data: function() {
     return {
       id: null,
       company: {}
     };
   },
-  computed:mapGetters(['currentCompany']),
+  computed: mapGetters(["currentCompany"]),
   created() {
-     this.$store.dispatch('getCurrentCompany', this.$route.params.id)
-     //this.getCompanyId()
-      },
+    this.$store.dispatch("getCurrentCompany", this.$route.params.id);
+    //this.getCompanyId()
+  },
   methods: {
-    getCompanyId: function() {
-      var id = this.$route.params.id;
-      api
-        .call("get", "/api/get-company/" + id)
-        .then(resp => {
-          this.company = resp.data.company;
-        })
-        .catch(response => {
-        });
-    }
+    
   }
 };
 </script>

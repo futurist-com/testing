@@ -30,18 +30,22 @@ class CreateTestsOfTestdSeeder extends Seeder
                 $test->name=$test_testd->name;
                 $test->description=$test_testd->text;
                 $test->time_limit=$test_testd->number_seconds;
-                $test->catecory=$this->getIdCategory($test_testd->resource);
+                $test->category_id=$this->getIdCategory($test_testd->resource);
                 $test->save();
+                //dd($test);
                 //
                 $testResult=new ResultTest();
-                $testResult->id=$test->id;
+                $testResult->test_id=$test->id;
                 $testResult->min_count=$test_testd->number_correct;
                 $testResult->save();
                 //сохраним вопросы отдельной  функцией
-                $this->saveGuestion($test_testd->id);
+                $this->saveQuestion($testResult->id, $test_testd->id);
+            
             }
-
-            dd($test_testd);
+            else{
+                //
+            }
+            //dd($test_testd);
 
         }
     }
@@ -62,32 +66,53 @@ class CreateTestsOfTestdSeeder extends Seeder
                 $category= new Category();
                 $category->name=$resource->pagetitle;
                 $category->description=$resource->content;
-                $categoryge->parent_id=$parent;
+                $category->parent_id=$parent;
                 $category->save();
                 return $category->id;
             }
         return $category->id;    
 
     }
-    public function saveQuestion($testId){
-        $questionsTestd=DB::connection("mysql_testd")->select("select * from modx_testd_questions where test=$testId");
-        $path="/media/futurist/Новый том/sert_testd_ru/testd.ru/asset$/img";
+    public function saveQuestion($testId, $testIdTestd){
+        $questionsTestd=DB::connection("mysql_testd")->
+        select("select * from modx_testd_tests_questions where test_id=$testIdTestd");
+        //$path="/media/futurist/Новый том/sert_testd_ru/testd.ru/asset$/img";
         foreach($questionsTestd as $questionTestd){
             $question=  new Question();
-            $question->test_id=$questionTestd->test_id;
+            $question->test_id=$testId;
             $question->text=$questionTestd->text;
             $question->ball=$questionTestd->scores;
-            $question->video_link=$questionTestd->youtobe;
-            if (!empty($questionTestd->file)){
-                $this->setImage($questionTestd->file);
-                $question->image=$questionTestd->file;
-            }
+            $question->video_link=$questionTestd->youtube;
+            $question->image=$questionTestd->file;
+            $question->pn=$questionTestd->question_id;
+
+            $question->save();
+            //dd($questionTestd);
+            $this->saveVariants($question->id, $questionTestd->question_id, $questionTestd->test_id);
             //поиск фаила путь коирования фаилов /media/futurist/Новый том/sert_testd_ru/testd.ru/asset$ img
-        }        
+        }
+
     }
     public function setImage($link){
         $path="/media/futurist/Новый том/sert_testd_ru/testd.ru/asset$/img/";
         //$image=Storage::get($path.$link);
         Storage::copy($path.$link, '/test_images/'.$link);
+    }
+    public function saveVariants($questionId, $questionIdtestd, $testId){
+        $variantsTestd=DB::connection("mysql_testd")->
+        select("select * from modx_testd_tests_questions_variants
+                                    where test_id=$testId and question_id=$questionIdtestd");
+        $pn=0;
+        foreach ($variantsTestd as $variantTestd)
+        {
+            $answer= new Answer_variant();
+            $answer->question_id=$questionId;
+            $answer->text=$variantTestd->value;
+            $answer->valid=$variantTestd->is_right;
+            $answer->image=$variantTestd->file;
+            //$answer->ball=$variantTestd->file;
+            $answer->pn=$variantTestd->variant_id;
+            $pn++;
+        }                            
     } 
 }

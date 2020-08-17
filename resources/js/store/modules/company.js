@@ -3,7 +3,7 @@ import Axios from "axios"
 
 export default{
     state:{
-       currentCompanyId:null,
+       currentCompanyId:{name:null, description:null},
        currentCompany:{}
     },
     actions:{
@@ -14,8 +14,9 @@ export default{
             api
             .call("get", "/api/get-company/" + companyId)
             .then(resp => {
-              
-                context.commit('updateCurrentCompany', resp.data.company);
+               context.commit('updateCurrentCompany', resp.data.company);
+               console.log(resp.data.company)
+               localStorage.setItem('company', resp.data.company.id)
             })
             .catch(response => {
             });

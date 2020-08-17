@@ -21,8 +21,7 @@
         </div>
       </v-toolbar-items>
     </v-app-bar>
-  
-</template>
+  </template>
 
 <script>
 export default {

@@ -21,7 +21,7 @@ class UserCompanyTableSeeder extends Seeder
             $cLimit = rand(1, 4);
             for ($userCompany = 1; $userCompany <= $cLimit; $userCompany++) {
                 $companyRand = $company->random();
-                \DB::table('user_companies')->insert([
+                DB::table('user_companies')->insert([
                     'user_id' => $user->id,
                     'company_id' => $companyRand->id,
                     'role_id' => rand(1, 2),
